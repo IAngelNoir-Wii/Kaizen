@@ -1,1995 +1,694 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Café colombiano de especialidad con trazabilidad completa. Cadena justa. Construido contigo. Para tu ritual consciente en Japón." />
-  <title>Kaizen en Taza — El café que no miente</title>
-
-  <!-- Fuentes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  <!-- Estilos globales -->
-  <link rel="stylesheet" href="styles.css" />
-
-  <style>
-    /* ======================================================
-       ESTILOS ESPECÍFICOS — index.html
-       ====================================================== */
-
-    /* ── Imagen de fondo hero con Unsplash (Colombia cafetero) ── */
-    .hero-home {
-      position: relative;
-      min-height: 96vh;
-      display: grid;
-      align-items: center;
-      overflow: hidden;
-      background-color: #1a1a14;
-    }
-
-    .hero-home__bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-
-    .hero-home__bg img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 40%;
-      opacity: 0.55;
-      transition: transform 8s ease;
-    }
-
-    .hero-home.loaded .hero-home__bg img {
-      transform: scale(1.04);
-    }
-
-    /* Gradiente editorial: cubre más a la izquierda */
-    .hero-home__bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(10,9,8,0.85) 0%, rgba(10,9,8,0.4) 55%, rgba(10,9,8,0.1) 100%),
-        linear-gradient(0deg, rgba(10,9,8,0.6) 0%, transparent 50%);
-    }
-
-    .hero-home__container {
-      position: relative;
-      z-index: 2;
-      max-width: var(--container-xl);
-      margin-inline: auto;
-      padding-inline: var(--space-6);
-      padding-block: var(--space-24);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: var(--space-16);
-    }
-
-    .hero-home__content {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-6);
-    }
-
-    .hero-home__eyebrow {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      opacity: 0;
-      animation: fadeInLeft 0.7s ease 0.2s both;
-    }
-
-    .hero-home__eyebrow-line {
-      width: 28px;
-      height: 1px;
-      background-color: var(--color-accent-light);
-    }
-
-    .hero-home__kicker {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--color-accent-light);
-    }
-
-    .hero-home__title {
-      font-family: var(--font-primary);
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      font-weight: 200;
-      line-height: 1.0;
-      letter-spacing: -0.025em;
-      color: #FAF9F7;
-      opacity: 0;
-      animation: fadeInUp 0.8s ease 0.4s both;
-    }
-
-    .hero-home__title em {
-      font-style: italic;
-      color: var(--color-accent-light);
-    }
-
-    .hero-home__subtitle {
-      font-size: var(--font-size-base);
-      color: rgba(250,249,247,0.7);
-      line-height: 1.75;
-      max-width: 460px;
-      opacity: 0;
-      animation: fadeInUp 0.8s ease 0.6s both;
-    }
-
-    .hero-home__actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-      padding-top: var(--space-2);
-      opacity: 0;
-      animation: fadeInUp 0.8s ease 0.8s both;
-    }
-
-    /* CTA primario en hero oscuro */
-    .btn--hero-primary {
-      background-color: var(--color-accent);
-      color: #FAF9F7;
-      border: 1px solid var(--color-accent);
-      padding: var(--space-4) var(--space-8);
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-medium);
-      letter-spacing: 0.04em;
-      border-radius: var(--border-radius-sm);
-      transition: background-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
-    }
-
-    .btn--hero-primary:hover {
-      background-color: #9E6830;
-      box-shadow: 0 6px 24px rgba(139,90,43,0.4);
-      transform: translateY(-1px);
-    }
-
-    .btn--hero-secondary {
-      background-color: transparent;
-      color: rgba(250,249,247,0.8);
-      border: 1px solid rgba(250,249,247,0.25);
-      padding: var(--space-4) var(--space-8);
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-regular);
-      letter-spacing: 0.04em;
-      border-radius: var(--border-radius-sm);
-      transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
-    }
-
-    .btn--hero-secondary:hover {
-      background-color: rgba(250,249,247,0.08);
-      border-color: rgba(250,249,247,0.5);
-      color: #FAF9F7;
-    }
-
-    /* Panel derecho del hero — datos del lote en tiempo real */
-    .hero-home__lote-preview {
-      opacity: 0;
-      animation: fadeInUp 0.8s ease 1s both;
-    }
-
-    .lote-preview-card {
-      background-color: rgba(250,249,247,0.06);
-      border: 1px solid rgba(250,249,247,0.12);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: var(--border-radius-lg);
-      padding: var(--space-6);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-5);
-    }
-
-    .lote-preview-card__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .lote-preview-card__eyebrow {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--color-accent-light);
-    }
-
-    .lote-preview-card__title {
-      font-family: var(--font-primary);
-      font-size: var(--font-size-2xl);
-      font-weight: 300;
-      color: #FAF9F7;
-      line-height: var(--line-height-snug);
-      margin-top: var(--space-1);
-    }
-
-    .lote-preview-card__badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px var(--space-3);
-      background-color: rgba(46, 125, 50, 0.2);
-      border: 1px solid rgba(46, 125, 50, 0.4);
-      border-radius: var(--border-radius-full);
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #81C784;
-      white-space: nowrap;
-    }
-
-    .lote-preview-card__badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: #81C784;
-      animation: pulse 2s ease infinite;
-    }
-
-    /* Caficultor */
-    .caficultor-row {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      padding: var(--space-4);
-      background-color: rgba(255,255,255,0.04);
-      border-radius: var(--border-radius-md);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .caficultor-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      overflow: hidden;
-      flex-shrink: 0;
-      background-color: rgba(196, 162, 122, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-primary);
-      font-size: var(--font-size-lg);
-      color: var(--color-accent-light);
-      border: 1.5px solid rgba(196,162,122,0.3);
-    }
-
-    .caficultor-info__name {
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-medium);
-      color: rgba(250,249,247,0.9);
-    }
-
-    .caficultor-info__role {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: rgba(250,249,247,0.4);
-      letter-spacing: 0.06em;
-    }
-
-    /* Precio destacado */
-    .precio-justo {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-3) var(--space-4);
-      background-color: rgba(139,90,43,0.15);
-      border: 1px solid rgba(196,162,122,0.25);
-      border-radius: var(--border-radius-md);
-    }
-
-    .precio-justo__icon {
-      color: var(--color-accent-light);
-      font-size: var(--font-size-sm);
-    }
-
-    .precio-justo__text {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: var(--color-accent-light);
-      letter-spacing: 0.06em;
-    }
-
-    .precio-justo__value {
-      font-weight: 500;
-      color: #E8C99A;
-    }
-
-    /* Specs del lote en grid */
-    .lote-specs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-3);
-    }
-
-    .lote-spec {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .lote-spec__label {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(250,249,247,0.3);
-    }
-
-    .lote-spec__value {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-sm);
-      color: rgba(250,249,247,0.8);
-    }
-
-    /* Scroll indicator */
-    .hero-scroll-hint {
-      position: absolute;
-      bottom: var(--space-8);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-2);
-      opacity: 0;
-      animation: fadeIn 1s ease 1.5s both;
-    }
-
-    .hero-scroll-hint__text {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(250,249,247,0.3);
-    }
-
-    .hero-scroll-hint__line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, rgba(250,249,247,0.3), transparent);
-      animation: scrollLine 2s ease infinite;
-    }
-
-    @keyframes scrollLine {
-      0%   { transform: scaleY(0); transform-origin: top; }
-      50%  { transform: scaleY(1); transform-origin: top; }
-      51%  { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
-    }
-
-    /* ── SECCIÓN 2: TRAZABILIDAD ── */
-    .section-trazabilidad {
-      padding-block: var(--space-24);
-      background-color: var(--color-background);
-    }
-
-    .trazabilidad-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: var(--space-16);
-      align-items: start;
-    }
-
-    .trazabilidad-text {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-6);
-      position: sticky;
-      top: calc(var(--header-height) + var(--space-8));
-    }
-
-    .trazabilidad-card {
-      background-color: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--border-radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .trazabilidad-card__image {
-      height: 200px;
-      overflow: hidden;
-      background-color: var(--color-surface-raised);
-      position: relative;
-    }
-
-    .trazabilidad-card__image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform var(--transition-slow);
-    }
-
-    .trazabilidad-card:hover .trazabilidad-card__image img {
-      transform: scale(1.03);
-    }
-
-    .trazabilidad-card__image-label {
-      position: absolute;
-      bottom: var(--space-4);
-      left: var(--space-4);
-      background-color: rgba(10,9,8,0.75);
-      backdrop-filter: blur(8px);
-      padding: var(--space-2) var(--space-3);
-      border-radius: var(--border-radius-sm);
-    }
-
-    .trazabilidad-card__image-label span {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: rgba(250,249,247,0.8);
-      letter-spacing: 0.1em;
-    }
-
-    .trazabilidad-card__body {
-      padding: var(--space-6);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-5);
-    }
-
-    /* Caficultor dentro de la card de trazabilidad */
-    .trazabilidad-caficultor {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      padding: var(--space-4);
-      background-color: var(--color-surface-raised);
-      border-radius: var(--border-radius-md);
-      border: 1px solid var(--color-border);
-    }
-
-    .trazabilidad-caficultor__avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #C4A27A, #8B5A2B);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-primary);
-      font-size: var(--font-size-xl);
-      color: white;
-      flex-shrink: 0;
-      border: 2px solid var(--color-accent-light);
-    }
-
-    .trazabilidad-caficultor__verified {
-      display: flex;
-      align-items: center;
-      gap: var(--space-1);
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: var(--color-success);
-      margin-top: 3px;
-    }
-
-    /* Grid de datos técnicos */
-    .lote-data-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background-color: var(--color-border);
-      border: 1px solid var(--color-border);
-      border-radius: var(--border-radius-md);
-      overflow: hidden;
-    }
-
-    .lote-data-cell {
-      background-color: var(--color-surface);
-      padding: var(--space-4);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .lote-data-cell__label {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--color-text-tertiary);
-    }
-
-    .lote-data-cell__value {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-sm);
-      color: var(--color-text-primary);
-      font-weight: 400;
-    }
-
-    /* Precio al caficultor — destacado */
-    .precio-caficultor-bar {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-      padding: var(--space-5);
-      background: linear-gradient(135deg, var(--color-accent-subtle), rgba(196,162,122,0.08));
-      border: 1px solid rgba(139,90,43,0.15);
-      border-radius: var(--border-radius-md);
-    }
-
-    .precio-caficultor-bar__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .precio-caficultor-bar__label {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-accent);
-    }
-
-    .precio-caficultor-bar__pct {
-      font-family: var(--font-primary);
-      font-size: var(--font-size-2xl);
-      font-weight: 300;
-      color: var(--color-accent);
-      line-height: 1;
-    }
-
-    .precio-caficultor-bar__pct sup {
-      font-size: var(--font-size-sm);
-    }
-
-    .vs-bar {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-
-    .vs-bar__track {
-      flex: 1;
-      height: 6px;
-      background-color: var(--color-border);
-      border-radius: var(--border-radius-full);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .vs-bar__fill {
-      height: 100%;
-      background-color: var(--color-accent);
-      border-radius: var(--border-radius-full);
-      width: 0;
-      transition: width 1.4s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    .vs-bar__fill--market {
-      background-color: var(--color-border-strong);
-    }
-
-    .vs-bar__label {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: var(--color-text-tertiary);
-      white-space: nowrap;
-      min-width: 90px;
-    }
-
-    /* Nota honestidad */
-    .honesty-note {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-3) var(--space-4);
-      background-color: var(--color-surface-raised);
-      border-radius: var(--border-radius-sm);
-    }
-
-    .honesty-note__icon {
-      color: var(--color-text-tertiary);
-      font-size: var(--font-size-sm);
-    }
-
-    .honesty-note__text {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: var(--color-text-tertiary);
-      letter-spacing: 0.04em;
-    }
-
-    /* ── SECCIÓN 3: PILARES ── */
-    .section-pilares {
-      padding-block: var(--space-20);
-      background-color: var(--color-surface);
-      border-top: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .pilares-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background-color: var(--color-border);
-    }
-
-    .pilar {
-      background-color: var(--color-surface);
-      padding: var(--space-10) var(--space-8);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-5);
-      transition: background-color var(--transition-base);
-    }
-
-    .pilar:hover {
-      background-color: var(--color-card-hover);
-    }
-
-    .pilar__number {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      letter-spacing: 0.16em;
-      color: var(--color-text-tertiary);
-    }
-
-    .pilar__icon {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--border-radius-md);
-      background-color: var(--color-accent-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-accent);
-      font-size: var(--font-size-xl);
-      transition: background-color var(--transition-base), color var(--transition-base);
-    }
-
-    .pilar:hover .pilar__icon {
-      background-color: var(--color-accent);
-      color: white;
-    }
-
-    .pilar__title {
-      font-family: var(--font-primary);
-      font-size: var(--font-size-xl);
-      font-weight: 300;
-      color: var(--color-text-primary);
-      line-height: var(--line-height-snug);
-    }
-
-    .pilar__desc {
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
-      line-height: var(--line-height-normal);
-    }
-
-    .pilar__link {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: var(--color-accent);
-      letter-spacing: 0.08em;
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      margin-top: auto;
-      transition: gap var(--transition-fast);
-    }
-
-    .pilar:hover .pilar__link {
-      gap: var(--space-3);
-    }
-
-    /* ── SECCIÓN 4: PROPÓSITO / MANIFIESTO ── */
-    .section-proposito {
-      padding-block: var(--space-32);
-      background-color: var(--color-background);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .section-proposito::before {
-      content: '改善';
-      position: absolute;
-      right: -0.05em;
-      top: 50%;
-      transform: translateY(-50%);
-      font-family: var(--font-primary);
-      font-size: 28vw;
-      font-weight: 200;
-      color: rgba(139,90,43,0.04);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-      letter-spacing: -0.02em;
-    }
-
-    .proposito-content {
-      position: relative;
-      z-index: 1;
-      max-width: 680px;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-8);
-    }
-
-    .proposito-cita {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-
-    .proposito-cita__mark {
-      font-family: var(--font-primary);
-      font-size: 4rem;
-      line-height: 0.5;
-      color: var(--color-accent);
-      font-weight: 200;
-    }
-
-    .proposito-cita__text {
-      font-family: var(--font-primary);
-      font-size: clamp(var(--font-size-2xl), 3.5vw, var(--font-size-4xl));
-      font-weight: 200;
-      line-height: 1.25;
-      letter-spacing: -0.015em;
-      color: var(--color-text-primary);
-    }
-
-    .proposito-cita__source {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--color-accent);
-    }
-
-    .proposito-body {
-      font-size: var(--font-size-lg);
-      color: var(--color-text-secondary);
-      line-height: var(--line-height-loose);
-      border-left: 2px solid var(--color-accent-light);
-      padding-left: var(--space-6);
-    }
-
-    /* ── SECCIÓN 5: LOTES DESTACADOS ── */
-    .section-lotes {
-      padding-block: var(--space-20);
-      background-color: var(--color-surface);
-      border-top: 1px solid var(--color-border);
-    }
-
-    .lotes-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-6);
-    }
-
-    .lote-card {
-      background-color: var(--color-background);
-      border: 1px solid var(--color-border);
-      border-radius: var(--border-radius-lg);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .lote-card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-3px);
-      border-color: var(--color-accent-light);
-    }
-
-    .lote-card__media {
-      height: 180px;
-      overflow: hidden;
-      background-color: var(--color-surface-raised);
-      position: relative;
-    }
-
-    .lote-card__media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform var(--transition-slow);
-    }
-
-    .lote-card:hover .lote-card__media img {
-      transform: scale(1.05);
-    }
-
-    .lote-card__badge-trazabilidad {
-      position: absolute;
-      bottom: var(--space-3);
-      right: var(--space-3);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px var(--space-3);
-      background-color: rgba(10,9,8,0.8);
-      backdrop-filter: blur(8px);
-      border-radius: var(--border-radius-full);
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(250,249,247,0.9);
-    }
-
-    .lote-card__badge-trazabilidad i {
-      color: #81C784;
-      font-size: 8px;
-    }
-
-    .lote-card__body {
-      padding: var(--space-5);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-      flex: 1;
-    }
-
-    .lote-card__id {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: var(--color-accent);
-      letter-spacing: 0.1em;
-    }
-
-    .lote-card__name {
-      font-family: var(--font-primary);
-      font-size: var(--font-size-xl);
-      font-weight: 300;
-      color: var(--color-text-primary);
-      line-height: var(--line-height-snug);
-    }
-
-    .lote-card__specs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-    }
-
-    .lote-card__spec-pill {
-      padding: 3px var(--space-3);
-      background-color: var(--color-surface-raised);
-      border: 1px solid var(--color-border);
-      border-radius: var(--border-radius-full);
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: var(--color-text-secondary);
-    }
-
-    .lote-card__footer {
-      padding: var(--space-4) var(--space-5);
-      border-top: 1px solid var(--color-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .lote-card__disponibilidad {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: var(--color-success);
-    }
-
-    .lote-card__disponibilidad::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: var(--color-success);
-    }
-
-    .lote-card__cta {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: var(--color-accent);
-      letter-spacing: 0.06em;
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      transition: gap var(--transition-fast);
-    }
-
-    .lote-card:hover .lote-card__cta {
-      gap: var(--space-3);
-    }
-
-    /* ── SECCIÓN 6: TESTIMONIO ── */
-    .section-testimonio {
-      padding-block: var(--space-20);
-      background-color: var(--color-text-primary);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .section-testimonio::before {
-      content: '"';
-      position: absolute;
-      top: -0.2em;
-      left: -0.05em;
-      font-family: var(--font-primary);
-      font-size: 30vw;
-      font-weight: 200;
-      color: rgba(250,249,247,0.025);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .testimonio-content {
-      position: relative;
-      z-index: 1;
-      max-width: 760px;
-      margin-inline: auto;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-8);
-    }
-
-    .testimonio-rating {
-      display: flex;
-      gap: var(--space-1);
-      color: var(--color-accent-light);
-      font-size: var(--font-size-sm);
-    }
-
-    .testimonio-quote {
-      font-family: var(--font-primary);
-      font-size: clamp(var(--font-size-xl), 2.5vw, var(--font-size-3xl));
-      font-weight: 200;
-      color: rgba(250,249,247,0.9);
-      line-height: 1.45;
-      letter-spacing: -0.01em;
-    }
-
-    .testimonio-author {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-    }
-
-    .testimonio-author__avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #C4A27A, #5A3010);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-primary);
-      font-size: var(--font-size-lg);
-      color: white;
-      flex-shrink: 0;
-      border: 2px solid rgba(196,162,122,0.3);
-    }
-
-    .testimonio-author__name {
-      font-weight: var(--font-weight-medium);
-      color: rgba(250,249,247,0.9);
-      font-size: var(--font-size-base);
-    }
-
-    .testimonio-author__role {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: rgba(250,249,247,0.35);
-      letter-spacing: 0.08em;
-      margin-top: 2px;
-    }
-
-    .testimonio-verified {
-      display: flex;
-      align-items: center;
-      gap: var(--space-1);
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: #81C784;
-      margin-top: 2px;
-    }
-
-    /* ── FOOTER ── */
-    .footer-newsletter {
-      display: flex;
-      gap: var(--space-2);
-      max-width: 320px;
-    }
-
-    .footer-newsletter input {
-      flex: 1;
-      padding: var(--space-3) var(--space-4);
-      background-color: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: var(--border-radius-sm);
-      font-size: var(--font-size-sm);
-      color: var(--color-background);
-      outline: none;
-      transition: border-color var(--transition-fast);
-    }
-
-    .footer-newsletter input::placeholder {
-      color: rgba(250,249,247,0.3);
-    }
-
-    .footer-newsletter input:focus {
-      border-color: var(--color-accent-light);
-    }
-
-    .footer-newsletter button {
-      padding: var(--space-3) var(--space-4);
-      background-color: var(--color-accent);
-      color: white;
-      border-radius: var(--border-radius-sm);
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-      transition: background-color var(--transition-fast);
-      cursor: pointer;
-      border: none;
-    }
-
-    .footer-newsletter button:hover {
-      background-color: #9E6830;
-    }
-
-    .footer-certs {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      margin-top: var(--space-4);
-    }
-
-    .footer-cert {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-2) var(--space-3);
-      background-color: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--border-radius-sm);
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      color: rgba(250,249,247,0.4);
-      text-decoration: none;
-      transition: border-color var(--transition-fast), color var(--transition-fast);
-      letter-spacing: 0.06em;
-    }
-
-    .footer-cert:hover {
-      border-color: rgba(255,255,255,0.2);
-      color: rgba(250,249,247,0.7);
-    }
-
-    .footer-cert i {
-      color: var(--color-accent-light);
-    }
-
-    /* ── RESPONSIVE ESPECÍFICO ── */
-    @media (max-width: 1199px) {
-      .hero-home__container {
-        grid-template-columns: 1fr;
-        gap: var(--space-12);
-      }
-      .hero-home__lote-preview {
-        max-width: 520px;
-      }
-      .trazabilidad-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-10);
-      }
-      .trazabilidad-text {
-        position: static;
-      }
-      .lotes-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .section-proposito::before {
-        font-size: 40vw;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .hero-home__container {
-        padding-block: var(--space-16);
-        grid-template-columns: 1fr;
-      }
-      .hero-home__title {
-        font-size: 2.5rem;
-      }
-      .lote-specs {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .pilares-grid {
-        grid-template-columns: 1fr;
-      }
-      .pilar {
-        padding: var(--space-8) var(--space-6);
-      }
-      .lotes-grid {
-        grid-template-columns: 1fr;
-      }
-      .lote-data-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .section-proposito {
-        padding-block: var(--space-16);
-      }
-      .section-proposito::before {
-        display: none;
-      }
-      .proposito-body {
-        font-size: var(--font-size-base);
-      }
-      .footer-newsletter {
-        flex-direction: column;
-        max-width: 100%;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Kaizen en Taza - Café colombiano de especialidad con trazabilidad completa. Cadena justa, ritual consciente. De las montañas colombianas a tu taza en Tokio.">
+    <meta name="keywords" content="café colombiano, café de especialidad, Tokio, suscripción café, comercio justo, trazabilidad">
+    <meta name="author" content="Kaizen en Taza">
+    <meta property="og:title" content="Kaizen en Taza - El café que no miente">
+    <meta property="og:description" content="Café colombiano de especialidad con trazabilidad completa. Cadena justa. Construido contigo.">
+    <meta property="og:image" content="assets/images/og-image.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>Kaizen en Taza | Café colombiano de especialidad - Tokio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 </head>
-
 <body>
 
-<!-- ============================================================
-     HEADER
-     ============================================================ -->
-<header class="site-header" id="site-header" role="banner">
-  <div class="site-header__inner">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">コンテンツへスキップ</a>
 
-    <!-- Logo -->
-    <a href="index.html" class="site-logo" aria-label="Kaizen en Taza — inicio">
-      <span class="site-logo__wordmark">Kaizen en Taza</span>
-      <span class="site-logo__tagline">改善 · Café de especialidad</span>
-    </a>
-
-    <!-- Navegación desktop -->
-    <nav class="site-nav" role="navigation" aria-label="Navegación principal">
-      <ul class="site-nav__list" role="list">
-        <li><a href="aprender.html" class="site-nav__link">El Ritual</a></li>
-        <li><a href="lotes.html" class="site-nav__link">Lotes</a></li>
-        <li><a href="suscripcion.html" class="site-nav__link">Suscripción</a></li>
-        <li><a href="comunidad.html" class="site-nav__link">Comunidad</a></li>
-        <li><a href="aprender.html" class="site-nav__link">Aprender</a></li>
-      </ul>
-    </nav>
-
-    <!-- Acciones header -->
-    <div class="site-header__actions">
-      <button class="btn btn--ghost btn--icon" aria-label="Buscar">
-        <i class="fa-regular fa-magnifying-glass" aria-hidden="true"></i>
-      </button>
-      <button class="btn btn--ghost btn--icon" aria-label="Tu pedido" style="position:relative;">
-        <i class="fa-regular fa-bag-shopping" aria-hidden="true"></i>
-        <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background-color:var(--color-accent);border:1.5px solid var(--color-background);" aria-label="1 artículo"></span>
-      </button>
-      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Abrir menú" aria-controls="mobile-menu">
-        <span class="menu-toggle__bar"></span>
-        <span class="menu-toggle__bar"></span>
-        <span class="menu-toggle__bar"></span>
-      </button>
-    </div>
-
-  </div>
-</header>
-
-<!-- Menú móvil -->
-<nav class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Menú móvil" aria-hidden="true">
-  <ul class="mobile-menu__list" role="list">
-    <li><a href="aprender.html" class="mobile-menu__link">El Ritual <i class="fa-regular fa-arrow-right" aria-hidden="true"></i></a></li>
-    <li><a href="lotes.html" class="mobile-menu__link">Lotes <i class="fa-regular fa-arrow-right" aria-hidden="true"></i></a></li>
-    <li><a href="suscripcion.html" class="mobile-menu__link">Suscripción <i class="fa-regular fa-arrow-right" aria-hidden="true"></i></a></li>
-    <li><a href="comunidad.html" class="mobile-menu__link">Comunidad <i class="fa-regular fa-arrow-right" aria-hidden="true"></i></a></li>
-    <li><a href="aprender.html" class="mobile-menu__link">Aprender <i class="fa-regular fa-arrow-right" aria-hidden="true"></i></a></li>
-    <li><a href="sobre-nosotros.html" class="mobile-menu__link">Sobre nosotros <i class="fa-regular fa-arrow-right" aria-hidden="true"></i></a></li>
-  </ul>
-  <div class="mobile-menu__footer">
-    <a href="suscripcion.html" class="btn btn--primary btn--full btn--lg">Inicia tu ritual →</a>
-    <a href="lotes.html" class="btn btn--secondary btn--full">Ver lotes activos</a>
-  </div>
-</nav>
-
-
-<!-- ============================================================
-     SECCIÓN 1 — HERO
-     ============================================================ -->
-<main id="main-content">
-
-<section class="hero-home" id="hero" aria-label="Kaizen en Taza — Café que no miente">
-  <!-- Imagen de fondo: montañas cafeteras colombianas -->
-  <div class="hero-home__bg" aria-hidden="true">
-    <img
-      src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1800&q=80"
-      alt=""
-      loading="eager"
-      id="hero-bg-img"
-    />
-  </div>
-
-  <div class="hero-home__container">
-
-    <!-- Contenido principal -->
-    <div class="hero-home__content">
-      <div class="hero-home__eyebrow">
-        <span class="hero-home__eyebrow-line" aria-hidden="true"></span>
-        <span class="hero-home__kicker">Colombia × Japón · Temporada 2025</span>
-      </div>
-
-      <h1 class="hero-home__title">
-        El café<br />
-        que <em>no miente</em>
-      </h1>
-
-      <p class="hero-home__subtitle">
-        Café colombiano de especialidad para tu ritual consciente.
-        Trazabilidad completa. Cadena justa. Construido contigo.
-      </p>
-
-      <div class="hero-home__actions">
-        <a href="suscripcion.html" class="btn btn--hero-primary">
-          Inicia tu ritual →
-        </a>
-        <a href="lotes.html" class="btn btn--hero-secondary">
-          Ver lotes activos →
-        </a>
-      </div>
-    </div>
-
-    <!-- Panel lateral: preview de lote activo -->
-    <div class="hero-home__lote-preview" aria-label="Lote activo destacado">
-      <div class="lote-preview-card">
-        <div class="lote-preview-card__header">
-          <div>
-            <p class="lote-preview-card__eyebrow">Lote activo · KET-2025-047</p>
-            <h2 class="lote-preview-card__title">Finca La Esperanza</h2>
-          </div>
-          <span class="lote-preview-card__badge">Disponible</span>
+    <!-- ============================================
+         HEADER (reutilizable en todas las páginas)
+         ============================================ -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                Kaizen en <span>Taza</span>
+            </a>
+            
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                    <li><a href="lotes.html" class="nav-link">Lotes</a></li>
+                    <li><a href="suscripcion.html" class="nav-link">Suscripción</a></li>
+                    <li><a href="comunidad.html" class="nav-link">Comunidad</a></li>
+                    <li><a href="aprender.html" class="nav-link">Aprender</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="icon-btn" id="searchBtn" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="icon-btn" id="cartBtn" aria-label="Carrito">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
-
-        <div class="caficultor-row">
-          <div class="caficultor-avatar" aria-hidden="true">R</div>
-          <div class="caficultor-info">
-            <p class="caficultor-info__name">Don Rodrigo Zapata</p>
-            <p class="caficultor-info__role">Caficultor · Huila, Colombia</p>
-          </div>
+        
+        <!-- Mobile menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html" class="mobile-nav-link active">Inicio</a></li>
+                <li><a href="lotes.html" class="mobile-nav-link">Lotes</a></li>
+                <li><a href="suscripcion.html" class="mobile-nav-link">Suscripción</a></li>
+                <li><a href="comunidad.html" class="mobile-nav-link">Comunidad</a></li>
+                <li><a href="aprender.html" class="mobile-nav-link">Aprender</a></li>
+                <li><a href="sobre-nosotros.html" class="mobile-nav-link">Sobre nosotros</a></li>
+                <li><a href="donde-encontrarnos.html" class="mobile-nav-link">Dónde encontrarnos</a></li>
+            </ul>
         </div>
+    </header>
 
-        <div class="lote-specs">
-          <div class="lote-spec">
-            <span class="lote-spec__label">Altitud</span>
-            <span class="lote-spec__value">1.850 m</span>
-          </div>
-          <div class="lote-spec">
-            <span class="lote-spec__label">Variedad</span>
-            <span class="lote-spec__value">Caturra</span>
-          </div>
-          <div class="lote-spec">
-            <span class="lote-spec__label">Proceso</span>
-            <span class="lote-spec__value">Lavado</span>
-          </div>
-        </div>
+    <main id="main-content">
 
-        <div class="precio-justo" aria-label="Precio pagado al caficultor: 35% sobre precio de mercado">
-          <i class="fa-solid fa-circle-check precio-justo__icon" aria-hidden="true"></i>
-          <span class="precio-justo__text">
-            Precio al caficultor: <span class="precio-justo__value">+35% sobre mercado</span>
-          </span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Indicador de scroll -->
-  <div class="hero-scroll-hint" aria-hidden="true">
-    <span class="hero-scroll-hint__text">Scroll</span>
-    <div class="hero-scroll-hint__line"></div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECCIÓN 2 — DEMOSTRACIÓN DE TRAZABILIDAD (CRÍTICA)
-     ============================================================ -->
-<section class="section-trazabilidad" aria-labelledby="trazabilidad-title">
-  <div class="container">
-
-    <div class="trazabilidad-grid">
-
-      <!-- Texto izquierda -->
-      <div class="trazabilidad-text">
-        <div>
-          <p class="type-subtitle" aria-label="Sección: Trazabilidad">Trazabilidad verificable</p>
-        </div>
-        <h2 class="type-headline" id="trazabilidad-title">
-          Sabemos exactamente de dónde viene tu café
-        </h2>
-        <p class="type-body">
-          Y te lo mostramos <strong>antes</strong> de que compres. Sin registro. Sin condiciones. Solo la verdad de la cadena completa.
-        </p>
-
-        <!-- Timeline de la cadena -->
-        <div class="timeline" role="list" aria-label="Cadena de origen del café">
-          <div class="timeline__item" role="listitem">
-            <div class="timeline__marker" aria-hidden="true">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__content">
-              <p class="timeline__date">Finca La Esperanza · Huila, Colombia</p>
-              <p class="timeline__title">Cosecha selectiva</p>
-              <p class="timeline__desc">Cerezas seleccionadas a mano. Grado Specialty ≥ 84 SCA.</p>
-            </div>
-          </div>
-          <div class="timeline__item" role="listitem">
-            <div class="timeline__marker" aria-hidden="true">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__content">
-              <p class="timeline__date">Estación de proceso · Pitalito</p>
-              <p class="timeline__title">Proceso lavado certificado</p>
-              <p class="timeline__desc">Fermentación 36h, secado en camas africanas 18 días.</p>
-            </div>
-          </div>
-          <div class="timeline__item" role="listitem">
-            <div class="timeline__marker" aria-hidden="true">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__content">
-              <p class="timeline__date">Tostador · Bogotá, Colombia</p>
-              <p class="timeline__title">Tostión artesanal</p>
-              <p class="timeline__desc">Perfil de tostión documentado. Curva disponible para descarga.</p>
-            </div>
-          </div>
-          <div class="timeline__item" role="listitem">
-            <div class="timeline__marker" aria-hidden="true">
-              <div class="timeline__dot"></div>
-            </div>
-            <div class="timeline__content">
-              <p class="timeline__date">Distribuidor · Tokio / Osaka</p>
-              <p class="timeline__title">Entrega directa</p>
-              <p class="timeline__desc">Sin intermediarios desconocidos. Cadena de custodia documentada.</p>
-            </div>
-          </div>
-        </div>
-
-        <a href="lote-detalle.html" class="btn btn--primary">
-          Ver trazabilidad completa de este lote →
-        </a>
-        <p class="honesty-note" style="margin-top: 0;">
-          <i class="fa-regular fa-lock-open honesty-note__icon" aria-hidden="true"></i>
-          <span class="honesty-note__text">Sin registro. Sin suscripción. Solo la verdad.</span>
-        </p>
-      </div>
-
-      <!-- Card del lote — lado derecho -->
-      <div>
-        <div class="trazabilidad-card" role="article" aria-label="Tarjeta de lote: Finca La Esperanza">
-
-          <!-- Imagen del lote -->
-          <div class="trazabilidad-card__image">
-            <img
-              src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=800&q=75"
-              alt="Granos de café de la Finca La Esperanza, Huila, Colombia"
-              loading="lazy"
-            />
-            <div class="trazabilidad-card__image-label">
-              <span>Lote KET-2025-047 · Fotografía verificada</span>
-            </div>
-          </div>
-
-          <div class="trazabilidad-card__body">
-
-            <!-- Identificación del lote -->
-            <div>
-              <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-accent);letter-spacing:0.12em;margin-bottom:var(--space-2);">KET-2025-047</p>
-              <h3 style="font-family:var(--font-primary);font-size:var(--font-size-2xl);font-weight:300;color:var(--color-text-primary);line-height:1.2;">Finca La Esperanza</h3>
-              <p style="font-size:var(--font-size-sm);color:var(--color-text-secondary);margin-top:var(--space-1);">Municipio de La Argentina, Huila · 1.850 msnm</p>
-            </div>
-
-            <!-- Caficultor verificado -->
-            <div class="trazabilidad-caficultor">
-              <div class="trazabilidad-caficultor__avatar" aria-hidden="true">R</div>
-              <div>
-                <p style="font-weight:var(--font-weight-medium);color:var(--color-text-primary);font-size:var(--font-size-base);">Don Rodrigo Zapata</p>
-                <p style="font-size:var(--font-size-sm);color:var(--color-text-secondary);">Caficultor, 3ª generación</p>
-                <div class="trazabilidad-caficultor__verified">
-                  <i class="fa-solid fa-circle-check" style="font-size:10px;" aria-hidden="true"></i>
-                  <span>Identidad verificada · Visita en campo 2025</span>
+        <!-- ============================================
+             HERO SECTION
+             ============================================ -->
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">
+                    El café que <span style="color: var(--color-accent);">no miente</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Café colombiano de especialidad para tu ritual consciente.<br>
+                    Trazabilidad completa. Cadena justa. Construido contigo.
+                </p>
+                <div class="hero-buttons">
+                    <a href="suscripcion.html" class="btn btn-primary btn-large">
+                        Inicia tu ritual <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="lotes.html" class="btn btn-secondary btn-large">
+                        Ver lotes activos
+                    </a>
                 </div>
-              </div>
             </div>
+        </section>
 
-            <!-- Datos técnicos -->
-            <div class="lote-data-grid" role="table" aria-label="Datos técnicos del lote">
-              <div class="lote-data-cell" role="cell">
-                <span class="lote-data-cell__label">Altitud</span>
-                <span class="lote-data-cell__value">1.850 m</span>
-              </div>
-              <div class="lote-data-cell" role="cell">
-                <span class="lote-data-cell__label">Variedad</span>
-                <span class="lote-data-cell__value">Caturra</span>
-              </div>
-              <div class="lote-data-cell" role="cell">
-                <span class="lote-data-cell__label">Proceso</span>
-                <span class="lote-data-cell__value">Lavado</span>
-              </div>
-              <div class="lote-data-cell" role="cell">
-                <span class="lote-data-cell__label">Cosecha</span>
-                <span class="lote-data-cell__value">Oct 2024</span>
-              </div>
-              <div class="lote-data-cell" role="cell">
-                <span class="lote-data-cell__label">Puntaje SCA</span>
-                <span class="lote-data-cell__value">86.5 pts</span>
-              </div>
-              <div class="lote-data-cell" role="cell">
-                <span class="lote-data-cell__label">Disponible</span>
-                <span class="lote-data-cell__value" style="color:var(--color-success);">42 kg</span>
-              </div>
-            </div>
-
-            <!-- Precio al caficultor -->
-            <div class="precio-caficultor-bar" aria-label="Precio pagado al caficultor vs precio de mercado">
-              <div class="precio-caficultor-bar__header">
-                <span class="precio-caficultor-bar__label">Precio pagado al caficultor</span>
-                <span class="precio-caficultor-bar__pct"><sup>+</sup>35%</span>
-              </div>
-
-              <div class="vs-bar">
-                <span class="vs-bar__label" style="text-align:right;">Kaizen</span>
-                <div class="vs-bar__track">
-                  <div class="vs-bar__fill" id="bar-kaizen" style="width:0" data-target="75%" aria-valuenow="75" aria-label="Precio Kaizen: 75 unidades"></div>
+        <!-- ============================================
+             TRAZABILIDAD DEMO SECTION (CRÍTICA)
+             ============================================ -->
+        <section class="section">
+            <div class="container">
+                <div class="text-center mb-12">
+                    <h2>Sabemos exactamente de dónde viene tu café</h2>
+                    <p class="text-secondary" style="max-width: 600px; margin: 0 auto;">
+                        Y te lo mostramos antes de que compres. Sin registro. Sin suscripción. Solo la verdad.
+                    </p>
                 </div>
-                <span class="vs-bar__label" style="color:var(--color-accent);font-weight:500;">$4.20 / kg</span>
-              </div>
-              <div class="vs-bar">
-                <span class="vs-bar__label" style="text-align:right;">Mercado</span>
-                <div class="vs-bar__track">
-                  <div class="vs-bar__fill vs-bar__fill--market" id="bar-market" style="width:0" data-target="55%" aria-valuenow="55" aria-label="Precio de mercado: 55 unidades"></div>
+
+                <div class="grid grid-2" style="gap: var(--space-8); align-items: start;">
+                    <!-- Trazabilidad demo card -->
+                    <div class="trazabilidad-card">
+                        <div class="trazabilidad-header">
+                            <span class="badge badge-success">Lote actual · Mayo 2026</span>
+                        </div>
+                        <div class="trazabilidad-body">
+                            <h3 style="margin-bottom: var(--space-2);">La Esperanza</h3>
+                            <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-4);">
+                                Huila, Colombia · Don Rodrigo
+                            </p>
+                            
+                            <div class="trazabilidad-grid">
+                                <div class="trazabilidad-item">
+                                    <div class="trazabilidad-label">📍 Origen</div>
+                                    <div class="trazabilidad-value">Huila, Pitalito · 1,850m</div>
+                                </div>
+                                <div class="trazabilidad-item">
+                                    <div class="trazabilidad-label">👨‍🌾 Caficultor</div>
+                                    <div class="trazabilidad-value">Rodrigo López · 18 años</div>
+                                </div>
+                                <div class="trazabilidad-item">
+                                    <div class="trazabilidad-label">🔬 Variedad</div>
+                                    <div class="trazabilidad-value">Caturra · Proceso lavado</div>
+                                </div>
+                                <div class="trazabilidad-item">
+                                    <div class="trazabilidad-label">💰 Precio pagado</div>
+                                    <div class="trazabilidad-value">+35% sobre mercado · ¥1,350/libra</div>
+                                </div>
+                            </div>
+                            
+                            <div class="certifications" style="margin: var(--space-4) 0;">
+                                <span class="cert-badge" onclick="showCertModal('fairtrade')">
+                                    <i class="fas fa-hand-holding-heart"></i> Comercio justo verificado
+                                </span>
+                                <span class="cert-badge" onclick="showCertModal('trazabilidad')">
+                                    <i class="fas fa-map-marked-alt"></i> Trazabilidad completa
+                                </span>
+                            </div>
+                            
+                            <a href="lote-detalle.html" class="btn btn-outline" style="width: 100%; margin-top: var(--space-4);">
+                                Ver trazabilidad completa <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Caficultor story -->
+                    <div class="card" style="background: var(--color-card-hover);">
+                        <div style="display: flex; gap: var(--space-4); align-items: center; margin-bottom: var(--space-4);">
+                            <div style="width: 70px; height: 70px; background: var(--color-accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                <i class="fas fa-user" style="font-size: 2rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom: 0;">Don Rodrigo</h4>
+                                <p style="font-size: var(--font-size-sm); margin-bottom: 0;">"Esto es lo que siempre debió ser"</p>
+                            </div>
+                        </div>
+                        <p style="font-size: var(--font-size-sm);">
+                            "Llevo 18 años cultivando café en las montañas de Huila. Nunca nadie me había preguntado mi nombre para ponerlo en el empaque. 
+                            Nunca nadie me había mostrado al consumidor que toma mi café. Esto es lo que siempre debió ser."
+                        </p>
+                        <div style="margin-top: var(--space-3);">
+                            <i class="fas fa-play-circle" style="color: var(--color-accent);"></i>
+                            <span style="font-size: var(--font-size-sm); margin-left: var(--space-2);">Video completo (45s) · Don Rodrigo en su finca</span>
+                        </div>
+                    </div>
                 </div>
-                <span class="vs-bar__label">$3.10 / kg</span>
-              </div>
             </div>
+        </section>
 
-            <!-- Notas de cata -->
-            <div>
-              <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:var(--space-3);">Notas de cata</p>
-              <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
-                <span class="badge badge--default">🍋 Cítrico</span>
-                <span class="badge badge--default">🍫 Chocolate</span>
-                <span class="badge badge--default">🌸 Floral</span>
-                <span class="badge badge--default">🍭 Panela</span>
-                <span class="badge badge--accent">86.5 SCA</span>
-              </div>
+        <!-- ============================================
+             TRES PILARES DE LA MARCA
+             ============================================ -->
+        <section class="section bg-light">
+            <div class="container">
+                <div class="text-center mb-12">
+                    <h2>Una marca construida sobre tres pilares</h2>
+                    <p class="text-secondary">Y cada uno es verificable. No palabras bonitas. Hechos.</p>
+                </div>
+                
+                <div class="grid grid-3">
+                    <div class="card text-center">
+                        <div style="font-size: 3rem; margin-bottom: var(--space-4); color: var(--color-accent);">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <h3>Honesto en su cadena</h3>
+                        <p class="text-secondary" style="font-size: var(--font-size-sm);">
+                            Trazabilidad completa y comercio justo verificable en cada lote. 
+                            Sabes el precio que pagó el caficultor. Con documento.
+                        </p>
+                    </div>
+                    
+                    <div class="card text-center">
+                        <div style="font-size: 3rem; margin-bottom: var(--space-4); color: var(--color-accent);">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Preciso en su sabor</h3>
+                        <p class="text-secondary" style="font-size: var(--font-size-sm);">
+                            Especialidad colombiana de altura. Puntaje SCA, fecha de tueste, 
+                            notas de cata. Datos, no adjetivos.
+                        </p>
+                    </div>
+                    
+                    <div class="card text-center">
+                        <div style="font-size: 3rem; margin-bottom: var(--space-4); color: var(--color-accent);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Construido contigo</h3>
+                        <p class="text-secondary" style="font-size: var(--font-size-sm);">
+                            No eres un cliente. Eres co-creador. Tu voto elige el próximo lote. 
+                            Tu feedback llega a la finca.
+                        </p>
+                    </div>
+                </div>
             </div>
+        </section>
 
-          </div>
+        <!-- ============================================
+             PROPÓSITO Y MANIFIESTO
+             ============================================ -->
+        <section class="section">
+            <div class="container text-center">
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="font-size: 4rem; margin-bottom: var(--space-4); opacity: 0.3;">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <blockquote style="font-size: var(--font-size-2xl); font-weight: 500; margin-bottom: var(--space-6);">
+                        "El éxito sin paz mental es incompleto."
+                    </blockquote>
+                    <p class="text-secondary" style="font-size: var(--font-size-lg); margin-bottom: var(--space-8);">
+                        El café que preparas cada mañana no es una rutina. Es el primer acto de maestría del día, 
+                        construido sobre una cadena que puedes ver de principio a fin.
+                    </p>
+                    <a href="sobre-nosotros.html" class="btn btn-secondary">
+                        Leer el manifiesto completo <i class="fas fa-book-open"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             LOTES DESTACADOS
+             ============================================ -->
+        <section class="section bg-light">
+            <div class="container">
+                <div class="flex-between" style="align-items: center; margin-bottom: var(--space-8); flex-wrap: wrap; gap: var(--space-4);">
+                    <h2 style="margin-bottom: 0;">Lotes activos</h2>
+                    <a href="lotes.html" class="btn btn-outline">Ver todos los lotes <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="grid grid-3">
+                    <!-- Producto 1 -->
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=300&fit=crop" alt="Café La Esperanza" class="product-image">
+                        <div class="product-info">
+                            <h4 class="product-title">La Esperanza</h4>
+                            <p class="product-origin">Huila · Don Rodrigo</p>
+                            <div class="product-badges">
+                                <span class="badge badge-outline">Caturra</span>
+                                <span class="badge badge-outline">Lavado</span>
+                                <span class="badge badge-primary">SCA 86.5</span>
+                            </div>
+                            <div class="product-price">¥2,400 <span style="font-size: var(--font-size-sm); font-weight: normal;">/ 200g</span></div>
+                            <div class="certifications" style="margin: var(--space-2) 0;">
+                                <span class="cert-badge" style="background: transparent; padding-left: 0;">📍 Trazable</span>
+                                <span class="cert-badge" style="background: transparent;">🌱 Comercio justo</span>
+                            </div>
+                            <a href="lote-detalle.html" class="btn btn-outline btn-small" style="width: 100%; margin-top: var(--space-3);">
+                                Ver lote <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Producto 2 -->
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop" alt="Café El Paraíso" class="product-image">
+                        <div class="product-info">
+                            <h4 class="product-title">El Paraíso</h4>
+                            <p class="product-origin">Nariño · Doña María</p>
+                            <div class="product-badges">
+                                <span class="badge badge-outline">Castillo</span>
+                                <span class="badge badge-outline">Natural</span>
+                                <span class="badge badge-primary">SCA 87.2</span>
+                            </div>
+                            <div class="product-price">¥2,600 <span style="font-size: var(--font-size-sm); font-weight: normal;">/ 200g</span></div>
+                            <div class="certifications" style="margin: var(--space-2) 0;">
+                                <span class="cert-badge" style="background: transparent; padding-left: 0;">📍 Trazable</span>
+                                <span class="cert-badge" style="background: transparent;">🌱 Comercio justo</span>
+                            </div>
+                            <a href="lote-detalle.html" class="btn btn-outline btn-small" style="width: 100%; margin-top: var(--space-3);">
+                                Ver lote <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Producto 3 -->
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?w=400&h=300&fit=crop" alt="Café Monteverde" class="product-image">
+                        <div class="product-info">
+                            <h4 class="product-title">Monteverde</h4>
+                            <p class="product-origin">Cauca · Don Carlos</p>
+                            <div class="product-badges">
+                                <span class="badge badge-outline">Geisha</span>
+                                <span class="badge badge-outline">Honey</span>
+                                <span class="badge badge-primary">SCA 89.0</span>
+                            </div>
+                            <div class="product-price">¥3,800 <span style="font-size: var(--font-size-sm); font-weight: normal;">/ 200g</span></div>
+                            <div class="certifications" style="margin: var(--space-2) 0;">
+                                <span class="cert-badge" style="background: transparent; padding-left: 0;">📍 Trazable</span>
+                                <span class="cert-badge" style="background: transparent;">🌱 Comercio justo</span>
+                            </div>
+                            <a href="lote-detalle.html" class="btn btn-outline btn-small" style="width: 100%; margin-top: var(--space-3);">
+                                Ver lote <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             TESTIMONIO
+             ============================================ -->
+        <section class="section">
+            <div class="container">
+                <div class="card" style="background: var(--color-accent); color: white; text-align: center; padding: var(--space-12);">
+                    <i class="fas fa-quote-right" style="font-size: 3rem; opacity: 0.3; margin-bottom: var(--space-4);"></i>
+                    <p style="font-size: var(--font-size-xl); color: white; max-width: 700px; margin: 0 auto var(--space-6);">
+                        "Por fin una marca que muestra el precio que le pagaron al caficultor. 
+                        Ahora puedo tomar mi café con tranquilidad."
+                    </p>
+                    <div>
+                        <strong>— Kenji, Tokio</strong>
+                        <p style="color: rgba(255,255,255,0.8); font-size: var(--font-size-sm); margin-top: var(--space-2);">
+                            Suscriptor desde mayo 2026 · Optimizador Consciente
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             KAIZEN PHILOSOPHY
+             ============================================ -->
+        <section class="section bg-light">
+            <div class="container text-center">
+                <div class="grid grid-2" style="align-items: center; gap: var(--space-12);">
+                    <div>
+                        <div style="font-size: 5rem; margin-bottom: var(--space-4);">🌄</div>
+                        <h3 style="font-size: var(--font-size-3xl);">改善</h3>
+                        <p style="font-size: var(--font-size-lg); font-weight: 500; margin-bottom: var(--space-4);">Kaizen · Mejora continua</p>
+                        <p class="text-secondary">
+                            Dos culturas de montaña que comparten la misma verdad sobre la excelencia: 
+                            mejorar no es un evento. Es una decisión que se toma cada día, en cada paso de la cadena.
+                        </p>
+                        <div style="margin-top: var(--space-6);">
+                            <span class="badge badge-outline">Colombia 🇨🇴</span>
+                            <span class="badge badge-outline" style="margin-left: var(--space-2);">Japón 🇯🇵</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="background: var(--color-surface); border-radius: var(--border-radius-lg); padding: var(--space-6); border: 1px solid var(--color-border);">
+                            <p style="font-style: italic; margin-bottom: var(--space-4);">
+                                "De las montañas colombianas a tu taza en Tokio. Con todo lo que eso significa."
+                            </p>
+                            <div class="divider"></div>
+                            <p class="text-secondary" style="font-size: var(--font-size-sm); margin-bottom: 0;">
+                                Cada vez, un poco mejor.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================
+         FOOTER (reutilizable en todas las páginas)
+         ============================================ -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Kaizen en Taza</h4>
+                    <p>De las montañas colombianas a tu taza en Tokio. Café de especialidad con trazabilidad completa y cadena justa.</p>
+                    <div class="certifications" style="margin-top: var(--space-4);">
+                        <span class="cert-badge" onclick="showCertModal('fairtrade')">
+                            <i class="fas fa-check-circle"></i> Comercio justo
+                        </span>
+                        <span class="cert-badge" onclick="showCertModal('trazabilidad')">
+                            <i class="fas fa-map-marked-alt"></i> Trazabilidad
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Explorar</h4>
+                    <ul class="footer-links">
+                        <li><a href="lotes.html" class="footer-link">Lotes activos</a></li>
+                        <li><a href="suscripcion.html" class="footer-link">Suscripción</a></li>
+                        <li><a href="comunidad.html" class="footer-link">Comunidad</a></li>
+                        <li><a href="aprender.html" class="footer-link">Manual del ritual</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Nosotros</h4>
+                    <ul class="footer-links">
+                        <li><a href="sobre-nosotros.html" class="footer-link">Nuestra historia</a></li>
+                        <li><a href="sobre-nosotros.html#caficultores" class="footer-link">Nuestros caficultores</a></li>
+                        <li><a href="sobre-nosotros.html#impacto" class="footer-link">Impacto y sostenibilidad</a></li>
+                        <li><a href="donde-encontrarnos.html" class="footer-link">Dónde encontrarnos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p style="font-size: var(--font-size-sm);">Recibe novedades de lotes y eventos</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Gracias por suscribirte (demo)');">
+                        <input type="email" placeholder="tu@email.com" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn">Enviar</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    © 2026 Kaizen en Taza. Hecho con ☕ entre Colombia y Japón.
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
         </div>
-      </div>
+    </footer>
 
-    </div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECCIÓN 3 — 3 PILARES
-     ============================================================ -->
-<section class="section-pilares" aria-labelledby="pilares-title">
-  <div class="container">
-    <div class="section-header section-header--center" style="margin-bottom:var(--space-12);">
-      <p class="type-subtitle">Nuestra promesa</p>
-      <h2 class="type-headline" id="pilares-title">Tres compromisos. Sin excepciones.</h2>
-    </div>
-  </div>
-
-  <div class="pilares-grid" role="list">
-
-    <!-- Pilar 1 -->
-    <article class="pilar" role="listitem">
-      <span class="pilar__number">01</span>
-      <div class="pilar__icon" aria-hidden="true">
-        <i class="fa-regular fa-link-simple"></i>
-      </div>
-      <h3 class="pilar__title">Honesto en su cadena</h3>
-      <p class="pilar__desc">
-        Cada eslabón documentado. El nombre del caficultor, el precio que recibió, el proceso en la finca. Verificable, no declarativo.
-      </p>
-      <a href="lote-detalle.html" class="pilar__link">
-        Ver cadena completa <i class="fa-regular fa-arrow-right" aria-hidden="true"></i>
-      </a>
-    </article>
-
-    <!-- Pilar 2 -->
-    <article class="pilar" role="listitem">
-      <span class="pilar__number">02</span>
-      <div class="pilar__icon" aria-hidden="true">
-        <i class="fa-regular fa-chart-line"></i>
-      </div>
-      <h3 class="pilar__title">Preciso en su sabor</h3>
-      <p class="pilar__desc">
-        Puntaje SCA publicado antes de la venta. Perfil de tostión descargable. Notas de cata con referencia, no metáfora.
-      </p>
-      <a href="lotes.html" class="pilar__link">
-        Ver todos los lotes <i class="fa-regular fa-arrow-right" aria-hidden="true"></i>
-      </a>
-    </article>
-
-    <!-- Pilar 3 -->
-    <article class="pilar" role="listitem">
-      <span class="pilar__number">03</span>
-      <div class="pilar__icon" aria-hidden="true">
-        <i class="fa-regular fa-users"></i>
-      </div>
-      <h3 class="pilar__title">Construido contigo</h3>
-      <p class="pilar__desc">
-        Los suscriptores votan qué lotes entran. Proponen procesos. Comparten su ritual. Eres co-creador, no consumidor.
-      </p>
-      <a href="comunidad.html" class="pilar__link">
-        Unirte a la comunidad <i class="fa-regular fa-arrow-right" aria-hidden="true"></i>
-      </a>
-    </article>
-
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECCIÓN 4 — PROPÓSITO / MANIFIESTO
-     ============================================================ -->
-<section class="section-proposito" aria-labelledby="proposito-title">
-  <div class="container">
-    <div class="proposito-content">
-
-      <div class="proposito-cita" aria-label="Cita del manifiesto Kaizen en Taza">
-        <span class="proposito-cita__mark" aria-hidden="true">"</span>
-        <blockquote>
-          <p class="proposito-cita__text" id="proposito-title">
-            El éxito sin paz mental<br />es incompleto.
-          </p>
-          <footer style="margin-top:var(--space-4);">
-            <cite class="proposito-cita__source">— Manifiesto Kaizen en Taza</cite>
-          </footer>
-        </blockquote>
-      </div>
-
-      <p class="proposito-body">
-        El café que preparas cada mañana no es una rutina. Es el primer acto de maestría del día, construido sobre una cadena que puedes ver de principio a fin.
-      </p>
-
-      <div>
-        <a href="aprender.html" class="btn btn--outline-accent btn--lg">
-          Leer el manifiesto →
-        </a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECCIÓN 5 — LOTES DESTACADOS
-     ============================================================ -->
-<section class="section-lotes" aria-labelledby="lotes-title">
-  <div class="container">
-
-    <div class="section-header section-header--split">
-      <div>
-        <p class="type-subtitle">Temporada 2025</p>
-        <h2 class="type-headline" id="lotes-title">Lotes disponibles ahora</h2>
-      </div>
-      <a href="lotes.html" class="btn btn--secondary">Ver todos los lotes →</a>
-    </div>
-
-    <div class="lotes-grid" role="list">
-
-      <!-- Lote 1 -->
-      <article class="lote-card" role="listitem">
-        <a href="lote-detalle.html" style="display:contents;" aria-label="Ver lote Finca La Esperanza, Huila">
-          <div class="lote-card__media">
-            <img
-              src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=600&q=75"
-              alt="Granos verdes de café Caturra, Finca La Esperanza"
-              loading="lazy"
-            />
-            <div class="lote-card__badge-trazabilidad">
-              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-              Trazabilidad completa
+    <!-- ============================================
+         MODAL PARA CERTIFICACIONES
+         ============================================ -->
+    <div id="certModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Certificación</h3>
+                <span class="modal-close" onclick="closeModal()">&times;</span>
             </div>
-          </div>
-          <div class="lote-card__body">
-            <p class="lote-card__id">KET-2025-047</p>
-            <h3 class="lote-card__name">Finca La Esperanza<br />Huila</h3>
-            <div class="lote-card__specs">
-              <span class="lote-card__spec-pill">Caturra</span>
-              <span class="lote-card__spec-pill">Lavado</span>
-              <span class="lote-card__spec-pill">1.850 m</span>
-              <span class="lote-card__spec-pill">86.5 SCA</span>
+            <div class="modal-body" id="modalBody">
+                <!-- Contenido dinámico -->
             </div>
-          </div>
-          <div class="lote-card__footer">
-            <span class="lote-card__disponibilidad">Disponible · 42 kg</span>
-            <span class="lote-card__cta">Ver lote <i class="fa-regular fa-arrow-right" aria-hidden="true"></i></span>
-          </div>
-        </a>
-      </article>
-
-      <!-- Lote 2 -->
-      <article class="lote-card" role="listitem">
-        <a href="lote-detalle.html" style="display:contents;" aria-label="Ver lote Finca El Paraíso, Nariño">
-          <div class="lote-card__media">
-            <img
-              src="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=600&q=75"
-              alt="Proceso de secado de café, Finca El Paraíso, Nariño"
-              loading="lazy"
-            />
-            <div class="lote-card__badge-trazabilidad">
-              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-              Trazabilidad completa
-            </div>
-          </div>
-          <div class="lote-card__body">
-            <p class="lote-card__id">KET-2025-052</p>
-            <h3 class="lote-card__name">Finca El Paraíso<br />Nariño</h3>
-            <div class="lote-card__specs">
-              <span class="lote-card__spec-pill">Gesha</span>
-              <span class="lote-card__spec-pill">Natural</span>
-              <span class="lote-card__spec-pill">2.100 m</span>
-              <span class="lote-card__spec-pill">88.0 SCA</span>
-            </div>
-          </div>
-          <div class="lote-card__footer">
-            <span class="lote-card__disponibilidad" style="color:var(--color-warning);">
-              <span style="width:6px;height:6px;border-radius:50%;background-color:var(--color-warning);display:inline-block;margin-right:var(--space-1);"></span>
-              Últimas 18 kg
-            </span>
-            <span class="lote-card__cta">Ver lote <i class="fa-regular fa-arrow-right" aria-hidden="true"></i></span>
-          </div>
-        </a>
-      </article>
-
-      <!-- Lote 3 -->
-      <article class="lote-card" role="listitem">
-        <a href="lote-detalle.html" style="display:contents;" aria-label="Ver lote Finca Las Palmas, Cauca">
-          <div class="lote-card__media">
-            <img
-              src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&q=75"
-              alt="Barista preparando café de especialidad"
-              loading="lazy"
-            />
-            <div class="lote-card__badge-trazabilidad">
-              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-              Trazabilidad completa
-            </div>
-          </div>
-          <div class="lote-card__body">
-            <p class="lote-card__id">KET-2025-061</p>
-            <h3 class="lote-card__name">Finca Las Palmas<br />Cauca</h3>
-            <div class="lote-card__specs">
-              <span class="lote-card__spec-pill">Castillo</span>
-              <span class="lote-card__spec-pill">Honey</span>
-              <span class="lote-card__spec-pill">1.950 m</span>
-              <span class="lote-card__spec-pill">85.5 SCA</span>
-            </div>
-          </div>
-          <div class="lote-card__footer">
-            <span class="lote-card__disponibilidad">Disponible · 67 kg</span>
-            <span class="lote-card__cta">Ver lote <i class="fa-regular fa-arrow-right" aria-hidden="true"></i></span>
-          </div>
-        </a>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECCIÓN 6 — TESTIMONIO
-     ============================================================ -->
-<section class="section-testimonio" aria-labelledby="testimonio-title">
-  <div class="container">
-    <div class="testimonio-content">
-
-      <div class="testimonio-rating" role="img" aria-label="5 de 5 estrellas">
-        <i class="fa-solid fa-star" aria-hidden="true"></i>
-        <i class="fa-solid fa-star" aria-hidden="true"></i>
-        <i class="fa-solid fa-star" aria-hidden="true"></i>
-        <i class="fa-solid fa-star" aria-hidden="true"></i>
-        <i class="fa-solid fa-star" aria-hidden="true"></i>
-      </div>
-
-      <figure>
-        <blockquote>
-          <p class="testimonio-quote" id="testimonio-title">
-            "Por fin una marca que muestra el precio que le pagaron al caficultor. Ahora puedo tomar mi café con tranquilidad."
-          </p>
-        </blockquote>
-        <figcaption>
-          <div class="testimonio-author">
-            <div class="testimonio-author__avatar" aria-hidden="true">K</div>
-            <div>
-              <p class="testimonio-author__name">Kenji Matsumoto</p>
-              <p class="testimonio-author__role">Ingeniero de software · Tokio</p>
-              <div class="testimonio-verified">
-                <i class="fa-solid fa-circle-check" style="font-size:10px;" aria-hidden="true"></i>
-                <span>Suscriptor verificado desde marzo 2025</span>
-              </div>
-            </div>
-          </div>
-        </figcaption>
-      </figure>
-
-      <a href="comunidad.html" class="btn btn--inverted">
-        Leer más historias →
-      </a>
-
-    </div>
-  </div>
-</section>
-
-</main>
-
-
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-
-    <!-- Manifiesto -->
-    <div class="footer-manifesto">
-      <p class="footer-manifesto__text">
-        De las montañas colombianas a tu taza en Tokio.<br />
-        <em>Mejora continua. Cadena honesta. Ritual consciente.</em>
-      </p>
-    </div>
-
-    <!-- Grid del footer -->
-    <div class="site-footer__grid">
-
-      <!-- Columna 1: Marca -->
-      <div class="site-footer__brand">
-        <a href="index.html" class="site-footer__logo" aria-label="Inicio">
-          Kaizen en Taza
-          <span style="display:block;font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;color:rgba(250,249,247,0.25);margin-top:4px;">改善 · CAFÉ DE ESPECIALIDAD</span>
-        </a>
-        <p class="site-footer__tagline">
-          Café colombiano de especialidad con trazabilidad completa para el consumidor consciente en Japón.
-        </p>
-
-        <!-- Certificaciones -->
-        <div class="footer-certs" role="list" aria-label="Certificaciones">
-          <a href="#" class="footer-cert" role="listitem">
-            <i class="fa-solid fa-leaf" aria-hidden="true"></i>
-            Comercio Justo Certificado
-          </a>
-          <a href="lotes.html" class="footer-cert" role="listitem">
-            <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
-            Trazabilidad completa en cada lote
-          </a>
-          <a href="#" class="footer-cert" role="listitem">
-            <i class="fa-solid fa-seedling" aria-hidden="true"></i>
-            Specialty Coffee Association
-          </a>
         </div>
-      </div>
-
-      <!-- Columna 2: El café -->
-      <div>
-        <p class="site-footer__column-title">El café</p>
-        <ul class="site-footer__links" role="list">
-          <li><a href="lotes.html" class="site-footer__link">Lotes activos</a></li>
-          <li><a href="lote-detalle.html" class="site-footer__link">Cómo funciona la trazabilidad</a></li>
-          <li><a href="suscripcion.html" class="site-footer__link">Planes de suscripción</a></li>
-          <li><a href="donde-encontrarnos.html" class="site-footer__link">Dónde encontrarnos</a></li>
-        </ul>
-      </div>
-
-      <!-- Columna 3: Aprender -->
-      <div>
-        <p class="site-footer__column-title">Aprender</p>
-        <ul class="site-footer__links" role="list">
-          <li><a href="aprender.html" class="site-footer__link">El ritual del café</a></li>
-          <li><a href="aprender.html" class="site-footer__link">Guía de extracción</a></li>
-          <li><a href="comunidad.html" class="site-footer__link">Comunidad</a></li>
-          <li><a href="sobre-nosotros.html" class="site-footer__link">Sobre nosotros</a></li>
-        </ul>
-      </div>
-
-      <!-- Columna 4: Newsletter -->
-      <div>
-        <p class="site-footer__column-title">Nuevos lotes</p>
-        <p style="font-size:var(--font-size-sm);color:rgba(250,249,247,0.4);margin-bottom:var(--space-4);line-height:var(--line-height-normal);">
-          Recibe notificación cuando llega un nuevo lote. Sin spam.
-        </p>
-        <form class="footer-newsletter" onsubmit="handleNewsletter(event)" aria-label="Suscripción al newsletter">
-          <label for="newsletter-email" class="visually-hidden">Tu email</label>
-          <input
-            type="email"
-            id="newsletter-email"
-            placeholder="tu@email.com"
-            required
-            autocomplete="email"
-            aria-required="true"
-          />
-          <button type="submit" aria-label="Suscribirse al newsletter">→</button>
-        </form>
-        <p style="font-family:var(--font-mono);font-size:0.6rem;color:rgba(250,249,247,0.2);margin-top:var(--space-2);letter-spacing:0.06em;">
-          Sin publicidad. Solo lotes nuevos.
-        </p>
-      </div>
-
     </div>
 
-    <!-- Bottom bar -->
-    <div class="site-footer__bottom">
-      <p class="site-footer__copy">
-        © 2025 Kaizen en Taza · Hecho con cuidado entre Colombia y Japón
-      </p>
-      <div style="display:flex;gap:var(--space-6);">
-        <a href="#" class="site-footer__link" style="font-size:var(--font-size-xs);">Privacidad</a>
-        <a href="#" class="site-footer__link" style="font-size:var(--font-size-xs);">Términos</a>
-        <a href="donde-encontrarnos.html" class="site-footer__link" style="font-size:var(--font-size-xs);">Contacto</a>
-      </div>
-    </div>
-
-  </div>
-</footer>
-
-
-<!-- Toast de confirmación newsletter -->
-<div class="toast" id="toast" role="alert" aria-live="polite" aria-atomic="true">
-  <i class="fa-solid fa-circle-check" style="color:#81C784;" aria-hidden="true"></i>
-  <span>¡Listo! Te avisamos cuando llegue el próximo lote.</span>
-</div>
-
-
-<!-- ============================================================
-     JAVASCRIPT
-     ============================================================ -->
-<script>
-  /* ── Header: scroll state ── */
-  const header = document.getElementById('site-header');
-
-  const onScroll = () => {
-    if (window.scrollY > 20) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  };
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  /* ── Hero: imagen de fondo cargada ── */
-  const hero    = document.getElementById('hero');
-  const heroBg  = document.getElementById('hero-bg-img');
-
-  if (heroBg.complete) {
-    hero.classList.add('loaded');
-  } else {
-    heroBg.addEventListener('load', () => hero.classList.add('loaded'));
-  }
-
-  /* ── Menú hamburguesa ── */
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-
-  menuToggle.addEventListener('click', () => {
-    const isOpen = menuToggle.classList.toggle('open');
-    mobileMenu.classList.toggle('open', isOpen);
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
-    mobileMenu.setAttribute('aria-hidden', String(!isOpen));
-    document.body.classList.toggle('menu-open', isOpen);
-  });
-
-  /* Cerrar menú al hacer click en un link */
-  mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menuToggle.classList.remove('open');
-      mobileMenu.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      mobileMenu.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('menu-open');
-    });
-  });
-
-  /* ── Active nav link ── */
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.site-nav__link').forEach(link => {
-    const href = link.getAttribute('href');
-    if (href === currentPath) link.classList.add('active');
-  });
-
-  /* ── Intersection Observer: animar barras de precio ── */
-  const priceSection = document.querySelector('.precio-caficultor-bar');
-  const barKaizen    = document.getElementById('bar-kaizen');
-  const barMarket    = document.getElementById('bar-market');
-
-  if (priceSection && barKaizen && barMarket) {
-    const priceObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            barKaizen.style.width = barKaizen.dataset.target;
-            barMarket.style.width = barMarket.dataset.target;
-          }, 200);
-          priceObserver.unobserve(entry.target);
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // ==================== MENÚ MÓVIL ====================
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+            
+            // Cerrar menú al hacer click en un enlace
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
         }
-      });
-    }, { threshold: 0.5 });
-
-    priceObserver.observe(priceSection);
-  }
-
-  /* ── Intersection Observer: animaciones de entrada ── */
-  const fadeElements = document.querySelectorAll(
-    '.pilar, .lote-card, .trazabilidad-card, .timeline__item'
-  );
-
-  const fadeObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        entry.target.style.animation = `fadeInUp 0.6s ease ${i * 80}ms both`;
-        entry.target.style.opacity   = '1';
-        fadeObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-  fadeElements.forEach(el => {
-    el.style.opacity = '0';
-    fadeObserver.observe(el);
-  });
-
-  /* ── Newsletter ── */
-  function handleNewsletter(e) {
-    e.preventDefault();
-    const toast = document.getElementById('toast');
-    toast.classList.add('show');
-    e.target.reset();
-    setTimeout(() => toast.classList.remove('show'), 4000);
-  }
-
-  /* ── Lazy loading con IntersectionObserver ── */
-  if ('IntersectionObserver' in window) {
-    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-    const imgObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.setAttribute('data-loaded', 'true');
-          imgObserver.unobserve(img);
+        
+        // ==================== CERRAR MENÚ AL REDIMENSIONAR ====================
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // ==================== SCROLL SUAVE ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href !== '') {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+        
+        // ==================== MODAL DE CERTIFICACIONES ====================
+        function showCertModal(type) {
+            const modal = document.getElementById('certModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            if (type === 'fairtrade') {
+                modalTitle.innerHTML = '🌱 Comercio justo verificado';
+                modalBody.innerHTML = `
+                    <div style="margin-bottom: var(--space-4);">
+                        <p><strong>Lote:</strong> La Esperanza - Huila</p>
+                        <p><strong>Caficultor:</strong> Rodrigo López</p>
+                        <p><strong>Precio pagado:</strong> 45,000 COP / libra (≈ ¥1,350)</p>
+                        <p><strong>Comparación mercado:</strong> +35% sobre precio de mercado</p>
+                        <p><strong>Fecha de pago:</strong> 15 de mayo, 2026</p>
+                    </div>
+                    <div class="alert alert-success">
+                        <i class="fas fa-file-pdf"></i> Documento de pago verificado
+                    </div>
+                    <div style="margin-top: var(--space-4); background: var(--color-border-light); padding: var(--space-4); border-radius: var(--border-radius-md);">
+                        <p style="font-size: var(--font-size-sm); margin-bottom: 0;">
+                            <i class="fas fa-quote-left" style="margin-right: var(--space-2);"></i>
+                            Este pago garantiza una vida digna para mi familia y permite invertir en mejor calidad para la próxima cosecha.
+                        </p>
+                        <p style="font-size: var(--font-size-xs); margin-top: var(--space-2);">— Don Rodrigo, caficultor</p>
+                    </div>
+                `;
+            } else if (type === 'trazabilidad') {
+                modalTitle.innerHTML = '📍 Trazabilidad completa';
+                modalBody.innerHTML = `
+                    <div style="margin-bottom: var(--space-4);">
+                        <p><strong>Origen:</strong> Huila, Pitalito, Colombia</p>
+                        <p><strong>Finca:</strong> La Esperanza</p>
+                        <p><strong>Coordenadas:</strong> 1°59'N 75°58'W</p>
+                        <p><strong>Altitud:</strong> 1,850 metros</p>
+                        <p><strong>Variedad:</strong> Caturra</p>
+                        <p><strong>Proceso:</strong> Lavado</p>
+                        <p><strong>Fecha de tueste:</strong> 2026-05-15</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-qrcode"></i> Este lote tiene código QR en el empaque para verificar en cualquier momento
+                    </div>
+                `;
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
-      });
-    }, { rootMargin: '100px' });
+        
+        function closeModal() {
+            const modal = document.getElementById('certModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Cerrar modal al hacer click fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('certModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        // ==================== CARRITO SIMULADO ====================
+        let cartCount = 0;
+        const cartBtn = document.getElementById('cartBtn');
+        const cartCountSpan = document.querySelector('.cart-count');
+        
+        if (cartBtn) {
+            cartBtn.addEventListener('click', () => {
+                alert('Demo: Tu carrito está vacío. Explora nuestros lotes y suscríbete.');
+            });
+        }
+        
+        // ==================== BUSCADOR ====================
+        const searchBtn = document.getElementById('searchBtn');
+        if (searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                const searchTerm = prompt('Buscar café, origen o caficultor:');
+                if (searchTerm && searchTerm.trim()) {
+                    alert(`Demo: Buscando "${searchTerm}". Redirigiendo a resultados...`);
+                    window.location.href = 'lotes.html';
+                }
+            });
+        }
+        
+        // ==================== ANIMACIONES AL SCROLL ====================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.card, .product-card, .trazabilidad-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+        
+        // ==================== HEADER SCROLL EFFECT ====================
+        let lastScroll = 0;
+        const header = document.querySelector('.header');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+            lastScroll = currentScroll;
+        });
+        
+        // ==================== CART COUNT DEMO ====================
+        // Simular que hay 0 items (puede actualizarse dinámicamente)
+        console.log('Kaizen en Taza - Homepage cargada');
+    </script>
 
-    lazyImages.forEach(img => imgObserver.observe(img));
-  }
-</script>
-
+    <!-- ==================== ESTILOS ADICIONALES ESPECÍFICOS ==================== -->
+    <style>
+        /* Estilos adicionales para asegurar consistencia */
+        .hero {
+            background: linear-gradient(135deg, var(--color-background) 0%, #EDE8E0 100%);
+        }
+        
+        .product-card {
+            transition: all var(--transition-base);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card, .product-card, .trazabilidad-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        /* Mejoras para móvil */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .hero-subtitle {
+                font-size: var(--font-size-base);
+            }
+            
+            .card[style*="padding: var(--space-12)"] {
+                padding: var(--space-8) !important;
+            }
+            
+            .grid-2 {
+                gap: var(--space-6) !important;
+            }
+        }
+        
+        /* Efecto hover en badges de certificación */
+        .cert-badge {
+            transition: all var(--transition-fast);
+        }
+        
+        .cert-badge:hover {
+            transform: translateY(-1px);
+        }
+    </style>
 </body>
 </html>
