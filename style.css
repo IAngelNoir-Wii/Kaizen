@@ -1,10 +1,6 @@
 /* ============================================
-   KAIZEN EN TAZA - REDISEÑO COMPLETO
-   Sistema premium con profundidad y elegancia
-   ============================================ */
-
-/* ============================================
-   1. RESET Y VARIABLES GLOBALES
+   KAIZEN EN TAZA - ESTILO LUCIDE
+   Clean, moderno, con cards elegantes
    ============================================ */
 
 * {
@@ -14,40 +10,23 @@
 }
 
 :root {
-  /* Colores principales - Paleta premium */
-  --color-background: #F5F2EB;
+  /* Colores - Inspirados en Lucide */
+  --color-background: #F8F9FA;
   --color-surface: #FFFFFF;
-  --color-surface-elevated: #FCFAF7;
-  --color-text-primary: #1C1C1A;
-  --color-text-secondary: #5A5548;
-  --color-text-tertiary: #8A8578;
+  --color-text-primary: #18181B;
+  --color-text-secondary: #52525B;
+  --color-text-tertiary: #A1A1AA;
   --color-accent: #A67B4B;
   --color-accent-dark: #8B5E2F;
-  --color-accent-light: #D4B896;
-  --color-accent-ultra-light: #F0E8DE;
-  --color-success: #2E7D32;
-  --color-error: #D32F2F;
-  --color-warning: #F57C00;
-  --color-border: #E8E4DC;
-  --color-border-dark: #D1CBC0;
-  --color-card-hover: #F9F6F0;
-  --color-overlay: rgba(0, 0, 0, 0.6);
-  --color-gold: #C9A86B;
+  --color-accent-light: #F5EDE3;
+  --color-accent-soft: #FAF6F0;
+  --color-border: #E4E4E7;
+  --color-border-light: #F1F1F4;
+  --color-card-hover: #FFFFFF;
+  --color-overlay: rgba(0, 0, 0, 0.5);
   
-  /* Tipografía */
-  --font-primary: 'Inter', system-ui, -apple-system, 'Hiragino Sans', 'Noto Sans JP', 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
-  --font-size-6xl: 3.75rem;
+  /* Tipografía - Clean sans-serif */
+  --font-primary: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   
   /* Espaciado */
   --space-1: 0.25rem;
@@ -63,97 +42,39 @@
   --space-20: 5rem;
   --space-24: 6rem;
   
-  /* Bordes */
-  --border-radius-sm: 6px;
-  --border-radius-md: 10px;
+  /* Bordes - Grandes y redondeados */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
   --border-radius-lg: 16px;
   --border-radius-xl: 24px;
-  --border-radius-full: 9999px;
+  --border-radius-2xl: 32px;
   
-  /* Sombras - Más profundidad */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.03);
-  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
-  --shadow-2xl: 0 32px 64px rgba(0, 0, 0, 0.12);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
+  /* Sombras - Muy sutiles, casi planas */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-xl: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
   
   /* Header */
-  --header-height: 80px;
-  --header-height-mobile: 70px;
-  
-  /* Footer */
-  --footer-bg: #1A1815;
-  
-  /* Transiciones */
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --header-height: 72px;
 }
 
 /* ============================================
-   2. RESET BASE MEJORADO
-   ============================================ */
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: var(--font-primary);
-  color: var(--color-text-primary);
-  background-color: var(--color-background);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-h1 {
-  font-size: var(--font-size-6xl);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-}
-
-h2 {
-  font-size: var(--font-size-4xl);
-  margin-bottom: var(--space-4);
-  font-weight: 600;
-}
-
-h3 {
-  font-size: var(--font-size-2xl);
-  margin-bottom: var(--space-3);
-  font-weight: 600;
-}
-
-/* ============================================
-   3. HEADER REDISEÑADO - CON BARRA Y LOGICA
+   HEADER ESTILO LUCIDE
    ============================================ */
 
 .header {
   position: sticky;
   top: 0;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-border);
   z-index: 1000;
-  transition: all var(--transition-base);
-}
-
-.header-scrolled {
-  box-shadow: var(--shadow-lg);
-  background: rgba(255, 255, 255, 0.98);
+  transition: all 0.2s ease;
 }
 
 .header-container {
-  max-width: var(--container-max-width);
+  max-width: 1280px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -162,67 +83,44 @@ h3 {
   padding: 0 var(--space-6);
 }
 
-/* Logo mejorado */
 .logo {
-  font-size: var(--font-size-xl);
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 600;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-accent) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  position: relative;
+  color: var(--color-text-primary);
+  text-decoration: none;
 }
 
-.logo::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-accent), transparent);
-  transform: scaleX(0);
-  transition: transform var(--transition-base);
-}
-
-.logo:hover::after {
-  transform: scaleX(1);
-}
-
-/* Navegación desktop mejorada */
-.nav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
+.logo span {
+  color: var(--color-accent);
 }
 
 .nav-links {
   display: flex;
   gap: var(--space-2);
+  list-style: none;
 }
 
 .nav-link {
   padding: var(--space-2) var(--space-4);
-  font-size: var(--font-size-sm);
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-text-secondary);
-  border-radius: var(--border-radius-full);
-  transition: all var(--transition-fast);
-  position: relative;
+  text-decoration: none;
+  border-radius: var(--border-radius-lg);
+  transition: all 0.15s ease;
 }
 
 .nav-link:hover {
-  color: var(--color-accent);
-  background: var(--color-accent-ultra-light);
+  background: var(--color-border-light);
+  color: var(--color-text-primary);
 }
 
 .nav-link.active {
+  background: var(--color-accent-light);
   color: var(--color-accent);
-  background: var(--color-accent-ultra-light);
 }
 
-/* Header actions mejoradas */
 .header-actions {
   display: flex;
   align-items: center;
@@ -230,163 +128,31 @@ h3 {
 }
 
 .icon-btn {
-  position: relative;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--border-radius-full);
-  font-size: var(--font-size-lg);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  color: var(--color-text-secondary);
+  border-radius: var(--border-radius-lg);
   background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--color-text-secondary);
 }
 
 .icon-btn:hover {
-  background: var(--color-accent-ultra-light);
-  color: var(--color-accent);
-  transform: translateY(-1px);
-}
-
-.cart-count {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  background: var(--color-accent);
-  color: white;
-  font-size: 10px;
-  font-weight: 600;
-  width: 18px;
-  height: 18px;
-  border-radius: var(--border-radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Menú hamburguesa mejorado */
-.menu-toggle {
-  display: none;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--border-radius-full);
-  background: transparent;
-  font-size: var(--font-size-xl);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.menu-toggle:hover {
-  background: var(--color-accent-ultra-light);
-}
-
-/* Mobile menu mejorado */
-.mobile-menu {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 80%;
-  max-width: 320px;
-  height: 100vh;
-  background: var(--color-surface);
-  box-shadow: var(--shadow-xl);
-  z-index: 1001;
-  transition: right var(--transition-base);
-  overflow-y: auto;
-}
-
-.mobile-menu.active {
-  right: 0;
-}
-
-.mobile-menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-6);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.mobile-menu-close {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--border-radius-full);
-  background: var(--color-accent-ultra-light);
-  font-size: var(--font-size-xl);
-  cursor: pointer;
-}
-
-.mobile-nav-links {
-  padding: var(--space-4);
-}
-
-.mobile-nav-link {
-  display: block;
-  padding: var(--space-4);
-  font-size: var(--font-size-lg);
-  font-weight: 500;
-  border-radius: var(--border-radius-md);
-  transition: all var(--transition-fast);
-}
-
-.mobile-nav-link:hover {
-  background: var(--color-accent-ultra-light);
-  color: var(--color-accent);
-}
-
-/* Overlay para mobile menu */
-.mobile-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--color-overlay);
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: all var(--transition-base);
-}
-
-.mobile-overlay.active {
-  opacity: 1;
-  visibility: visible;
+  background: var(--color-border-light);
 }
 
 /* ============================================
-   4. HERO SECTION REDISEÑADO
+   HERO SECTION LUCIDE
    ============================================ */
 
 .hero {
-  position: relative;
-  min-height: 85vh;
-  display: flex;
-  align-items: center;
-  background: linear-gradient(135deg, var(--color-background) 0%, #E8E0D5 100%);
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23A67B4B" fill-opacity="0.03" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
-  background-repeat: repeat;
-  opacity: 0.5;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: var(--space-20) 0;
+  background: linear-gradient(135deg, var(--color-accent-soft) 0%, var(--color-background) 100%);
   text-align: center;
-  padding: var(--space-8) var(--space-6);
 }
 
 .hero-badge {
@@ -394,138 +160,106 @@ h3 {
   background: rgba(166, 123, 75, 0.1);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--border-radius-full);
-  font-size: var(--font-size-xs);
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 500;
   color: var(--color-accent);
-  text-transform: uppercase;
-  letter-spacing: 2px;
   margin-bottom: var(--space-6);
 }
 
 .hero-title {
-  margin-bottom: var(--space-6);
-  background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-accent) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  line-height: 1.1;
 }
 
 .hero-subtitle {
-  font-size: var(--font-size-xl);
+  font-size: 1.125rem;
   color: var(--color-text-secondary);
   max-width: 600px;
   margin: 0 auto var(--space-8);
   line-height: 1.5;
 }
 
-.hero-buttons {
-  display: flex;
-  gap: var(--space-4);
-  justify-content: center;
-  flex-wrap: wrap;
-}
+/* ============================================
+   BUTTONS LUCIDE
+   ============================================ */
 
-/* Botones rediseñados */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-8);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  border-radius: var(--border-radius-full);
-  transition: all var(--transition-base);
+  padding: var(--space-3) var(--space-6);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--border-radius-lg);
+  transition: all 0.15s ease;
   cursor: pointer;
   border: 1px solid transparent;
-  letter-spacing: 0.3px;
+  text-decoration: none;
 }
 
 .btn-primary {
   background: var(--color-accent);
   color: white;
-  box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover {
   background: var(--color-accent-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
   background: transparent;
-  border-color: var(--color-border-dark);
+  border-color: var(--color-border);
   color: var(--color-text-primary);
 }
 
 .btn-secondary:hover {
   border-color: var(--color-accent);
+  background: var(--color-accent-light);
   color: var(--color-accent);
-  background: rgba(166, 123, 75, 0.05);
-  transform: translateY(-2px);
-}
-
-.btn-outline {
-  border: 1px solid var(--color-border);
-  background: transparent;
-}
-
-.btn-outline:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  background: rgba(166, 123, 75, 0.05);
-}
-
-.btn-large {
-  padding: var(--space-4) var(--space-10);
-  font-size: var(--font-size-base);
 }
 
 /* ============================================
-   5. CARDS Y TARJETAS REDISEÑADAS
+   CARDS ESTILO LUCIDE
    ============================================ */
 
 .card {
   background: var(--color-surface);
   border-radius: var(--border-radius-xl);
-  padding: var(--space-8);
-  transition: all var(--transition-base);
+  padding: var(--space-6);
   border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-xl);
   border-color: var(--color-accent-light);
 }
 
-/* Product card mejorada */
+/* Product card inspirada en Lucide */
 .product-card {
   background: var(--color-surface);
   border-radius: var(--border-radius-xl);
   overflow: hidden;
-  transition: all var(--transition-base);
+  transition: all 0.2s ease;
   border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-2xl);
-  border-color: var(--color-accent-light);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
 }
 
 .product-image {
   width: 100%;
-  height: 280px;
+  height: 240px;
   object-fit: cover;
-  transition: transform var(--transition-slow);
-}
-
-.product-card:hover .product-image {
-  transform: scale(1.05);
 }
 
 .product-info {
@@ -533,13 +267,13 @@ h3 {
 }
 
 .product-title {
-  font-size: var(--font-size-xl);
+  font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: var(--space-1);
 }
 
 .product-origin {
-  font-size: var(--font-size-sm);
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
   margin-bottom: var(--space-3);
 }
@@ -551,117 +285,78 @@ h3 {
   flex-wrap: wrap;
 }
 
+.badge {
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-border-light);
+  border-radius: var(--border-radius-full);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.badge-primary {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+}
+
 .product-price {
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 600;
   color: var(--color-accent);
   margin: var(--space-3) 0;
 }
 
 /* ============================================
-   6. TRAZABILIDAD CARD MEJORADA
+   GRIDS Y LAYOUT
    ============================================ */
 
-.trazabilidad-card {
-  background: var(--color-surface);
-  border-radius: var(--border-radius-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--color-border);
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
 }
 
-.trazabilidad-header {
-  background: linear-gradient(135deg, var(--color-accent-ultra-light) 0%, var(--color-surface) 100%);
-  padding: var(--space-4) var(--space-6);
-  border-bottom: 1px solid var(--color-border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+.section {
+  padding: var(--space-16) 0;
 }
 
-.trazabilidad-body {
-  padding: var(--space-6);
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
 }
 
-.trazabilidad-grid {
+.grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-6);
-  margin: var(--space-6) 0;
+  gap: var(--space-8);
 }
 
-.trazabilidad-item {
-  background: var(--color-background);
-  padding: var(--space-3);
-  border-radius: var(--border-radius-md);
-}
-
-.trazabilidad-label {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: var(--space-1);
-}
-
-.trazabilidad-value {
-  font-weight: 600;
-  font-size: var(--font-size-base);
+@media (max-width: 768px) {
+  .grid-3, .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
 }
 
 /* ============================================
-   7. CERTIFICACIONES BADGES
-   ============================================ */
-
-.cert-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-full);
-  font-size: var(--font-size-xs);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.cert-badge:hover {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-/* ============================================
-   8. FOOTER REDISEÑADO
+   FOOTER LUCIDE
    ============================================ */
 
 .footer {
-  background: var(--footer-bg);
-  color: white;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-16) 0 var(--space-8);
   margin-top: var(--space-16);
-  position: relative;
-}
-
-.footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-gold), var(--color-accent));
 }
 
 .footer-container {
-  max-width: var(--container-max-width);
+  max-width: 1280px;
   margin: 0 auto;
-  padding: var(--space-16) var(--space-6) var(--space-8);
+  padding: 0 var(--space-6);
 }
 
 .footer-grid {
@@ -672,39 +367,32 @@ h3 {
 }
 
 .footer-col h4 {
-  color: white;
-  margin-bottom: var(--space-4);
-  font-size: var(--font-size-lg);
+  font-size: 0.875rem;
   font-weight: 600;
-}
-
-.footer-col p {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: var(--font-size-sm);
-  line-height: 1.6;
+  margin-bottom: var(--space-4);
+  color: var(--color-text-primary);
 }
 
 .footer-links {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  list-style: none;
 }
 
 .footer-link {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: var(--font-size-sm);
-  transition: all var(--transition-fast);
-  display: inline-block;
+  display: block;
+  padding: var(--space-2) 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease;
 }
 
 .footer-link:hover {
-  color: var(--color-accent-light);
-  transform: translateX(4px);
+  color: var(--color-accent);
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-8);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -712,77 +400,71 @@ h3 {
   gap: var(--space-4);
 }
 
-.footer-copyright {
-  color: rgba(255, 255, 255, 0.4);
-  font-size: var(--font-size-xs);
-}
-
-.footer-social {
-  display: flex;
-  gap: var(--space-4);
-}
-
-.social-icon {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--border-radius-full);
-  color: white;
-  font-size: var(--font-size-base);
-  transition: all var(--transition-fast);
-}
-
-.social-icon:hover {
-  background: var(--color-accent);
-  transform: translateY(-3px);
-}
-
 /* ============================================
-   9. NEWSLETTER FORM
+   FILTROS LUCIDE
    ============================================ */
 
-.newsletter-form {
-  display: flex;
-  gap: var(--space-2);
-  margin-top: var(--space-3);
+.filter-section {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-2xl);
+  padding: var(--space-6);
+  margin-bottom: var(--space-8);
+  border: 1px solid var(--color-border);
 }
 
-.newsletter-input {
-  flex: 1;
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
+.filter-chip {
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius-full);
-  font-size: var(--font-size-sm);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.newsletter-input:focus {
-  outline: none;
+.filter-chip:hover {
   border-color: var(--color-accent);
+  background: var(--color-accent-light);
 }
 
-.newsletter-btn {
+.filter-chip.active {
   background: var(--color-accent);
+  border-color: var(--color-accent);
   color: white;
-  padding: var(--space-3) var(--space-6);
-  border-radius: var(--border-radius-full);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  white-space: nowrap;
-  transition: all var(--transition-fast);
-}
-
-.newsletter-btn:hover {
-  background: var(--color-accent-dark);
-  transform: translateY(-2px);
 }
 
 /* ============================================
-   10. MODAL MEJORADO
+   TRAZABILIDAD CARD
+   ============================================ */
+
+.trazabilidad-card {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-2xl);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.trazabilidad-header {
+  background: var(--color-background);
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.trazabilidad-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.trazabilidad-item {
+  background: var(--color-border-light);
+  padding: var(--space-3);
+  border-radius: var(--border-radius-lg);
+}
+
+/* ============================================
+   MODAL LUCIDE
    ============================================ */
 
 .modal {
@@ -801,18 +483,15 @@ h3 {
 
 .modal.active {
   display: flex;
-  animation: fadeIn var(--transition-base);
 }
 
 .modal-content {
   background: var(--color-surface);
-  border-radius: var(--border-radius-xl);
+  border-radius: var(--border-radius-2xl);
   max-width: 500px;
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
-  animation: slideUp var(--transition-base);
-  box-shadow: var(--shadow-2xl);
 }
 
 .modal-header {
@@ -821,213 +500,47 @@ h3 {
   align-items: center;
   padding: var(--space-4) var(--space-6);
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-accent-ultra-light);
-  border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
-}
-
-.modal-body {
-  padding: var(--space-6);
 }
 
 .modal-close {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--border-radius-full);
-  font-size: var(--font-size-xl);
+  border-radius: var(--border-radius-lg);
   cursor: pointer;
-  transition: all var(--transition-fast);
 }
 
 .modal-close:hover {
-  background: rgba(0, 0, 0, 0.05);
-  transform: rotate(90deg);
+  background: var(--color-border-light);
 }
 
 /* ============================================
-   11. ANIMACIONES Y EFECTOS
+   ACCORDION LUCIDE
    ============================================ */
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.accordion-item {
+  border-bottom: 1px solid var(--color-border);
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.accordion-header {
+  padding: var(--space-4) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0;
 }
 
-.fade-in-up {
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-/* Scroll reveal classes */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s ease;
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ============================================
-   12. RESPONSIVE
-   ============================================ */
-
-@media (max-width: 1024px) {
-  .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-8);
-  }
-  
-  .hero-title {
-    font-size: var(--font-size-5xl);
-  }
-}
-
-@media (max-width: 768px) {
-  :root {
-    --header-height: var(--header-height-mobile);
-    --font-size-6xl: 2.5rem;
-    --font-size-5xl: 2rem;
-    --font-size-4xl: 1.75rem;
-  }
-  
-  .nav-links {
-    display: none;
-  }
-  
-  .menu-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .hero {
-    min-height: 70vh;
-  }
-  
-  .hero-title {
-    font-size: var(--font-size-5xl);
-  }
-  
-  .hero-subtitle {
-    font-size: var(--font-size-base);
-  }
-  
-  .hero-buttons {
-    flex-direction: column;
-  }
-  
-  .hero-buttons .btn {
-    width: 100%;
-  }
-  
-  .trazabilidad-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-  }
-  
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-  }
-  
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .card {
-    padding: var(--space-6);
-  }
-}
-
-@media (max-width: 480px) {
-  .header-container {
-    padding: 0 var(--space-4);
-  }
-  
-  .product-image {
-    height: 220px;
-  }
-  
-  .product-title {
-    font-size: var(--font-size-lg);
-  }
-}
-
-/* ============================================
-   13. UTILITY CLASSES ADICIONALES
-   ============================================ */
-
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 var(--space-6);
-}
-
-.section {
-  padding: var(--space-16) 0;
-}
-
-.section-sm {
-  padding: var(--space-8) 0;
-}
-
-.section-lg {
-  padding: var(--space-24) 0;
-}
-
-.text-center { text-align: center; }
-.mb-4 { margin-bottom: var(--space-4); }
-.mb-6 { margin-bottom: var(--space-6); }
-.mb-8 { margin-bottom: var(--space-8); }
-.mb-12 { margin-bottom: var(--space-12); }
-.mt-4 { margin-top: var(--space-4); }
-.mt-8 { margin-top: var(--space-8); }
-
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-8);
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-8);
-}
-
-@media (max-width: 768px) {
-  .grid-2, .grid-3 {
-    grid-template-columns: 1fr;
-  }
-  
-  .section {
-    padding: var(--space-12) 0;
-  }
+.accordion-item.active .accordion-content {
+  max-height: 200px;
+  padding-bottom: var(--space-4);
 }
