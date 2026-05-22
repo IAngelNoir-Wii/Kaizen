@@ -4,97 +4,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Kaizen en Taza - Café colombiano de especialidad con trazabilidad completa. Cadena justa, ritual consciente. De las montañas colombianas a tu taza en Tokio.">
-    <meta name="keywords" content="café colombiano, café de especialidad, Tokio, suscripción café, comercio justo, trazabilidad">
-    <meta name="author" content="Kaizen en Taza">
-    <meta property="og:title" content="Kaizen en Taza - El café que no miente">
-    <meta property="og:description" content="Café colombiano de especialidad con trazabilidad completa. Cadena justa. Construido contigo.">
-    <meta property="og:image" content="assets/images/og-image.jpg">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <title>Kaizen en Taza | Café colombiano de especialidad - Tokio</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Kaizen en Taza | Café colombiano de especialidad</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* Estilos adicionales específicos para home */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-8);
+            margin-top: var(--space-8);
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: var(--space-8);
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--color-accent-light);
+            border-radius: var(--border-radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-4);
+            font-size: 1.75rem;
+            color: var(--color-accent);
+        }
+        
+        .testimonial-card {
+            background: var(--color-accent-soft);
+            border-radius: var(--border-radius-2xl);
+            padding: var(--space-12);
+            text-align: center;
+        }
+        
+        .philosophy-section {
+            background: var(--color-surface);
+            border-radius: var(--border-radius-2xl);
+            padding: var(--space-12);
+            border: 1px solid var(--color-border);
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-card {
+                padding: var(--space-8);
+            }
+            
+            .philosophy-section {
+                padding: var(--space-8);
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Skip to content link for accessibility -->
-    <a href="#main-content" class="skip-to-content">コンテンツへスキップ</a>
-
     <!-- ============================================
-         HEADER (reutilizable en todas las páginas)
+         HEADER ESTILO LUCIDE
          ============================================ -->
-    <!-- HEADER REDISEÑADO -->
-        <header class="header" id="header">
-            <div class="header-container">
-                <a href="index.html" class="logo">
-                    Kaizen en <span>Taza</span>
-                </a>
-                
-                <nav class="nav">
-                    <ul class="nav-links">
-                        <li><a href="index.html" class="nav-link active">Inicio</a></li>
-                        <li><a href="lotes.html" class="nav-link">Lotes</a></li>
-                        <li><a href="suscripcion.html" class="nav-link">Suscripción</a></li>
-                        <li><a href="comunidad.html" class="nav-link">Comunidad</a></li>
-                        <li><a href="aprender.html" class="nav-link">Aprender</a></li>
-                    </ul>
-                </nav>
-                
-                <div class="header-actions">
-                    <button class="icon-btn" id="searchBtn" aria-label="Buscar">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <button class="icon-btn" id="cartBtn" aria-label="Carrito">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span class="cart-count">0</span>
-                    </button>
-                    <button class="menu-toggle" id="menuToggle" aria-label="Menú">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-        </header>
-        
-        <!-- Mobile Menu Mejorado -->
-        <div class="mobile-menu" id="mobileMenu">
-            <div class="mobile-menu-header">
-                <span class="logo-small">Kaizen en <span>Taza</span></span>
-                <button class="mobile-menu-close" id="closeMenu">
-                    <i class="fas fa-times"></i>
+    <header class="header" id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                Kaizen en <span>Taza</span>
+            </a>
+            
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                    <li><a href="lotes.html" class="nav-link">Lotes</a></li>
+                    <li><a href="suscripcion.html" class="nav-link">Suscripción</a></li>
+                    <li><a href="comunidad.html" class="nav-link">Comunidad</a></li>
+                    <li><a href="aprender.html" class="nav-link">Aprender</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="icon-btn" id="searchBtn" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="icon-btn" id="cartBtn" aria-label="Carrito">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menú">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
-            <ul class="mobile-nav-links">
-                <li><a href="index.html" class="mobile-nav-link active">Inicio</a></li>
-                <li><a href="lotes.html" class="mobile-nav-link">Lotes</a></li>
-                <li><a href="suscripcion.html" class="mobile-nav-link">Suscripción</a></li>
-                <li><a href="comunidad.html" class="mobile-nav-link">Comunidad</a></li>
-                <li><a href="aprender.html" class="mobile-nav-link">Aprender</a></li>
-                <li><a href="sobre-nosotros.html" class="mobile-nav-link">Sobre nosotros</a></li>
-                <li><a href="donde-encontrarnos.html" class="mobile-nav-link">Dónde encontrarnos</a></li>
-            </ul>
         </div>
-        <div class="mobile-overlay" id="mobileOverlay"></div>
+    </header>
 
-    <main id="main-content">
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <span class="logo-small">Kaizen en <span>Taza</span></span>
+            <button class="mobile-menu-close" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html" class="mobile-nav-link active">Inicio</a></li>
+            <li><a href="lotes.html" class="mobile-nav-link">Lotes</a></li>
+            <li><a href="suscripcion.html" class="mobile-nav-link">Suscripción</a></li>
+            <li><a href="comunidad.html" class="mobile-nav-link">Comunidad</a></li>
+            <li><a href="aprender.html" class="mobile-nav-link">Aprender</a></li>
+            <li><a href="sobre-nosotros.html" class="mobile-nav-link">Sobre nosotros</a></li>
+            <li><a href="donde-encontrarnos.html" class="mobile-nav-link">Dónde encontrarnos</a></li>
+        </ul>
+    </div>
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <main>
 
         <!-- ============================================
-             HERO SECTION
+             HERO SECTION ESTILO LUCIDE
              ============================================ -->
         <section class="hero">
             <div class="container">
+                <div class="hero-badge">Ritual consciente</div>
                 <h1 class="hero-title">
                     El café que <span style="color: var(--color-accent);">no miente</span>
                 </h1>
                 <p class="hero-subtitle">
-                    Café colombiano de especialidad para tu ritual consciente.<br>
+                    Café colombiano de especialidad para tu ritual diario.<br>
                     Trazabilidad completa. Cadena justa. Construido contigo.
                 </p>
-                <div class="hero-buttons">
-                    <a href="suscripcion.html" class="btn btn-primary btn-large">
+                <div class="hero-buttons" style="display: flex; gap: var(--space-4); justify-content: center;">
+                    <a href="suscripcion.html" class="btn btn-primary">
                         Inicia tu ritual <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="lotes.html" class="btn btn-secondary btn-large">
+                    <a href="lotes.html" class="btn btn-secondary">
                         Ver lotes activos
                     </a>
                 </div>
@@ -102,128 +152,118 @@
         </section>
 
         <!-- ============================================
-             TRAZABILIDAD DEMO SECTION (CRÍTICA)
+             TRAZABILIDAD DEMO SECTION
              ============================================ -->
-        <section class="section">
-            <div class="container">
-                <div class="text-center mb-12">
-                    <h2>Sabemos exactamente de dónde viene tu café</h2>
-                    <p class="text-secondary" style="max-width: 600px; margin: 0 auto;">
-                        Y te lo mostramos antes de que compres. Sin registro. Sin suscripción. Solo la verdad.
-                    </p>
-                </div>
-
-                <div class="grid grid-2" style="gap: var(--space-8); align-items: start;">
-                    <!-- Trazabilidad demo card -->
-                    <div class="trazabilidad-card">
+        <div class="container" style="margin-top: -40px; position: relative; z-index: 2;">
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: stretch;">
+                    <!-- Trazabilidad demo -->
+                    <div class="trazabilidad-card" style="margin: 0; border: none;">
                         <div class="trazabilidad-header">
-                            <span class="badge badge-success">Lote actual · Mayo 2026</span>
+                            <span class="badge badge-primary">Lote actual · Mayo 2026</span>
                         </div>
-                        <div class="trazabilidad-body">
+                        <div style="padding: var(--space-8);">
                             <h3 style="margin-bottom: var(--space-2);">La Esperanza</h3>
-                            <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-4);">
+                            <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-6);">
                                 Huila, Colombia · Don Rodrigo
                             </p>
                             
-                            <div class="trazabilidad-grid">
+                            <div class="trazabilidad-grid" style="grid-template-columns: 1fr 1fr;">
                                 <div class="trazabilidad-item">
-                                    <div class="trazabilidad-label">📍 Origen</div>
-                                    <div class="trazabilidad-value">Huila, Pitalito · 1,850m</div>
+                                    <div style="font-size: 0.75rem; color: var(--color-text-tertiary);">📍 Origen</div>
+                                    <div style="font-weight: 500;">Huila, Pitalito · 1,850m</div>
                                 </div>
                                 <div class="trazabilidad-item">
-                                    <div class="trazabilidad-label">👨‍🌾 Caficultor</div>
-                                    <div class="trazabilidad-value">Rodrigo López · 18 años</div>
+                                    <div style="font-size: 0.75rem; color: var(--color-text-tertiary);">👨‍🌾 Caficultor</div>
+                                    <div style="font-weight: 500;">Rodrigo López · 18 años</div>
                                 </div>
                                 <div class="trazabilidad-item">
-                                    <div class="trazabilidad-label">🔬 Variedad</div>
-                                    <div class="trazabilidad-value">Caturra · Proceso lavado</div>
+                                    <div style="font-size: 0.75rem; color: var(--color-text-tertiary);">🔬 Variedad</div>
+                                    <div style="font-weight: 500;">Caturra · Proceso lavado</div>
                                 </div>
                                 <div class="trazabilidad-item">
-                                    <div class="trazabilidad-label">💰 Precio pagado</div>
-                                    <div class="trazabilidad-value">+35% sobre mercado · ¥1,350/libra</div>
+                                    <div style="font-size: 0.75rem; color: var(--color-text-tertiary);">💰 Precio pagado</div>
+                                    <div style="font-weight: 500;">+35% sobre mercado · ¥1,350/libra</div>
                                 </div>
                             </div>
                             
-                            <div class="certifications" style="margin: var(--space-4) 0;">
-                                <span class="cert-badge" onclick="showCertModal('fairtrade')">
-                                    <i class="fas fa-hand-holding-heart"></i> Comercio justo verificado
+                            <div style="display: flex; gap: var(--space-2); margin: var(--space-6) 0;">
+                                <span class="badge" style="cursor: pointer; background: var(--color-accent-light);" onclick="showCertModal('fairtrade')">
+                                    <i class="fas fa-hand-holding-heart"></i> Comercio justo
                                 </span>
-                                <span class="cert-badge" onclick="showCertModal('trazabilidad')">
-                                    <i class="fas fa-map-marked-alt"></i> Trazabilidad completa
+                                <span class="badge" style="cursor: pointer; background: var(--color-accent-light);" onclick="showCertModal('trazabilidad')">
+                                    <i class="fas fa-map-marked-alt"></i> Trazabilidad
                                 </span>
                             </div>
                             
-                            <a href="lote-detalle.html" class="btn btn-outline" style="width: 100%; margin-top: var(--space-4);">
-                                Ver trazabilidad completa <i class="fas fa-external-link-alt"></i>
+                            <a href="lote-detalle.html" class="btn btn-secondary" style="width: 100%;">
+                                Ver trazabilidad completa <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
                     </div>
 
                     <!-- Caficultor story -->
-                    <div class="card" style="background: var(--color-card-hover);">
-                        <div style="display: flex; gap: var(--space-4); align-items: center; margin-bottom: var(--space-4);">
-                            <div style="width: 70px; height: 70px; background: var(--color-accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                                <i class="fas fa-user" style="font-size: 2rem; color: white;"></i>
+                    <div style="background: var(--color-accent-soft); padding: var(--space-8); border-radius: var(--border-radius-xl);">
+                        <div style="display: flex; gap: var(--space-4); align-items: center; margin-bottom: var(--space-6);">
+                            <div style="width: 64px; height: 64px; background: var(--color-accent); border-radius: var(--border-radius-xl); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user" style="font-size: 1.75rem; color: white;"></i>
                             </div>
                             <div>
                                 <h4 style="margin-bottom: 0;">Don Rodrigo</h4>
-                                <p style="font-size: var(--font-size-sm); margin-bottom: 0;">"Esto es lo que siempre debió ser"</p>
+                                <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: 0;">"Esto es lo que siempre debió ser"</p>
                             </div>
                         </div>
-                        <p style="font-size: var(--font-size-sm);">
+                        <p style="font-size: var(--font-size-sm); line-height: 1.6;">
                             "Llevo 18 años cultivando café en las montañas de Huila. Nunca nadie me había preguntado mi nombre para ponerlo en el empaque. 
                             Nunca nadie me había mostrado al consumidor que toma mi café. Esto es lo que siempre debió ser."
                         </p>
-                        <div style="margin-top: var(--space-3);">
+                        <div style="margin-top: var(--space-4); padding: var(--space-3); background: white; border-radius: var(--border-radius-lg); display: inline-flex; align-items: center; gap: var(--space-2);">
                             <i class="fas fa-play-circle" style="color: var(--color-accent);"></i>
-                            <span style="font-size: var(--font-size-sm); margin-left: var(--space-2);">Video completo (45s) · Don Rodrigo en su finca</span>
+                            <span style="font-size: var(--font-size-sm);">Video completo (45s) · Don Rodrigo en su finca</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- ============================================
-             TRES PILARES DE LA MARCA
+             TRES PILARES - FEATURES
              ============================================ -->
-        <section class="section bg-light">
+        <section class="section">
             <div class="container">
-                <div class="text-center mb-12">
-                    <h2>Una marca construida sobre tres pilares</h2>
-                    <p class="text-secondary">Y cada uno es verificable. No palabras bonitas. Hechos.</p>
+                <div style="text-align: center; max-width: 600px; margin: 0 auto var(--space-12);">
+                    <h2 style="font-size: 2rem;">Una marca construida sobre tres pilares</h2>
+                    <p style="color: var(--color-text-secondary);">Y cada uno es verificable. No palabras bonitas. Hechos.</p>
                 </div>
                 
-                <div class="grid grid-3">
-                    <div class="card text-center">
-                        <div style="font-size: 3rem; margin-bottom: var(--space-4); color: var(--color-accent);">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
                             <i class="fas fa-file-invoice"></i>
                         </div>
                         <h3>Honesto en su cadena</h3>
-                        <p class="text-secondary" style="font-size: var(--font-size-sm);">
-                            Trazabilidad completa y comercio justo verificable en cada lote. 
-                            Sabes el precio que pagó el caficultor. Con documento.
+                        <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm);">
+                            Trazabilidad completa y comercio justo verificable en cada lote.
                         </p>
                     </div>
                     
-                    <div class="card text-center">
-                        <div style="font-size: 3rem; margin-bottom: var(--space-4); color: var(--color-accent);">
+                    <div class="feature-card">
+                        <div class="feature-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
                         <h3>Preciso en su sabor</h3>
-                        <p class="text-secondary" style="font-size: var(--font-size-sm);">
-                            Especialidad colombiana de altura. Puntaje SCA, fecha de tueste, 
-                            notas de cata. Datos, no adjetivos.
+                        <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm);">
+                            Especialidad colombiana de altura. Datos, no adjetivos.
                         </p>
                     </div>
                     
-                    <div class="card text-center">
-                        <div style="font-size: 3rem; margin-bottom: var(--space-4); color: var(--color-accent);">
+                    <div class="feature-card">
+                        <div class="feature-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <h3>Construido contigo</h3>
-                        <p class="text-secondary" style="font-size: var(--font-size-sm);">
-                            No eres un cliente. Eres co-creador. Tu voto elige el próximo lote. 
-                            Tu feedback llega a la finca.
+                        <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm);">
+                            No eres un cliente. Eres co-creador. Tu voto elige el próximo lote.
                         </p>
                     </div>
                 </div>
@@ -233,16 +273,12 @@
         <!-- ============================================
              PROPÓSITO Y MANIFIESTO
              ============================================ -->
-        <section class="section">
-            <div class="container text-center">
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <div style="font-size: 4rem; margin-bottom: var(--space-4); opacity: 0.3;">
-                        <i class="fas fa-quote-left"></i>
-                    </div>
-                    <blockquote style="font-size: var(--font-size-2xl); font-weight: 500; margin-bottom: var(--space-6);">
-                        "El éxito sin paz mental es incompleto."
-                    </blockquote>
-                    <p class="text-secondary" style="font-size: var(--font-size-lg); margin-bottom: var(--space-8);">
+        <section class="section" style="background: var(--color-border-light);">
+            <div class="container">
+                <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                    <i class="fas fa-quote-left" style="font-size: 3rem; color: var(--color-accent-light); margin-bottom: var(--space-6);"></i>
+                    <h2 style="font-size: 2rem; margin-bottom: var(--space-6);">"El éxito sin paz mental es incompleto."</h2>
+                    <p style="font-size: 1.125rem; color: var(--color-text-secondary); margin-bottom: var(--space-8);">
                         El café que preparas cada mañana no es una rutina. Es el primer acto de maestría del día, 
                         construido sobre una cadena que puedes ver de principio a fin.
                     </p>
@@ -256,14 +292,14 @@
         <!-- ============================================
              LOTES DESTACADOS
              ============================================ -->
-        <section class="section bg-light">
+        <section class="section">
             <div class="container">
-                <div class="flex-between" style="align-items: center; margin-bottom: var(--space-8); flex-wrap: wrap; gap: var(--space-4);">
-                    <h2 style="margin-bottom: 0;">Lotes activos</h2>
-                    <a href="lotes.html" class="btn btn-outline">Ver todos los lotes <i class="fas fa-arrow-right"></i></a>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-8); flex-wrap: wrap; gap: var(--space-4);">
+                    <h2 style="margin-bottom: 0;">Lotes destacados</h2>
+                    <a href="lotes.html" class="btn btn-secondary">Ver todos los lotes <i class="fas fa-arrow-right"></i></a>
                 </div>
                 
-                <div class="grid grid-3">
+                <div class="grid-3">
                     <!-- Producto 1 -->
                     <div class="product-card">
                         <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=300&fit=crop" alt="Café La Esperanza" class="product-image">
@@ -271,18 +307,12 @@
                             <h4 class="product-title">La Esperanza</h4>
                             <p class="product-origin">Huila · Don Rodrigo</p>
                             <div class="product-badges">
-                                <span class="badge badge-outline">Caturra</span>
-                                <span class="badge badge-outline">Lavado</span>
+                                <span class="badge">Caturra</span>
+                                <span class="badge">Lavado</span>
                                 <span class="badge badge-primary">SCA 86.5</span>
                             </div>
                             <div class="product-price">¥2,400 <span style="font-size: var(--font-size-sm); font-weight: normal;">/ 200g</span></div>
-                            <div class="certifications" style="margin: var(--space-2) 0;">
-                                <span class="cert-badge" style="background: transparent; padding-left: 0;">📍 Trazable</span>
-                                <span class="cert-badge" style="background: transparent;">🌱 Comercio justo</span>
-                            </div>
-                            <a href="lote-detalle.html" class="btn btn-outline btn-small" style="width: 100%; margin-top: var(--space-3);">
-                                Ver lote <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <a href="lote-detalle.html" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-3);">Ver detalles</a>
                         </div>
                     </div>
                     
@@ -293,18 +323,12 @@
                             <h4 class="product-title">El Paraíso</h4>
                             <p class="product-origin">Nariño · Doña María</p>
                             <div class="product-badges">
-                                <span class="badge badge-outline">Castillo</span>
-                                <span class="badge badge-outline">Natural</span>
+                                <span class="badge">Castillo</span>
+                                <span class="badge">Natural</span>
                                 <span class="badge badge-primary">SCA 87.2</span>
                             </div>
                             <div class="product-price">¥2,600 <span style="font-size: var(--font-size-sm); font-weight: normal;">/ 200g</span></div>
-                            <div class="certifications" style="margin: var(--space-2) 0;">
-                                <span class="cert-badge" style="background: transparent; padding-left: 0;">📍 Trazable</span>
-                                <span class="cert-badge" style="background: transparent;">🌱 Comercio justo</span>
-                            </div>
-                            <a href="lote-detalle.html" class="btn btn-outline btn-small" style="width: 100%; margin-top: var(--space-3);">
-                                Ver lote <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <a href="lote-detalle.html" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-3);">Ver detalles</a>
                         </div>
                     </div>
                     
@@ -315,18 +339,12 @@
                             <h4 class="product-title">Monteverde</h4>
                             <p class="product-origin">Cauca · Don Carlos</p>
                             <div class="product-badges">
-                                <span class="badge badge-outline">Geisha</span>
-                                <span class="badge badge-outline">Honey</span>
+                                <span class="badge">Geisha</span>
+                                <span class="badge">Honey</span>
                                 <span class="badge badge-primary">SCA 89.0</span>
                             </div>
                             <div class="product-price">¥3,800 <span style="font-size: var(--font-size-sm); font-weight: normal;">/ 200g</span></div>
-                            <div class="certifications" style="margin: var(--space-2) 0;">
-                                <span class="cert-badge" style="background: transparent; padding-left: 0;">📍 Trazable</span>
-                                <span class="cert-badge" style="background: transparent;">🌱 Comercio justo</span>
-                            </div>
-                            <a href="lote-detalle.html" class="btn btn-outline btn-small" style="width: 100%; margin-top: var(--space-3);">
-                                Ver lote <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <a href="lote-detalle.html" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-3);">Ver detalles</a>
                         </div>
                     </div>
                 </div>
@@ -336,17 +354,17 @@
         <!-- ============================================
              TESTIMONIO
              ============================================ -->
-        <section class="section">
+        <section class="section" style="background: var(--color-accent-soft);">
             <div class="container">
-                <div class="card" style="background: var(--color-accent); color: white; text-align: center; padding: var(--space-12);">
-                    <i class="fas fa-quote-right" style="font-size: 3rem; opacity: 0.3; margin-bottom: var(--space-4);"></i>
-                    <p style="font-size: var(--font-size-xl); color: white; max-width: 700px; margin: 0 auto var(--space-6);">
+                <div class="testimonial-card">
+                    <i class="fas fa-quote-right" style="font-size: 2rem; color: var(--color-accent); margin-bottom: var(--space-4);"></i>
+                    <p style="font-size: 1.25rem; max-width: 700px; margin: 0 auto var(--space-6); color: var(--color-text-primary);">
                         "Por fin una marca que muestra el precio que le pagaron al caficultor. 
                         Ahora puedo tomar mi café con tranquilidad."
                     </p>
                     <div>
                         <strong>— Kenji, Tokio</strong>
-                        <p style="color: rgba(255,255,255,0.8); font-size: var(--font-size-sm); margin-top: var(--space-2);">
+                        <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-top: var(--space-2);">
                             Suscriptor desde mayo 2026 · Optimizador Consciente
                         </p>
                     </div>
@@ -357,29 +375,29 @@
         <!-- ============================================
              KAIZEN PHILOSOPHY
              ============================================ -->
-        <section class="section bg-light">
-            <div class="container text-center">
-                <div class="grid grid-2" style="align-items: center; gap: var(--space-12);">
-                    <div>
-                        <div style="font-size: 5rem; margin-bottom: var(--space-4);">🌄</div>
-                        <h3 style="font-size: var(--font-size-3xl);">改善</h3>
-                        <p style="font-size: var(--font-size-lg); font-weight: 500; margin-bottom: var(--space-4);">Kaizen · Mejora continua</p>
-                        <p class="text-secondary">
-                            Dos culturas de montaña que comparten la misma verdad sobre la excelencia: 
-                            mejorar no es un evento. Es una decisión que se toma cada día, en cada paso de la cadena.
-                        </p>
-                        <div style="margin-top: var(--space-6);">
-                            <span class="badge badge-outline">Colombia 🇨🇴</span>
-                            <span class="badge badge-outline" style="margin-left: var(--space-2);">Japón 🇯🇵</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div style="background: var(--color-surface); border-radius: var(--border-radius-lg); padding: var(--space-6); border: 1px solid var(--color-border);">
-                            <p style="font-style: italic; margin-bottom: var(--space-4);">
-                                "De las montañas colombianas a tu taza en Tokio. Con todo lo que eso significa."
+        <section class="section">
+            <div class="container">
+                <div class="philosophy-section">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); align-items: center;">
+                        <div>
+                            <div style="font-size: 4rem; margin-bottom: var(--space-4);">🌄</div>
+                            <h3 style="font-size: 2.5rem;">改善</h3>
+                            <p style="font-size: 1.125rem; font-weight: 500; margin-bottom: var(--space-4);">Kaizen · Mejora continua</p>
+                            <p class="text-secondary">
+                                Dos culturas de montaña que comparten la misma verdad sobre la excelencia: 
+                                mejorar no es un evento. Es una decisión que se toma cada día, en cada paso de la cadena.
                             </p>
-                            <div class="divider"></div>
-                            <p class="text-secondary" style="font-size: var(--font-size-sm); margin-bottom: 0;">
+                            <div style="margin-top: var(--space-6); display: flex; gap: var(--space-2);">
+                                <span class="badge">Colombia 🇨🇴</span>
+                                <span class="badge">Japón 🇯🇵</span>
+                            </div>
+                        </div>
+                        <div style="background: var(--color-accent-soft); border-radius: var(--border-radius-2xl); padding: var(--space-8); text-align: center;">
+                            <p style="font-style: italic; margin-bottom: var(--space-4); font-size: 1.125rem;">
+                                "De las montañas colombianas a tu taza en Tokio.<br>Con todo lo que eso significa."
+                            </p>
+                            <div style="height: 1px; background: var(--color-border); margin: var(--space-4) 0;"></div>
+                            <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm);">
                                 Cada vez, un poco mejor.
                             </p>
                         </div>
@@ -391,19 +409,21 @@
     </main>
 
     <!-- ============================================
-         FOOTER (reutilizable en todas las páginas)
+         FOOTER ESTILO LUCIDE
          ============================================ -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>Kaizen en Taza</h4>
-                    <p>De las montañas colombianas a tu taza en Tokio. Café de especialidad con trazabilidad completa y cadena justa.</p>
-                    <div class="certifications" style="margin-top: var(--space-4);">
-                        <span class="cert-badge" onclick="showCertModal('fairtrade')">
+                    <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm);">
+                        De las montañas colombianas a tu taza en Tokio. Café de especialidad con trazabilidad completa y cadena justa.
+                    </p>
+                    <div style="display: flex; gap: var(--space-2); margin-top: var(--space-4);">
+                        <span class="badge" style="cursor: pointer;" onclick="showCertModal('fairtrade')">
                             <i class="fas fa-check-circle"></i> Comercio justo
                         </span>
-                        <span class="cert-badge" onclick="showCertModal('trazabilidad')">
+                        <span class="badge" style="cursor: pointer;" onclick="showCertModal('trazabilidad')">
                             <i class="fas fa-map-marked-alt"></i> Trazabilidad
                         </span>
                     </div>
@@ -431,10 +451,10 @@
                 
                 <div class="footer-col">
                     <h4>Newsletter</h4>
-                    <p style="font-size: var(--font-size-sm);">Recibe novedades de lotes y eventos</p>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">Recibe novedades de lotes y eventos</p>
                     <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Gracias por suscribirte (demo)');">
                         <input type="email" placeholder="tu@email.com" class="newsletter-input" required>
-                        <button type="submit" class="newsletter-btn">Enviar</button>
+                        <button type="submit" class="btn btn-primary" style="padding: var(--space-2) var(--space-4);">Enviar</button>
                     </form>
                 </div>
             </div>
@@ -453,117 +473,97 @@
     </footer>
 
     <!-- ============================================
-         MODAL PARA CERTIFICACIONES
+         MODAL DE CERTIFICACIONES
          ============================================ -->
     <div id="certModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalTitle">Certificación</h3>
-                <span class="modal-close" onclick="closeModal()">&times;</span>
+                <span class="modal-close" onclick="closeCertModal()">&times;</span>
             </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Contenido dinámico -->
-            </div>
+            <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
 
-    <!-- ============================================
-         JAVASCRIPT
-         ============================================ -->
     <script>
-        // ==================== MENÚ MÓVIL ====================
+        // ============================================
+        // MENÚ MÓVIL
+        // ============================================
         const menuToggle = document.getElementById('menuToggle');
         const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const closeMenu = document.getElementById('closeMenu');
         
-        if (menuToggle && mobileMenu) {
-            menuToggle.addEventListener('click', () => {
-                mobileMenu.classList.toggle('active');
-                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-            });
-            
-            // Cerrar menú al hacer click en un enlace
-            document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
-            });
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
         
-        // ==================== CERRAR MENÚ AL REDIMENSIONAR ====================
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768 && mobileMenu.classList.contains('active')) {
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if (menuToggle) menuToggle.addEventListener('click', openMobileMenu);
+        if (closeMenu) closeMenu.addEventListener('click', closeMobileMenu);
+        if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+        
+        // ============================================
+        // HEADER SCROLL EFFECT
+        // ============================================
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.backdropFilter = 'blur(8px)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
             }
         });
         
-        // ==================== SCROLL SUAVE ====================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href !== '#' && href !== '') {
-                    const target = document.querySelector(href);
-                    if (target) {
-                        e.preventDefault();
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            });
-        });
-        
-        // ==================== MODAL DE CERTIFICACIONES ====================
+        // ============================================
+        // MODAL CERTIFICACIONES
+        // ============================================
         function showCertModal(type) {
             const modal = document.getElementById('certModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody = document.getElementById('modalBody');
-            
             if (type === 'fairtrade') {
-                modalTitle.innerHTML = '🌱 Comercio justo verificado';
-                modalBody.innerHTML = `
+                document.getElementById('modalTitle').innerHTML = '🌱 Comercio justo verificado';
+                document.getElementById('modalBody').innerHTML = `
                     <div style="margin-bottom: var(--space-4);">
-                        <p><strong>Lote:</strong> La Esperanza - Huila</p>
-                        <p><strong>Caficultor:</strong> Rodrigo López</p>
-                        <p><strong>Precio pagado:</strong> 45,000 COP / libra (≈ ¥1,350)</p>
-                        <p><strong>Comparación mercado:</strong> +35% sobre precio de mercado</p>
-                        <p><strong>Fecha de pago:</strong> 15 de mayo, 2026</p>
+                        <p><strong>Certificación:</strong> Relación directa verificada</p>
+                        <p><strong>Precio pagado:</strong> +35% sobre precio de mercado</p>
+                        <p><strong>Impacto:</strong> Este pago garantiza una vida digna para el caficultor</p>
                     </div>
-                    <div class="alert alert-success">
+                    <div class="alert alert-success" style="background: var(--color-accent-light); padding: var(--space-3); border-radius: var(--border-radius-lg);">
                         <i class="fas fa-file-pdf"></i> Documento de pago verificado
                     </div>
-                    <div style="margin-top: var(--space-4); background: var(--color-border-light); padding: var(--space-4); border-radius: var(--border-radius-md);">
-                        <p style="font-size: var(--font-size-sm); margin-bottom: 0;">
-                            <i class="fas fa-quote-left" style="margin-right: var(--space-2);"></i>
-                            Este pago garantiza una vida digna para mi familia y permite invertir en mejor calidad para la próxima cosecha.
-                        </p>
-                        <p style="font-size: var(--font-size-xs); margin-top: var(--space-2);">— Don Rodrigo, caficultor</p>
-                    </div>
                 `;
-            } else if (type === 'trazabilidad') {
-                modalTitle.innerHTML = '📍 Trazabilidad completa';
-                modalBody.innerHTML = `
+            } else {
+                document.getElementById('modalTitle').innerHTML = '📍 Trazabilidad completa';
+                document.getElementById('modalBody').innerHTML = `
                     <div style="margin-bottom: var(--space-4);">
-                        <p><strong>Origen:</strong> Huila, Pitalito, Colombia</p>
-                        <p><strong>Finca:</strong> La Esperanza</p>
-                        <p><strong>Coordenadas:</strong> 1°59'N 75°58'W</p>
-                        <p><strong>Altitud:</strong> 1,850 metros</p>
-                        <p><strong>Variedad:</strong> Caturra</p>
-                        <p><strong>Proceso:</strong> Lavado</p>
-                        <p><strong>Fecha de tueste:</strong> 2026-05-15</p>
+                        <p><strong>Todos nuestros lotes tienen:</strong></p>
+                        <ul style="list-style: disc; padding-left: var(--space-6); margin-top: var(--space-2);">
+                            <li>Origen específico (región y finca)</li>
+                            <li>Nombre y foto del caficultor</li>
+                            <li>Variedad y proceso detallado</li>
+                            <li>Fecha de tueste</li>
+                            <li>Precio pagado al caficultor</li>
+                        </ul>
                     </div>
-                    <div class="alert alert-info">
-                        <i class="fas fa-qrcode"></i> Este lote tiene código QR en el empaque para verificar en cualquier momento
+                    <div class="alert alert-info" style="background: var(--color-border-light); padding: var(--space-3); border-radius: var(--border-radius-lg);">
+                        <i class="fas fa-qrcode"></i> Escaneá el código QR en el empaque para verificar cada lote
                     </div>
                 `;
             }
-            
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
         
-        function closeModal() {
-            const modal = document.getElementById('certModal');
-            modal.classList.remove('active');
+        function closeCertModal() {
+            document.getElementById('certModal').classList.remove('active');
             document.body.style.overflow = '';
         }
         
@@ -571,34 +571,13 @@
         window.onclick = function(event) {
             const modal = document.getElementById('certModal');
             if (event.target === modal) {
-                closeModal();
+                closeCertModal();
             }
         }
         
-        // ==================== CARRITO SIMULADO ====================
-        let cartCount = 0;
-        const cartBtn = document.getElementById('cartBtn');
-        const cartCountSpan = document.querySelector('.cart-count');
-        
-        if (cartBtn) {
-            cartBtn.addEventListener('click', () => {
-                alert('Demo: Tu carrito está vacío. Explora nuestros lotes y suscríbete.');
-            });
-        }
-        
-        // ==================== BUSCADOR ====================
-        const searchBtn = document.getElementById('searchBtn');
-        if (searchBtn) {
-            searchBtn.addEventListener('click', () => {
-                const searchTerm = prompt('Buscar café, origen o caficultor:');
-                if (searchTerm && searchTerm.trim()) {
-                    alert(`Demo: Buscando "${searchTerm}". Redirigiendo a resultados...`);
-                    window.location.href = 'lotes.html';
-                }
-            });
-        }
-        
-        // ==================== ANIMACIONES AL SCROLL ====================
+        // ============================================
+        // SCROLL REVEAL
+        // ============================================
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -613,90 +592,18 @@
             });
         }, observerOptions);
         
-        document.querySelectorAll('.card, .product-card, .trazabilidad-card').forEach(el => {
+        document.querySelectorAll('.product-card, .feature-card, .philosophy-section').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            el.style.transition = 'all 0.6s ease';
             observer.observe(el);
         });
         
-        // ==================== HEADER SCROLL EFFECT ====================
-        let lastScroll = 0;
-        const header = document.querySelector('.header');
-        
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            if (currentScroll > lastScroll && currentScroll > 100) {
-                header.style.transform = 'translateY(-100%)';
-            } else {
-                header.style.transform = 'translateY(0)';
-            }
-            lastScroll = currentScroll;
-        });
-        
-        // ==================== CART COUNT DEMO ====================
-        // Simular que hay 0 items (puede actualizarse dinámicamente)
-        console.log('Kaizen en Taza - Homepage cargada');
+        // ============================================
+        // EXPONER FUNCIONES GLOBALES
+        // ============================================
+        window.showCertModal = showCertModal;
+        window.closeCertModal = closeCertModal;
     </script>
-
-    <!-- ==================== ESTILOS ADICIONALES ESPECÍFICOS ==================== -->
-    <style>
-        /* Estilos adicionales para asegurar consistencia */
-        .hero {
-            background: linear-gradient(135deg, var(--color-background) 0%, #EDE8E0 100%);
-        }
-        
-        .product-card {
-            transition: all var(--transition-base);
-        }
-        
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .card, .product-card, .trazabilidad-card {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-        
-        /* Mejoras para móvil */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: var(--font-size-3xl);
-            }
-            
-            .hero-subtitle {
-                font-size: var(--font-size-base);
-            }
-            
-            .card[style*="padding: var(--space-12)"] {
-                padding: var(--space-8) !important;
-            }
-            
-            .grid-2 {
-                gap: var(--space-6) !important;
-            }
-        }
-        
-        /* Efecto hover en badges de certificación */
-        .cert-badge {
-            transition: all var(--transition-fast);
-        }
-        
-        .cert-badge:hover {
-            transform: translateY(-1px);
-        }
-    </style>
 </body>
 </html>
