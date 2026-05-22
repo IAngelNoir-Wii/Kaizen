@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Comunidad Kaizen en Taza - Participa en la co-creación, vota por los próximos lotes, comparte tu ritual y conecta con otros amantes del café de especialidad.">
+    <title>Comunidad | Kaizen en Taza - Co-creación y rituales</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para comunidad */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .stat-card {
+            background: var(--color-surface);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-6);
+            text-align: center;
+            border: 1px solid var(--color-border);
+            transition: all var(--transition-base);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-accent-light);
+        }
+        
+        .stat-number {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-bottom: var(--space-2);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        /* Votación card */
+        .voting-card {
+            background: linear-gradient(135deg, var(--color-accent-ultra-light) 0%, var(--color-surface) 100%);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-8);
+            border: 1px solid var(--color-border);
+        }
+        
+        .voting-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+            margin: var(--space-6) 0;
+        }
+        
+        .voting-option {
+            background: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-6);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            border: 2px solid var(--color-border);
+        }
+        
+        .voting-option:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-accent);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .voting-option.selected {
+            border-color: var(--color-accent);
+            background: var(--color-accent-ultra-light);
+        }
+        
+        .voting-option-name {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin: var(--space-4) 0 var(--space-2);
+        }
+        
+        .voting-bar {
+            height: 8px;
+            background: var(--color-border);
+            border-radius: var(--border-radius-full);
+            overflow: hidden;
+            margin: var(--space-4) 0;
+        }
+        
+        .voting-progress {
+            height: 100%;
+            background: var(--color-accent);
+            transition: width 0.5s ease;
+        }
+        
+        .voting-percentage {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+        
+        /* Galería de rituales */
+        .ritual-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+        
+        .ritual-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .ritual-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .ritual-item:hover .ritual-image {
+            transform: scale(1.1);
+        }
+        
+        .ritual-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: var(--space-4);
+            color: white;
+            transform: translateY(100%);
+            transition: transform var(--transition-base);
+        }
+        
+        .ritual-item:hover .ritual-overlay {
+            transform: translateY(0);
+        }
+        
+        /* Foro - Tablón */
+        .forum-post {
+            background: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-4);
+            border: 1px solid var(--color-border);
+            transition: all var(--transition-base);
+        }
+        
+        .forum-post:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-accent-light);
+        }
+        
+        .forum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-3);
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+        
+        .forum-author {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .forum-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--color-accent-ultra-light);
+            border-radius: var(--border-radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+        
+        .forum-name {
+            font-weight: 600;
+        }
+        
+        .forum-date {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-tertiary);
+        }
+        
+        .forum-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+        }
+        
+        .forum-content {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-4);
+        }
+        
+        .forum-stats {
+            display: flex;
+            gap: var(--space-4);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-tertiary);
+        }
+        
+        /* Login prompt */
+        .login-prompt {
+            text-align: center;
+            padding: var(--space-16);
+            background: var(--color-surface);
+            border-radius: var(--border-radius-xl);
+            border: 1px solid var(--color-border);
+        }
+        
+        /* Tabs */
+        .community-tabs {
+            display: flex;
+            gap: var(--space-2);
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: var(--space-8);
+            flex-wrap: wrap;
+        }
+        
+        .community-tab {
+            padding: var(--space-3) var(--space-6);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all var(--transition-fast);
+        }
+        
+        .community-tab:hover {
+            color: var(--color-accent);
+        }
+        
+        .community-tab.active {
+            color: var(--color-accent);
+            border-bottom-color: var(--color-accent);
+        }
+        
+        /* Modal subir ritual */
+        .upload-area {
+            border: 2px dashed var(--color-border);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-8);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .upload-area:hover {
+            border-color: var(--color-accent);
+            background: var(--color-accent-ultra-light);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .voting-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .ritual-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .ritual-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .forum-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         HEADER
+         ============================================ -->
+    <header class="header" id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                Kaizen en <span>Taza</span>
+            </a>
+            
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Inicio</a></li>
+                    <li><a href="lotes.html" class="nav-link">Lotes</a></li>
+                    <li><a href="suscripcion.html" class="nav-link">Suscripción</a></li>
+                    <li><a href="comunidad.html" class="nav-link active">Comunidad</a></li>
+                    <li><a href="aprender.html" class="nav-link">Aprender</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="icon-btn" id="searchBtn" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="icon-btn" id="cartBtn" aria-label="Carrito">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <span class="logo-small">Kaizen en <span>Taza</span></span>
+            <button class="mobile-menu-close" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html" class="mobile-nav-link">Inicio</a></li>
+            <li><a href="lotes.html" class="mobile-nav-link">Lotes</a></li>
+            <li><a href="suscripcion.html" class="mobile-nav-link">Suscripción</a></li>
+            <li><a href="comunidad.html" class="mobile-nav-link active">Comunidad</a></li>
+            <li><a href="aprender.html" class="mobile-nav-link">Aprender</a></li>
+            <li><a href="sobre-nosotros.html" class="mobile-nav-link">Sobre nosotros</a></li>
+            <li><a href="donde-encontrarnos.html" class="mobile-nav-link">Dónde encontrarnos</a></li>
+        </ul>
+    </div>
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <main>
+
+        <!-- ============================================
+             PAGE HEADER
+             ============================================ -->
+        <section class="hero" style="min-height: 40vh; padding: var(--space-12) 0;">
+            <div class="hero-content">
+                <div class="hero-badge">Comunidad</div>
+                <h1 class="hero-title">Co-crea tu <span style="color: var(--color-accent);">ritual</span></h1>
+                <p class="hero-subtitle">
+                    Tu voz define nuestros próximos lotes. Tu ritual inspira a otros.<br>
+                    Esto no es una comunidad de clientes. Es una comunidad de creadores.
+                </p>
+            </div>
+        </section>
+
+        <div class="container" style="margin-top: -40px; position: relative; z-index: 2;">
+
+            <!-- ============================================
+                 CONTENIDO PARA USUARIOS LOGEADOS (SUSCRIPTORES)
+                 ============================================ -->
+            <div id="subscriberContent" style="display: none;">
+                
+                <!-- Dashboard Stats -->
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="votesCount">234</div>
+                        <div class="stat-label">Suscriptores votaron este mes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="suggestionsCount">156</div>
+                        <div class="stat-label">Sugerencias enviadas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="ritualsCount">89</div>
+                        <div class="stat-label">Rituales compartidos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="lotesVotados">12</div>
+                        <div class="stat-label">Lotes votados este año</div>
+                    </div>
+                </div>
+
+                <!-- Tabs de comunidad -->
+                <div class="community-tabs">
+                    <div class="community-tab active" data-tab="votacion">🗳️ Votación activa</div>
+                    <div class="community-tab" data-tab="buzon">📬 Buzón de co-creación</div>
+                    <div class="community-tab" data-tab="rituales">📸 Galería de rituales</div>
+                    <div class="community-tab" data-tab="foro">💬 Tablón comunitario</div>
+                    <div class="community-tab" data-tab="gestion">⚙️ Gestor de suscripción</div>
+                </div>
+
+                <!-- Tab 1: Votación activa -->
+                <div class="tab-content active" id="tabVotacion">
+                    <div class="voting-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4); margin-bottom: var(--space-4);">
+                            <h3 style="margin-bottom: 0;">🗳️ Próxima cosecha: Finca La Esperanza</h3>
+                            <span class="badge badge-primary">Cierre en 5 días</span>
+                        </div>
+                        <p>¡Vos decidís el próximo lote! Elegí el proceso que más te guste.</p>
+                        
+                        <div class="voting-options" id="votingOptions">
+                            <div class="voting-option" data-option="natural" onclick="selectVote('natural')">
+                                <i class="fas fa-leaf" style="font-size: 2rem; color: var(--color-accent);"></i>
+                                <div class="voting-option-name">Natural</div>
+                                <p style="font-size: var(--font-size-sm);">Notas frutales, cuerpo medio, dulzor intenso</p>
+                                <div class="voting-bar"><div class="voting-progress" style="width: 43%"></div></div>
+                                <div class="voting-percentage">43% (234 votos)</div>
+                            </div>
+                            <div class="voting-option" data-option="lavado" onclick="selectVote('lavado')">
+                                <i class="fas fa-tint" style="font-size: 2rem; color: var(--color-accent);"></i>
+                                <div class="voting-option-name">Lavado</div>
+                                <p style="font-size: var(--font-size-sm);">Clásico balanceado, acidez brillante</p>
+                                <div class="voting-bar"><div class="voting-progress" style="width: 32%"></div></div>
+                                <div class="voting-percentage">32% (174 votos)</div>
+                            </div>
+                            <div class="voting-option" data-option="honey" onclick="selectVote('honey')">
+                                <i class="fas fa-droplet" style="font-size: 2rem; color: var(--color-accent);"></i>
+                                <div class="voting-option-name">Honey (Experimental)</div>
+                                <p style="font-size: var(--font-size-sm);">Dulce, complejo, notas de miel</p>
+                                <div class="voting-bar"><div class="voting-progress" style="width: 25%"></div></div>
+                                <div class="voting-percentage">25% (135 votos)</div>
+                            </div>
+                        </div>
+                        
+                        <div id="votedMessage" style="display: none; margin-top: var(--space-4);" class="alert alert-success">
+                            <i class="fas fa-check-circle"></i> ¡Gracias por votar! Tu voz ya cuenta.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Buzón de co-creación -->
+                <div class="tab-content" id="tabBuzon">
+                    <div class="card">
+                        <h3>📬 ¿Qué lote te gustaría ver?</h3>
+                        <p>Mandanos tus sugerencias. Las más votadas las hacemos realidad.</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Tu idea</label>
+                            <textarea class="form-input" id="suggestionText" rows="3" placeholder="Ej: Me encantaría probar un Geisha de Huila con proceso experimental..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Intereses</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="checkbox" name="interest" value="experimental"> Procesos experimentales
+                                </label>
+                                <label class="radio-option">
+                                    <input type="checkbox" name="interest" value="geisha"> Geishas
+                                </label>
+                                <label class="radio-option">
+                                    <input type="checkbox" name="interest" value="micro"> Micro-lotes
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="sendSuggestion()">Enviar sugerencia</button>
+                        
+                        <div class="alert alert-info" style="margin-top: var(--space-4);">
+                            <i class="fas fa-chart-line"></i> <strong id="suggestionsCounter">156</strong> suscriptores han enviado sugerencias este mes
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Galería de rituales -->
+                <div class="tab-content" id="tabRituales">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6); flex-wrap: wrap; gap: var(--space-4);">
+                        <h3 style="margin-bottom: 0;">📸 Rituales reales de nuestra comunidad</h3>
+                        <button class="btn btn-secondary" onclick="openUploadModal()">
+                            <i class="fas fa-upload"></i> Subir mi ritual
+                        </button>
+                    </div>
+                    
+                    <div class="ritual-gallery" id="ritualGallery">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Tab 4: Foro / Tablón -->
+                <div class="tab-content" id="tabForo">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6); flex-wrap: wrap; gap: var(--space-4);">
+                        <h3 style="margin-bottom: 0;">💬 Conversaciones de la comunidad</h3>
+                        <button class="btn btn-secondary" onclick="openNewPostModal()">
+                            <i class="fas fa-plus"></i> Nueva pregunta
+                        </button>
+                    </div>
+                    
+                    <div id="forumPosts">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Tab 5: Gestor de suscripción -->
+                <div class="tab-content" id="tabGestion">
+                    <div class="card">
+                        <h3>⚙️ Gestioná tu suscripción</h3>
+                        <p>Todo lo que necesitás, sin llamadas ni emails.</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Estado actual</label>
+                            <div class="alert alert-success" style="margin-bottom: 0;">
+                                <i class="fas fa-check-circle"></i> Activa · Próximo envío: 15 de junio, 2026
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Pausar suscripción</label>
+                            <select class="form-select" id="pauseDuration">
+                                <option value="">No pausar</option>
+                                <option value="1">Pausar 1 semana</option>
+                                <option value="2">Pausar 2 semanas</option>
+                                <option value="4">Pausar 1 mes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Cambiar próximo lote</label>
+                            <select class="form-select" id="changeLot">
+                                <option value="">Mantener actual</option>
+                                <option value="esperanza">La Esperanza - Huila (Caturra)</option>
+                                <option value="paraiso">El Paraíso - Nariño (Castillo)</option>
+                                <option value="monteverde">Monteverde - Cauca (Geisha)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Cantidad</label>
+                                <select class="form-select" id="changeAmount">
+                                    <option value="200">200g</option>
+                                    <option value="250" selected>250g</option>
+                                    <option value="500">500g</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Frecuencia</label>
+                                <select class="form-select" id="changeFrequency">
+                                    <option value="3">Cada 3 semanas</option>
+                                    <option value="4" selected>Cada 4 semanas</option>
+                                    <option value="5">Cada 5 semanas</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: var(--space-4); margin-top: var(--space-6);">
+                            <button class="btn btn-primary" onclick="updateSubscription()">Guardar cambios</button>
+                            <button class="btn btn-outline" onclick="cancelSubscription()" style="color: var(--color-error);">Cancelar suscripción</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONTENIDO PARA USUARIOS NO LOGEADOS
+                 ============================================ -->
+            <div id="nonSubscriberContent" class="login-prompt">
+                <i class="fas fa-users" style="font-size: 4rem; color: var(--color-accent); margin-bottom: var(--space-4);"></i>
+                <h3>Esta comunidad es para suscriptores</h3>
+                <p style="max-width: 400px; margin: var(--space-4) auto;">
+                    Para votar lotes, compartir tu ritual y co-crear con nosotros, necesitás ser parte de Kaizen en Taza.
+                </p>
+                <div class="hero-buttons" style="justify-content: center;">
+                    <a href="suscripcion.html" class="btn btn-primary">Iniciar mi ritual</a>
+                    <a href="lotes.html" class="btn btn-secondary">Explorar lotes</a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Kaizen en Taza</h4>
+                    <p>De las montañas colombianas a tu taza en Tokio. Café de especialidad con trazabilidad completa y cadena justa.</p>
+                    <div class="certifications" style="margin-top: var(--space-4);">
+                        <span class="cert-badge" onclick="showCertModal('fairtrade')">
+                            <i class="fas fa-check-circle"></i> Comercio justo
+                        </span>
+                        <span class="cert-badge" onclick="showCertModal('trazabilidad')">
+                            <i class="fas fa-map-marked-alt"></i> Trazabilidad
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Explorar</h4>
+                    <ul class="footer-links">
+                        <li><a href="lotes.html" class="footer-link">Lotes activos</a></li>
+                        <li><a href="suscripcion.html" class="footer-link">Suscripción</a></li>
+                        <li><a href="comunidad.html" class="footer-link">Comunidad</a></li>
+                        <li><a href="aprender.html" class="footer-link">Manual del ritual</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Nosotros</h4>
+                    <ul class="footer-links">
+                        <li><a href="sobre-nosotros.html" class="footer-link">Nuestra historia</a></li>
+                        <li><a href="sobre-nosotros.html#caficultores" class="footer-link">Nuestros caficultores</a></li>
+                        <li><a href="sobre-nosotros.html#impacto" class="footer-link">Impacto y sostenibilidad</a></li>
+                        <li><a href="donde-encontrarnos.html" class="footer-link">Dónde encontrarnos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p style="font-size: var(--font-size-sm);">Recibe novedades de lotes y eventos</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Gracias por suscribirte (demo)');">
+                        <input type="email" placeholder="tu@email.com" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn">Enviar</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    © 2026 Kaizen en Taza. Hecho con ☕ entre Colombia y Japón.
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         MODALES
+         ============================================ -->
+    <div id="certModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Certificación</h3>
+                <span class="modal-close" onclick="closeCertModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📸 Subir mi ritual</h3>
+                <span class="modal-close" onclick="closeUploadModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="uploadArea" onclick="triggerFileUpload()">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--color-accent);"></i>
+                    <p>Hacé clic para subir una foto de tu ritual</p>
+                    <p style="font-size: var(--font-size-xs); color: var(--color-text-tertiary);">PNG, JPG hasta 5MB</p>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileUpload(event)">
+                <div class="form-group" style="margin-top: var(--space-4);">
+                    <label class="form-label">Lote usado</label>
+                    <select class="form-select" id="ritualLot">
+                        <option>La Esperanza - Huila</option>
+                        <option>El Paraíso - Nariño</option>
+                        <option>Monteverde - Cauca</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Método de preparación</label>
+                    <select class="form-select" id="ritualMethod">
+                        <option>V60</option>
+                        <option>Nel-drip</option>
+                        <option>Aeropress</option>
+                        <option>Chemex</option>
+                        <option>Prensa francesa</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="uploadRitual()" style="width: 100%;">Compartir ritual</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="newPostModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💬 Nueva conversación</h3>
+                <span class="modal-close" onclick="closeNewPostModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Título</label>
+                    <input type="text" class="form-input" id="postTitle" placeholder="Ej: ¿Qué temperatura usan para este lote?">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mensaje</label>
+                    <textarea class="form-input" id="postContent" rows="4" placeholder="Compartí tu experiencia o pregunta..."></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="createPost()" style="width: 100%;">Publicar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CHECK LOGIN STATUS
+        // ============================================
+        let isLoggedIn = false;
+        let currentVote = null;
+        let rituals = [];
+        let forumPosts = [];
+        
+        function checkLoginStatus() {
+            const subscription = localStorage.getItem('kaizenSubscription');
+            if (subscription) {
+                isLoggedIn = true;
+                document.getElementById('subscriberContent').style.display = 'block';
+                document.getElementById('nonSubscriberContent').style.display = 'none';
+                loadRituals();
+                loadForumPosts();
+                updateSuggestionsCounter();
+            } else {
+                isLoggedIn = false;
+                document.getElementById('subscriberContent').style.display = 'none';
+                document.getElementById('nonSubscriberContent').style.display = 'block';
+            }
+        }
+        
+        // ============================================
+        // TABS
+        // ============================================
+        function initTabs() {
+            document.querySelectorAll('.community-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    document.querySelectorAll('.community-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(`tab${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`).classList.add('active');
+                });
+            });
+        }
+        
+        // ============================================
+        // VOTACIÓN
+        // ============================================
+        function selectVote(option) {
+            if (currentVote) {
+                alert('Ya votaste en esta votación. Esperá la próxima!');
+                return;
+            }
+            
+            currentVote = option;
+            document.getElementById('votedMessage').style.display = 'block';
+            
+            // Actualizar visual
+            document.querySelectorAll('.voting-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.querySelector(`.voting-option[data-option="${option}"]`).classList.add('selected');
+            
+            // Guardar en localStorage
+            localStorage.setItem('userVote', option);
+            
+            // Actualizar contadores (demo)
+            let votes = JSON.parse(localStorage.getItem('votes')) || { natural: 234, lavado: 174, honey: 135 };
+            votes[option] = (votes[option] || 0) + 1;
+            localStorage.setItem('votes', JSON.stringify(votes));
+            
+            // Recargar para mostrar nuevos porcentajes
+            setTimeout(() => location.reload(), 1000);
+        }
+        
+        // ============================================
+        // BUZÓN DE CO-CREACIÓN
+        // ============================================
+        function sendSuggestion() {
+            const suggestion = document.getElementById('suggestionText').value;
+            if (!suggestion) {
+                alert('Escribí tu sugerencia antes de enviar');
+                return;
+            }
+            
+            let suggestions = JSON.parse(localStorage.getItem('suggestions')) || [];
+            suggestions.push({
+                text: suggestion,
+                date: new Date().toISOString(),
+                interests: getSelectedInterests()
+            });
+            localStorage.setItem('suggestions', JSON.stringify(suggestions));
+            
+            alert('¡Gracias por tu sugerencia! La vamos a tener en cuenta para próximos lotes.');
+            document.getElementById('suggestionText').value = '';
+            updateSuggestionsCounter();
+        }
+        
+        function getSelectedInterests() {
+            const interests = [];
+            document.querySelectorAll('input[name="interest"]:checked').forEach(cb => {
+                interests.push(cb.value);
+            });
+            return interests;
+        }
+        
+        function updateSuggestionsCounter() {
+            const suggestions = JSON.parse(localStorage.getItem('suggestions')) || [];
+            const thisMonth = suggestions.filter(s => new Date(s.date).getMonth() === new Date().getMonth()).length;
+            document.getElementById('suggestionsCounter').innerText = suggestions.length + thisMonth;
+        }
+        
+        // ============================================
+        // GALERÍA DE RITUALES
+        // ============================================
+        function loadRituals() {
+            const saved = localStorage.getItem('rituals');
+            if (saved) {
+                rituals = JSON.parse(saved);
+            } else {
+                // Datos de ejemplo
+                rituals = [
+                    { id: 1, image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop', user: 'Kenji', lot: 'La Esperanza', method: 'V60' },
+                    { id: 2, image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&h=400&fit=crop', user: 'Yuki', lot: 'El Paraíso', method: 'Nel-drip' },
+                    { id: 3, image: 'https://images.unsplash.com/photo-1487058792210-89d2e1f735a9?w=400&h=400&fit=crop', user: 'Hiroshi', lot: 'Monteverde', method: 'Aeropress' }
+                ];
+                localStorage.setItem('rituals', JSON.stringify(rituals));
+            }
+            renderRituals();
+        }
+        
+        function renderRituals() {
+            const gallery = document.getElementById('ritualGallery');
+            if (rituals.length === 0) {
+                gallery.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">Todavía no hay rituales compartidos. ¡Sé el primero!</div>';
+                return;
+            }
+            gallery.innerHTML = rituals.map(ritual => `
+                <div class="ritual-item">
+                    <img src="${ritual.image}" alt="Ritual de ${ritual.user}" class="ritual-image">
+                    <div class="ritual-overlay">
+                        <div><strong>${ritual.user}</strong></div>
+                        <div style="font-size: 12px;">${ritual.lot} · ${ritual.method}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function openUploadModal() {
+            document.getElementById('uploadModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function triggerFileUpload() {
+            document.getElementById('fileInput').click();
+        }
+        
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    window.tempImage = e.target.result;
+                    alert('Imagen cargada. Ahora completá los detalles y compartí.');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function uploadRitual() {
+            if (!window.tempImage) {
+                alert('Primero seleccioná una imagen');
+                return;
+            }
+            
+            const newRitual = {
+                id: rituals.length + 1,
+                image: window.tempImage,
+                user: localStorage.getItem('kaizenSubscription') ? JSON.parse(localStorage.getItem('kaizenSubscription')).customer.name : 'Suscriptor',
+                lot: document.getElementById('ritualLot').value,
+                method: document.getElementById('ritualMethod').value
+            };
+            
+            rituals.unshift(newRitual);
+            localStorage.setItem('rituals', JSON.stringify(rituals));
+            renderRituals();
+            closeUploadModal();
+            window.tempImage = null;
+            alert('¡Ritual compartido! Va a aparecer en la galería.');
+        }
+        
+        // ============================================
+        // FORO
+        // ============================================
+        function loadForumPosts() {
+            const saved = localStorage.getItem('forumPosts');
+            if (saved) {
+                forumPosts = JSON.parse(saved);
+            } else {
+                forumPosts = [
+                    { id: 1, title: '¿Qué temperatura usan para V60 con La Esperanza?', content: 'Estoy probando a 92°C y 94°C y no encuentro el punto exacto.', author: 'Takeshi', date: '2026-05-20', replies: 12 },
+                    { id: 2, title: 'Descubrí que este lote con Nel-drip cambia completamente', content: 'El El Paraíso en Nel-drip tiene notas de miel increíbles...', author: 'Maria', date: '2026-05-18', replies: 8 }
+                ];
+                localStorage.setItem('forumPosts', JSON.stringify(forumPosts));
+            }
+            renderForumPosts();
+        }
+        
+        function renderForumPosts() {
+            const container = document.getElementById('forumPosts');
+            container.innerHTML = forumPosts.map(post => `
+                <div class="forum-post">
+                    <div class="forum-header">
+                        <div class="forum-author">
+                            <div class="forum-avatar">${post.author.charAt(0)}</div>
+                            <div>
+                                <div class="forum-name">${post.author}</div>
+                                <div class="forum-date">${new Date(post.date).toLocaleDateString('es')}</div>
+                            </div>
+                        </div>
+                        <div class="forum-stats">
+                            <span><i class="fas fa-comment"></i> ${post.replies} respuestas</span>
+                        </div>
+                    </div>
+                    <div class="forum-title">${post.title}</div>
+                    <div class="forum-content">${post.content}</div>
+                </div>
+            `).join('');
+        }
+        
+        function openNewPostModal() {
+            document.getElementById('newPostModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeNewPostModal() {
+            document.getElementById('newPostModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function createPost() {
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            
+            if (!title || !content) {
+                alert('Completá título y mensaje');
+                return;
+            }
+            
+            const user = localStorage.getItem('kaizenSubscription') ? 
+                JSON.parse(localStorage.getItem('kaizenSubscription')).customer.name : 'Suscriptor';
+            
+            const newPost = {
+                id: forumPosts.length + 1,
+                title,
+                content,
+                author: user,
+                date: new Date().toISOString(),
+                replies: 0
+            };
+            
+            forumPosts.unshift(newPost);
+            localStorage.setItem('forumPosts', JSON.stringify(forumPosts));
+            renderForumPosts();
+            closeNewPostModal();
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postContent').value = '';
+            alert('¡Publicación creada!');
+        }
+        
+        // ============================================
+        // GESTOR DE SUSCRIPCIÓN
+        // ============================================
+        function updateSubscription() {
+            const changes = {};
+            const pause = document.getElementById('pauseDuration').value;
+            const lot = document.getElementById('changeLot').value;
+            const amount = document.getElementById('changeAmount').value;
+            const frequency = document.getElementById('changeFrequency').value;
+            
+            if (pause) changes.pause = pause;
+            if (lot) changes.nextLot = lot;
+            if (amount) changes.amount = amount;
+            if (frequency) changes.frequency = frequency;
+            
+            localStorage.setItem('subscriptionChanges', JSON.stringify(changes));
+            alert('Cambios guardados. Se aplicarán en tu próximo ciclo.');
+        }
+        
+        function cancelSubscription() {
+            if (confirm('¿Cancelar suscripción? Podés reactivarla en cualquier momento.')) {
+                localStorage.removeItem('kaizenSubscription');
+                localStorage.removeItem('userVote');
+                alert('Suscripción cancelada. Siempre podés volver.');
+                location.reload();
+            }
+        }
+        
+        // ============================================
+        // CERTIFICACIONES MODAL
+        // ============================================
+        function showCertModal(type) {
+            const modal = document.getElementById('certModal');
+            if (type === 'fairtrade') {
+                document.getElementById('modalTitle').innerHTML = '🌱 Comercio justo verificado';
+                document.getElementById('modalBody').innerHTML = `
+                    <div><p><strong>Certificación:</strong> Relación directa verificada</p>
+                    <p><strong>Precio pagado:</strong> +35% sobre precio de mercado</p>
+                    <p><strong>Impacto:</strong> Este pago garantiza una vida digna para el caficultor</p></div>
+                    <div class="alert alert-success"><i class="fas fa-file-pdf"></i> Documento de pago verificado</div>
+                `;
+            } else {
+                document.getElementById('modalTitle').innerHTML = '📍 Trazabilidad completa';
+                document.getElementById('modalBody').innerHTML = `
+                    <div><p><strong>Todos nuestros lotes tienen:</strong></p>
+                    <ul><li>Origen específico</li><li>Nombre del caficultor</li><li>Variedad y proceso</li><li>Fecha de tueste</li><li>Precio pagado</li></ul></div>
+                `;
+            }
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeCertModal() {
+            document.getElementById('certModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // ============================================
+        // HEADER Y MENÚ
+        // ============================================
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const closeMenu = document.getElementById('closeMenu');
+        
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if (menuToggle) menuToggle.addEventListener('click', openMobileMenu);
+        if (closeMenu) closeMenu.addEventListener('click', closeMobileMenu);
+        if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+        
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) header.classList.add('header-scrolled');
+            else header.classList.remove('header-scrolled');
+        });
+        
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+        checkLoginStatus();
+        initTabs();
+        
+        window.selectVote = selectVote;
+        window.sendSuggestion = sendSuggestion;
+        window.openUploadModal = openUploadModal;
+        window.closeUploadModal = closeUploadModal;
+        window.triggerFileUpload = triggerFileUpload;
+        window.handleFileUpload = handleFileUpload;
+        window.uploadRitual = uploadRitual;
+        window.openNewPostModal = openNewPostModal;
+        window.closeNewPostModal = closeNewPostModal;
+        window.createPost = createPost;
+        window.updateSubscription = updateSubscription;
+        window.cancelSubscription = cancelSubscription;
+        window.showCertModal = showCertModal;
+        window.closeCertModal = closeCertModal;
+    </script>
+</body>
+</html>
