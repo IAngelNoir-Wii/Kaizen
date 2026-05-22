@@ -24,38 +24,46 @@
     <!-- ============================================
          HEADER (reutilizable en todas las páginas)
          ============================================ -->
-    <header class="header">
-        <div class="container header-container">
-            <a href="index.html" class="logo">
-                Kaizen en <span>Taza</span>
-            </a>
-            
-            <nav class="nav">
-                <ul class="nav-links">
-                    <li><a href="index.html" class="nav-link active">Inicio</a></li>
-                    <li><a href="lotes.html" class="nav-link">Lotes</a></li>
-                    <li><a href="suscripcion.html" class="nav-link">Suscripción</a></li>
-                    <li><a href="comunidad.html" class="nav-link">Comunidad</a></li>
-                    <li><a href="aprender.html" class="nav-link">Aprender</a></li>
-                </ul>
-            </nav>
-            
-            <div class="header-actions">
-                <button class="icon-btn" id="searchBtn" aria-label="Buscar">
-                    <i class="fas fa-search"></i>
-                </button>
-                <button class="icon-btn" id="cartBtn" aria-label="Carrito">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count">0</span>
-                </button>
-                <button class="menu-toggle" id="menuToggle" aria-label="Menú">
-                    <i class="fas fa-bars"></i>
+    <!-- HEADER REDISEÑADO -->
+        <header class="header" id="header">
+            <div class="header-container">
+                <a href="index.html" class="logo">
+                    Kaizen en <span>Taza</span>
+                </a>
+                
+                <nav class="nav">
+                    <ul class="nav-links">
+                        <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                        <li><a href="lotes.html" class="nav-link">Lotes</a></li>
+                        <li><a href="suscripcion.html" class="nav-link">Suscripción</a></li>
+                        <li><a href="comunidad.html" class="nav-link">Comunidad</a></li>
+                        <li><a href="aprender.html" class="nav-link">Aprender</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="icon-btn" id="searchBtn" aria-label="Buscar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="icon-btn" id="cartBtn" aria-label="Carrito">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Mobile Menu Mejorado -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <span class="logo-small">Kaizen en <span>Taza</span></span>
+                <button class="mobile-menu-close" id="closeMenu">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
-        </div>
-        
-        <!-- Mobile menu -->
-        <div class="mobile-menu" id="mobileMenu">
             <ul class="mobile-nav-links">
                 <li><a href="index.html" class="mobile-nav-link active">Inicio</a></li>
                 <li><a href="lotes.html" class="mobile-nav-link">Lotes</a></li>
@@ -66,7 +74,7 @@
                 <li><a href="donde-encontrarnos.html" class="mobile-nav-link">Dónde encontrarnos</a></li>
             </ul>
         </div>
-    </header>
+        <div class="mobile-overlay" id="mobileOverlay"></div>
 
     <main id="main-content">
 
