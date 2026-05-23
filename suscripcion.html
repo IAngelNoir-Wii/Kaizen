@@ -1,1042 +1,2061 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Suscríbete a Kaizen en Taza y recibe café colombiano de especialidad con trazabilidad completa. Flexible, pausable y construido contigo.">
-    <title>Suscripción | Kaizen en Taza - Café colombiano de especialidad</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Estilos específicos para suscripción */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-8);
-            margin-bottom: var(--space-16);
-        }
-        
-        .pricing-card {
-            background: var(--color-surface);
-            border-radius: var(--border-radius-xl);
-            padding: var(--space-8);
-            text-align: center;
-            transition: all var(--transition-base);
-            border: 1px solid var(--color-border);
-            position: relative;
-        }
-        
-        .pricing-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-2xl);
-            border-color: var(--color-accent-light);
-        }
-        
-        .pricing-card.popular {
-            border: 2px solid var(--color-accent);
-            box-shadow: var(--shadow-xl);
-        }
-        
-        .popular-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--color-accent);
-            color: white;
-            padding: var(--space-1) var(--space-4);
-            border-radius: var(--border-radius-full);
-            font-size: var(--font-size-xs);
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        
-        .pricing-name {
-            font-size: var(--font-size-2xl);
-            font-weight: 700;
-            margin-bottom: var(--space-2);
-        }
-        
-        .pricing-price {
-            font-size: var(--font-size-5xl);
-            font-weight: 700;
-            color: var(--color-accent);
-            margin: var(--space-4) 0;
-        }
-        
-        .pricing-price span {
-            font-size: var(--font-size-base);
-            font-weight: normal;
-            color: var(--color-text-secondary);
-        }
-        
-        .pricing-features {
-            list-style: none;
-            margin: var(--space-6) 0;
-            text-align: left;
-        }
-        
-        .pricing-features li {
-            padding: var(--space-2) 0;
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: var(--font-size-sm);
-        }
-        
-        .pricing-features i {
-            color: var(--color-accent);
-            width: 20px;
-        }
-        
-        /* Stepper */
-        .stepper {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: var(--space-8);
-            position: relative;
-        }
-        
-        .stepper::before {
-            content: '';
-            position: absolute;
-            top: 24px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--color-border);
-            z-index: 0;
-        }
-        
-        .step {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            flex: 1;
-        }
-        
-        .step-number {
-            width: 48px;
-            height: 48px;
-            background: var(--color-surface);
-            border: 2px solid var(--color-border);
-            border-radius: var(--border-radius-full);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            margin: 0 auto var(--space-2);
-            transition: all var(--transition-base);
-        }
-        
-        .step.active .step-number {
-            background: var(--color-accent);
-            border-color: var(--color-accent);
-            color: white;
-        }
-        
-        .step.completed .step-number {
-            background: var(--color-success);
-            border-color: var(--color-success);
-            color: white;
-        }
-        
-        .step-title {
-            font-size: var(--font-size-sm);
-            font-weight: 500;
-        }
-        
-        /* Formulario */
-        .checkout-container {
-            background: var(--color-surface);
-            border-radius: var(--border-radius-xl);
-            padding: var(--space-8);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--color-border);
-        }
-        
-        .form-step {
-            display: none;
-        }
-        
-        .form-step.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .form-group {
-            margin-bottom: var(--space-4);
-        }
-        
-        .form-label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: var(--space-2);
-            font-size: var(--font-size-sm);
-        }
-        
-        .form-input, .form-select {
-            width: 100%;
-            padding: var(--space-3) var(--space-4);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius-md);
-            font-size: var(--font-size-base);
-            transition: all var(--transition-fast);
-        }
-        
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--color-accent);
-            box-shadow: 0 0 0 3px rgba(166, 123, 75, 0.1);
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-4);
-        }
-        
-        /* Radio group */
-        .radio-group {
-            display: flex;
-            gap: var(--space-4);
-            flex-wrap: wrap;
-        }
-        
-        .radio-option {
-            flex: 1;
-            position: relative;
-        }
-        
-        .radio-option input {
-            position: absolute;
-            opacity: 0;
-        }
-        
-        .radio-label {
-            display: block;
-            padding: var(--space-3) var(--space-4);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius-md);
-            text-align: center;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .radio-option input:checked + .radio-label {
-            border-color: var(--color-accent);
-            background: var(--color-accent-ultra-light);
-            color: var(--color-accent);
-            font-weight: 500;
-        }
-        
-        /* Summary */
-        .order-summary {
-            background: var(--color-background);
-            border-radius: var(--border-radius-lg);
-            padding: var(--space-6);
-            position: sticky;
-            top: 100px;
-        }
-        
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            padding: var(--space-3) 0;
-            border-bottom: 1px solid var(--color-border);
-        }
-        
-        .summary-total {
-            display: flex;
-            justify-content: space-between;
-            padding: var(--space-4) 0;
-            font-size: var(--font-size-xl);
-            font-weight: 700;
-            color: var(--color-accent);
-        }
-        
-        .btn-next, .btn-prev {
-            min-width: 120px;
-        }
-        
-        /* Métodos de pago */
-        .payment-methods {
-            display: flex;
-            gap: var(--space-4);
-            margin-bottom: var(--space-6);
-        }
-        
-        .payment-method {
-            flex: 1;
-            text-align: center;
-            padding: var(--space-4);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius-lg);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .payment-method:hover {
-            border-color: var(--color-accent);
-            background: var(--color-accent-ultra-light);
-        }
-        
-        .payment-method.selected {
-            border-color: var(--color-accent);
-            background: var(--color-accent-ultra-light);
-        }
-        
-        .payment-method i {
-            font-size: 2rem;
-            margin-bottom: var(--space-2);
-        }
-        
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .pricing-grid {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .stepper {
-                flex-direction: column;
-                gap: var(--space-4);
-            }
-            
-            .stepper::before {
-                display: none;
-            }
-            
-            .step {
-                display: flex;
-                align-items: center;
-                gap: var(--space-4);
-            }
-            
-            .step-number {
-                margin: 0;
-            }
-            
-            .payment-methods {
-                flex-direction: column;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Suscripción flexible de café colombiano de especialidad. Sin contratos. Pausa cuando quieras. Tu primer lote garantizado." />
+  <title>Elige tu ritual — Kaizen en Taza</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ======================================================
+       ESTILOS ESPECÍFICOS — suscripcion.html
+       ====================================================== */
+
+    /* ── Header minimalista ── */
+    .suscripcion-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: var(--z-fixed);
+      height: var(--header-height);
+      background-color: rgba(250,249,247,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+    }
+
+    .suscripcion-header__inner {
+      max-width: var(--container-xl);
+      margin-inline: auto;
+      padding-inline: var(--space-6);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .suscripcion-header__back {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .suscripcion-header__back:hover { color: var(--color-accent); }
+
+    .suscripcion-header__secure {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.06em;
+    }
+
+    .suscripcion-header__secure i { color: var(--color-success); }
+
+    /* ── Page intro ── */
+    .suscrip-intro {
+      padding-top: calc(var(--header-height) + var(--space-16));
+      padding-bottom: var(--space-12);
+      text-align: center;
+      position: relative;
+    }
+
+    .suscrip-intro::before {
+      content: '定期';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-primary);
+      font-size: 30vw;
+      font-weight: 200;
+      color: rgba(139,90,43,0.03);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .suscrip-intro__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+
+    .suscrip-intro__title {
+      font-family: var(--font-primary);
+      font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
+      font-weight: 200;
+      color: var(--color-text-primary);
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin-bottom: var(--space-4);
+      position: relative;
+    }
+
+    .suscrip-intro__subtitle {
+      font-size: var(--font-size-lg);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+      max-width: 520px;
+      margin-inline: auto;
+      position: relative;
+    }
+
+    /* ── PLANES ── */
+    .planes-section {
+      padding-bottom: var(--space-20);
+    }
+
+    .planes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+      align-items: start;
+    }
+
+    /* Plan card */
+    .plan-card-suscripcion {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+      cursor: pointer;
+      transition: border-color var(--transition-base),
+                  box-shadow var(--transition-base),
+                  transform var(--transition-base);
+      position: relative;
+      user-select: none;
+    }
+
+    .plan-card-suscripcion:hover {
+      border-color: var(--color-accent-light);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .plan-card-suscripcion.selected {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px var(--color-accent), var(--shadow-lg);
+    }
+
+    /* Tag "más popular" */
+    .plan-popular-tag {
+      position: absolute;
+      top: -1px;
+      left: var(--space-6);
+      transform: translateY(-50%);
+      background-color: var(--color-accent);
+      color: white;
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--border-radius-full);
+    }
+
+    /* Indicador de selección */
+    .plan-selector {
+      position: absolute;
+      top: var(--space-4);
+      right: var(--space-4);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--color-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+      background-color: var(--color-surface);
+    }
+
+    .plan-card-suscripcion.selected .plan-selector {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .plan-selector i {
+      color: white;
+      font-size: 0.6rem;
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+
+    .plan-card-suscripcion.selected .plan-selector i { opacity: 1; }
+
+    .plan-card-suscripcion__name {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-1);
+    }
+
+    .plan-card-suscripcion__title {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-2xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    .plan-card-suscripcion__desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+    }
+
+    /* Precio del plan */
+    .plan-precio {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      padding: var(--space-4) 0;
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .plan-precio__currency {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+    }
+
+    .plan-precio__amount {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-4xl);
+      font-weight: 200;
+      color: var(--color-text-primary);
+      line-height: 1;
+    }
+
+    .plan-precio__per {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.06em;
+    }
+
+    .plan-card-suscripcion.selected .plan-precio__amount {
+      color: var(--color-accent);
+    }
+
+    /* Specs del plan */
+    .plan-specs {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .plan-spec {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .plan-spec i {
+      color: var(--color-success);
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    /* Selectores dinámicos del plan personalizable */
+    .plan-custom-selectors {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      background-color: var(--color-surface-raised);
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--color-border);
+    }
+
+    .custom-selector-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .custom-selector-label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+    }
+
+    .custom-pills {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .custom-pill {
+      padding: var(--space-2) var(--space-3);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-full);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .custom-pill.active,
+    .custom-pill:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background-color: var(--color-accent-subtle);
+    }
+
+    .custom-pill.active {
+      background-color: var(--color-accent);
+      color: white;
+    }
+
+    .plan-custom-price {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      text-align: right;
+      margin-top: var(--space-2);
+    }
+
+    .plan-custom-price span {
+      font-size: var(--font-size-base);
+      color: var(--color-accent);
+      font-weight: 500;
+    }
+
+    /* ── PASO A PASO ── */
+    .pasos-section {
+      padding-block: var(--space-20);
+      background-color: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .pasos-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+      position: relative;
+    }
+
+    /* Línea conectora entre pasos */
+    .pasos-grid::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: calc(12.5% + 20px);
+      right: calc(12.5% + 20px);
+      height: 1px;
+      background: linear-gradient(90deg, var(--color-accent-light), var(--color-border), var(--color-accent-light));
+      z-index: 0;
+    }
+
+    .paso {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .paso__num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--color-accent-subtle);
+      border: 1px solid rgba(139,90,43,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-accent);
+      flex-shrink: 0;
+      background-color: var(--color-background);
+      box-shadow: 0 0 0 6px var(--color-surface);
+    }
+
+    .paso__icon {
+      font-size: var(--font-size-2xl);
+      line-height: 1;
+    }
+
+    .paso__title {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-lg);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    .paso__desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+    }
+
+    /* ── FAQ ACORDEÓN ── */
+    .faq-section {
+      padding-block: var(--space-20);
+    }
+
+    .faq-list {
+      max-width: 720px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .faq-item:last-child { border-bottom: none; }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-5) var(--space-6);
+      cursor: pointer;
+      background-color: var(--color-surface);
+      transition: background-color var(--transition-fast);
+      border: none;
+      width: 100%;
+      text-align: left;
+      gap: var(--space-4);
+    }
+
+    .faq-question:hover { background-color: var(--color-card-hover); }
+
+    .faq-question.open { background-color: var(--color-accent-subtle); }
+
+    .faq-question__text {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+      flex: 1;
+    }
+
+    .faq-question.open .faq-question__text { color: var(--color-accent); }
+
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: var(--color-surface-raised);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+      font-size: 11px;
+      transition: transform var(--transition-base), background-color var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .faq-question.open .faq-icon {
+      transform: rotate(45deg);
+      background-color: var(--color-accent);
+      color: white;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-slow), padding var(--transition-slow);
+      background-color: var(--color-surface);
+    }
+
+    .faq-answer.open {
+      max-height: 400px;
+      padding: 0 var(--space-6) var(--space-5) var(--space-6);
+    }
+
+    .faq-answer__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-loose);
+    }
+
+    .faq-answer__highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-4);
+      background-color: var(--color-success-light);
+      border-radius: var(--border-radius-sm);
+      margin-top: var(--space-3);
+      font-size: var(--font-size-sm);
+      color: var(--color-success);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* ── CHECKOUT - Multi-step ── */
+    .checkout-section {
+      padding-block: var(--space-20);
+      background-color: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: var(--space-12);
+      align-items: start;
+    }
+
+    /* Progress steps */
+    .checkout-progress {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: var(--space-10);
+    }
+
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex: 1;
+      position: relative;
+    }
+
+    .progress-step::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background-color: var(--color-border);
+      margin-left: var(--space-3);
+    }
+
+    .progress-step:last-child::after { display: none; }
+
+    .progress-step__dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      background-color: var(--color-surface);
+      flex-shrink: 0;
+      transition: all var(--transition-base);
+    }
+
+    .progress-step.active .progress-step__dot {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: white;
+    }
+
+    .progress-step.done .progress-step__dot {
+      border-color: var(--color-success);
+      background-color: var(--color-success);
+      color: white;
+    }
+
+    .progress-step.active::after,
+    .progress-step.done::after {
+      background-color: var(--color-accent-light);
+    }
+
+    .progress-step__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .progress-step.active .progress-step__label { color: var(--color-accent); }
+    .progress-step.done .progress-step__label { color: var(--color-success); }
+
+    /* Form panels */
+    .checkout-panel {
+      display: none;
+      animation: fadeInUp 0.35s ease both;
+    }
+
+    .checkout-panel.active { display: block; }
+
+    .checkout-panel__title {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-2xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .checkout-panel__subtitle {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-8);
+    }
+
+    /* Formulario */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .form-row--3 {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    /* Botones de navegación del form */
+    .checkout-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-4);
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--color-border);
+      margin-top: var(--space-8);
+    }
+
+    /* Perfil de taza selector */
+    .perfil-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+
+    .perfil-option {
+      padding: var(--space-4) var(--space-5);
+      background-color: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      transition: all var(--transition-fast);
+      text-align: left;
+    }
+
+    .perfil-option:hover {
+      border-color: var(--color-accent-light);
+      background-color: var(--color-accent-subtle);
+    }
+
+    .perfil-option.selected {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent-subtle);
+      box-shadow: 0 0 0 1px var(--color-accent);
+    }
+
+    .perfil-option__emoji { font-size: var(--font-size-2xl); }
+    .perfil-option__name {
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-sm);
+    }
+    .perfil-option__desc {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+    }
+
+    /* Switch toggle */
+    .form-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-5);
+      background-color: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      cursor: pointer;
+      transition: border-color var(--transition-fast);
+    }
+
+    .form-toggle:hover { border-color: var(--color-accent-light); }
+
+    .form-toggle__info { flex: 1; }
+
+    .form-toggle__title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      margin-bottom: 3px;
+    }
+
+    .form-toggle__desc {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0; height: 0;
+      position: absolute;
+    }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background-color: var(--color-border-strong);
+      border-radius: var(--border-radius-full);
+      cursor: pointer;
+      transition: background-color var(--transition-base);
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background-color: white;
+      transition: transform var(--transition-base);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .toggle-switch input:checked + .toggle-track {
+      background-color: var(--color-accent);
+    }
+
+    .toggle-switch input:checked + .toggle-track::after {
+      transform: translateX(18px);
+    }
+
+    /* Métodos de pago */
+    .payment-methods {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .payment-method {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background-color: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .payment-method:hover {
+      border-color: var(--color-accent-light);
+    }
+
+    .payment-method.selected {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent-subtle);
+    }
+
+    .payment-method__radio {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--color-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--transition-fast);
+    }
+
+    .payment-method.selected .payment-method__radio {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+    }
+
+    .payment-method.selected .payment-method__radio::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: white;
+    }
+
+    .payment-method__logo {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      width: 80px;
+    }
+
+    .payment-method__desc {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      flex: 1;
+    }
+
+    /* Campo de tarjeta simulado */
+    .card-fields {
+      display: none;
+      flex-direction: column;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      background-color: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      margin-top: var(--space-2);
+    }
+
+    .card-fields.show { display: flex; }
+
+    .card-field-input {
+      position: relative;
+    }
+
+    .card-field-input i {
+      position: absolute;
+      right: var(--space-4);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-tertiary);
+    }
+
+    /* ── ORDER SUMMARY (sidebar) ── */
+    .order-summary {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-6));
+    }
+
+    .order-summary__header {
+      padding: var(--space-5) var(--space-6);
+      background-color: var(--color-text-primary);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .order-summary__title {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(250,249,247,0.4);
+    }
+
+    .order-summary__plan-name {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-xl);
+      font-weight: 300;
+      color: var(--color-background);
+    }
+
+    .order-summary__lote {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-accent-light);
+    }
+
+    .order-summary__body {
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .order-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--font-size-sm);
+    }
+
+    .order-line__label { color: var(--color-text-secondary); }
+
+    .order-line__value {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+    }
+
+    .order-total {
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .order-total__label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+    }
+
+    .order-total__amount {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-2xl);
+      font-weight: 300;
+      color: var(--color-accent);
+      line-height: 1;
+    }
+
+    .order-total__period {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+    }
+
+    .order-summary__footer {
+      padding: var(--space-5) var(--space-6);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .guarantee-badge {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      background-color: var(--color-success-light);
+      border-radius: var(--border-radius-sm);
+      font-size: var(--font-size-xs);
+      color: var(--color-success);
+      line-height: var(--line-height-snug);
+    }
+
+    .guarantee-badge i { margin-top: 1px; flex-shrink: 0; }
+
+    .security-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .security-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.06em;
+    }
+
+    .security-item i { font-size: 0.65rem; }
+
+    /* CTA final */
+    .btn-iniciar-ritual {
+      width: 100%;
+      padding: var(--space-4) var(--space-6);
+      background-color: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius-sm);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-medium);
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+      text-decoration: none;
+      transition: background-color var(--transition-fast),
+                  box-shadow var(--transition-fast),
+                  transform var(--transition-fast);
+    }
+
+    .btn-iniciar-ritual:hover {
+      background-color: #9E6830;
+      box-shadow: var(--shadow-accent);
+      transform: translateY(-1px);
+    }
+
+    .btn-iniciar-ritual:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── SUCCESS STATE ── */
+    .checkout-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--space-6);
+      padding: var(--space-12) var(--space-8);
+    }
+
+    .checkout-success.show { display: flex; }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: var(--color-success-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-success);
+      font-size: 2.5rem;
+    }
+
+    .success-title {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-3xl);
+      font-weight: 200;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+    }
+
+    .success-subtitle {
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-loose);
+      max-width: 440px;
+    }
+
+    .success-lote-preview {
+      padding: var(--space-5) var(--space-6);
+      background-color: var(--color-surface-raised);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* ── FOOTER MÍNIMO ── */
+    .suscripcion-footer {
+      padding: var(--space-8);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    .suscripcion-footer__logo {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-base);
+      font-weight: 300;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+    }
+
+    .suscripcion-footer__links {
+      display: flex;
+      gap: var(--space-6);
+    }
+
+    .suscripcion-footer__link {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .suscripcion-footer__link:hover { color: var(--color-accent); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1199px) {
+      .checkout-layout {
+        grid-template-columns: 1fr 320px;
+        gap: var(--space-8);
+      }
+      .pasos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-8);
+      }
+      .pasos-grid::before { display: none; }
+    }
+
+    @media (max-width: 767px) {
+      .planes-grid { grid-template-columns: 1fr; }
+      .checkout-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+      .form-row, .form-row--3 { grid-template-columns: 1fr; }
+      .pasos-grid { grid-template-columns: 1fr; }
+      .progress-step__label { display: none; }
+      .perfil-grid { grid-template-columns: 1fr 1fr; }
+      .suscripcion-footer { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
+    }
+  </style>
 </head>
+
 <body>
 
-    <!-- ============================================
-         HEADER
-         ============================================ -->
-    <header class="header" id="header">
-        <div class="header-container">
-            <a href="index.html" class="logo">
-                Kaizen en <span>Taza</span>
-            </a>
-            
-            <nav class="nav">
-                <ul class="nav-links">
-                    <li><a href="index.html" class="nav-link">Inicio</a></li>
-                    <li><a href="lotes.html" class="nav-link">Lotes</a></li>
-                    <li><a href="suscripcion.html" class="nav-link active">Suscripción</a></li>
-                    <li><a href="comunidad.html" class="nav-link">Comunidad</a></li>
-                    <li><a href="aprender.html" class="nav-link">Aprender</a></li>
-                </ul>
-            </nav>
-            
-            <div class="header-actions">
-                <button class="icon-btn" id="searchBtn" aria-label="Buscar">
-                    <i class="fas fa-search"></i>
-                </button>
-                <button class="icon-btn" id="cartBtn" aria-label="Carrito">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count">0</span>
-                </button>
-                <button class="menu-toggle" id="menuToggle" aria-label="Menú">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-header">
-            <span class="logo-small">Kaizen en <span>Taza</span></span>
-            <button class="mobile-menu-close" id="closeMenu">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <ul class="mobile-nav-links">
-            <li><a href="index.html" class="mobile-nav-link">Inicio</a></li>
-            <li><a href="lotes.html" class="mobile-nav-link">Lotes</a></li>
-            <li><a href="suscripcion.html" class="mobile-nav-link active">Suscripción</a></li>
-            <li><a href="comunidad.html" class="mobile-nav-link">Comunidad</a></li>
-            <li><a href="aprender.html" class="mobile-nav-link">Aprender</a></li>
-            <li><a href="sobre-nosotros.html" class="mobile-nav-link">Sobre nosotros</a></li>
-            <li><a href="donde-encontrarnos.html" class="mobile-nav-link">Dónde encontrarnos</a></li>
-        </ul>
+<!-- HEADER MINIMALISTA (sin nav principal) -->
+<header class="suscripcion-header" role="banner">
+  <div class="suscripcion-header__inner">
+    <a href="index.html" class="suscripcion-header__back" aria-label="Volver al inicio">
+      <i class="fa-regular fa-arrow-left" aria-hidden="true"></i>
+      Kaizen en Taza
+    </a>
+    <a href="index.html" class="site-logo" aria-label="Kaizen en Taza">
+      <span class="site-logo__wordmark">改善</span>
+    </a>
+    <div class="suscripcion-header__secure">
+      <i class="fa-solid fa-lock" aria-hidden="true"></i>
+      Pago seguro
     </div>
-    <div class="mobile-overlay" id="mobileOverlay"></div>
+  </div>
+</header>
 
-    <main>
 
-        <!-- ============================================
-             PAGE HEADER
-             ============================================ -->
-        <section class="hero" style="min-height: 40vh; padding: var(--space-12) 0;">
-            <div class="hero-content">
-                <div class="hero-badge">Suscripción consciente</div>
-                <h1 class="hero-title">Elige tu <span style="color: var(--color-accent);">ritual</span></h1>
-                <p class="hero-subtitle">
-                    Suscripción flexible. Pausas. Cambios. Sin contratos.<br>
-                    Construido contigo, lote a lote.
-                </p>
-            </div>
-        </section>
+<main id="main-content">
 
-        <div class="container" style="margin-top: -40px; position: relative; z-index: 2;">
-
-            <!-- ============================================
-                 PLANES DE SUSCRIPCIÓN
-                 ============================================ -->
-            <div class="pricing-grid" id="pricingGrid">
-                <div class="pricing-card" data-plan="ritual">
-                    <div class="pricing-name">El Ritual</div>
-                    <div class="pricing-price">¥2,400<span>/mes</span></div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 200g de café</li>
-                        <li><i class="fas fa-check"></i> Cada 3 semanas</li>
-                        <li><i class="fas fa-check"></i> Ideal para consumo individual</li>
-                        <li><i class="fas fa-check"></i> Trazabilidad completa</li>
-                        <li><i class="fas fa-check"></i> Participación en votaciones</li>
-                    </ul>
-                    <button class="btn btn-secondary btn-large" onclick="selectPlan('ritual', 2400, 200, 3)">Seleccionar</button>
-                </div>
-
-                <div class="pricing-card popular" data-plan="compartir">
-                    <div class="popular-badge">Más popular</div>
-                    <div class="pricing-name">El Compartir</div>
-                    <div class="pricing-price">¥2,800<span>/mes</span></div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 250g de café</li>
-                        <li><i class="fas fa-check"></i> Cada 4 semanas</li>
-                        <li><i class="fas fa-check"></i> Ideal para compartir</li>
-                        <li><i class="fas fa-check"></i> Acceso anticipado a lotes</li>
-                        <li><i class="fas fa-check"></i> Votación exclusiva</li>
-                    </ul>
-                    <button class="btn btn-primary btn-large" onclick="selectPlan('compartir', 2800, 250, 4)">Seleccionar</button>
-                </div>
-
-                <div class="pricing-card" data-plan="personalizable">
-                    <div class="pricing-name">Personalizable</div>
-                    <div class="pricing-price">¥<span id="customPrice">2,400</span><span>/mes</span></div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-sliders-h"></i> Cantidad a elegir</li>
-                        <li><i class="fas fa-sliders-h"></i> Frecuencia a elegir</li>
-                        <li><i class="fas fa-check"></i> Todos los beneficios</li>
-                        <li><i class="fas fa-check"></i> Sin permanencia</li>
-                    </ul>
-                    <div style="margin: var(--space-4) 0;">
-                        <select id="customAmount" style="width: 100%; padding: var(--space-2); border-radius: var(--border-radius-md); border: 1px solid var(--color-border);" onchange="updateCustomPrice()">
-                            <option value="200">200g - ¥2,400</option>
-                            <option value="250">250g - ¥2,800</option>
-                            <option value="500">500g - ¥5,200</option>
-                        </select>
-                        <select id="customFrequency" style="width: 100%; margin-top: var(--space-2); padding: var(--space-2); border-radius: var(--border-radius-md); border: 1px solid var(--color-border);" onchange="updateCustomPrice()">
-                            <option value="3">Cada 3 semanas</option>
-                            <option value="4" selected>Cada 4 semanas</option>
-                            <option value="5">Cada 5 semanas</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-secondary btn-large" onclick="selectPlan('personalizable', parseInt(document.getElementById('customAmount').value === '200' ? 2400 : document.getElementById('customAmount').value === '250' ? 2800 : 5200), parseInt(document.getElementById('customAmount').value), parseInt(document.getElementById('customFrequency').value))">Seleccionar</button>
-                </div>
-            </div>
-
-            <!-- ============================================
-                 CHECKOUT FLOW
-                 ============================================ -->
-            <div class="checkout-container" id="checkoutContainer" style="display: none;">
-                <div class="stepper">
-                    <div class="step active" data-step="1">
-                        <div class="step-number">1</div>
-                        <div class="step-title">Datos de envío</div>
-                    </div>
-                    <div class="step" data-step="2">
-                        <div class="step-number">2</div>
-                        <div class="step-title">Preferencias</div>
-                    </div>
-                    <div class="step" data-step="3">
-                        <div class="step-number">3</div>
-                        <div class="step-title">Pago</div>
-                    </div>
-                    <div class="step" data-step="4">
-                        <div class="step-number">4</div>
-                        <div class="step-title">Confirmación</div>
-                    </div>
-                </div>
-
-                <div class="form-step" data-step="1">
-                    <h3 style="margin-bottom: var(--space-6);">Información de envío</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Nombre completo *</label>
-                            <input type="text" class="form-input" id="fullName" placeholder="Nombre Apellido">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Furigana</label>
-                            <input type="text" class="form-input" id="furigana" placeholder="フリガナ">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Código postal *</label>
-                            <input type="text" class="form-input" id="postalCode" placeholder="000-0000">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Ciudad *</label>
-                            <select class="form-select" id="city">
-                                <option value="tokyo">Tokio</option>
-                                <option value="osaka">Osaka</option>
-                                <option value="kyoto">Kioto</option>
-                                <option value="other">Otra</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Dirección *</label>
-                        <input type="text" class="form-input" id="address" placeholder="Barrio, calle, número">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Teléfono *</label>
-                        <input type="tel" class="form-input" id="phone" placeholder="080-0000-0000">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email *</label>
-                        <input type="email" class="form-input" id="email" placeholder="tu@email.com">
-                    </div>
-                </div>
-
-                <div class="form-step" data-step="2">
-                    <h3 style="margin-bottom: var(--space-6);">Preferencias de café</h3>
-                    <div class="form-group">
-                        <label class="form-label">Perfil de taza preferido</label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="profile" value="frutal">
-                                <span class="radio-label">🍓 Frutal</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="profile" value="chocolate">
-                                <span class="radio-label">🍫 Chocolate</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="profile" value="balanceado" checked>
-                                <span class="radio-label">⚖️ Balanceado</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="profile" value="sorpresa">
-                                <span class="radio-label">🎲 Sorpresa</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">¿Quieres recibir lotes experimentales?</label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="experimental" value="yes">
-                                <span class="radio-label">✅ Sí, quiero probar</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="experimental" value="no" checked>
-                                <span class="radio-label">❌ No, prefiero clásicos</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Método de preparación principal</label>
-                        <select class="form-select" id="brewMethod">
-                            <option value="v60">V60</option>
-                            <option value="neldrip">Nel-drip</option>
-                            <option value="aeropress">Aeropress</option>
-                            <option value="chemex">Chemex</option>
-                            <option value="frenchpress">Prensa francesa</option>
-                        </select>
-                    </div>
-                    <div class="alert alert-info" style="margin-top: var(--space-4);">
-                        <i class="fas fa-info-circle"></i> Tus preferencias nos ayudan a seleccionar los mejores lotes para ti.
-                    </div>
-                </div>
-
-                <div class="form-step" data-step="3">
-                    <h3 style="margin-bottom: var(--space-6);">Método de pago</h3>
-                    <div class="payment-methods" id="paymentMethods">
-                        <div class="payment-method" data-method="card">
-                            <i class="fas fa-credit-card"></i>
-                            <div>Tarjeta de crédito</div>
-                        </div>
-                        <div class="payment-method" data-method="paypay">
-                            <i class="fab fa-paypal"></i>
-                            <div>PayPay</div>
-                        </div>
-                        <div class="payment-method" data-method="bank">
-                            <i class="fas fa-university"></i>
-                            <div>Transferencia bancaria</div>
-                        </div>
-                    </div>
-                    
-                    <div id="cardDetails" style="display: none;">
-                        <div class="form-group">
-                            <label class="form-label">Número de tarjeta</label>
-                            <input type="text" class="form-input" placeholder="**** **** **** ****">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Fecha expiración</label>
-                                <input type="text" class="form-input" placeholder="MM/AA">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">CVV</label>
-                                <input type="text" class="form-input" placeholder="***">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="alert alert-success" style="margin-top: var(--space-4);">
-                        <i class="fas fa-lock"></i> Pago 100% seguro. No guardamos tus datos bancarios.
-                    </div>
-                </div>
-
-                <div class="form-step" data-step="4">
-                    <div style="text-align: center; padding: var(--space-8) 0;">
-                        <i class="fas fa-check-circle" style="font-size: 5rem; color: var(--color-success); margin-bottom: var(--space-4);"></i>
-                        <h2>¡Ritual iniciado!</h2>
-                        <p style="margin: var(--space-4) 0;">Hemos recibido tu suscripción. En breve recibirás un email de confirmación.</p>
-                        <p>Tu primer lote llegará en <strong>3-5 días hábiles</strong>.</p>
-                        <div style="margin-top: var(--space-8);">
-                            <a href="comunidad.html" class="btn btn-primary">Ir a mi comunidad</a>
-                            <a href="index.html" class="btn btn-secondary" style="margin-left: var(--space-4);">Volver al inicio</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; margin-top: var(--space-8);">
-                    <button class="btn btn-secondary" id="prevBtn" style="display: none;">← Anterior</button>
-                    <button class="btn btn-primary" id="nextBtn">Siguiente →</button>
-                </div>
-            </div>
-
-            <!-- ============================================
-                 PREGUNTAS FRECUENTES
-                 ============================================ -->
-            <div class="section" style="margin-top: var(--space-8);">
-                <h2 class="text-center" style="margin-bottom: var(--space-8);">Preguntas frecuentes</h2>
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <div class="accordion-item">
-                        <div class="accordion-header" onclick="toggleAccordion(this)">
-                            ¿Puedo pausar mi suscripción?
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            Sí, puedes pausar tu suscripción por 1 semana, 2 semanas o 1 mes desde tu panel de control. Sin preguntas, sin complicaciones.
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <div class="accordion-header" onclick="toggleAccordion(this)">
-                            ¿Cómo cambio el lote que recibo?
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            Desde tu área de suscriptor puedes seleccionar el próximo lote que quieres recibir. También puedes votar por los próximos lotes.
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <div class="accordion-header" onclick="toggleAccordion(this)">
-                            ¿Qué pasa si no me gusta el lote?
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            Garantizamos tu primer lote: si no te gusta, te lo cambiamos o reembolsamos. Tu satisfacción es parte de nuestra mejora continua.
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <div class="accordion-header" onclick="toggleAccordion(this)">
-                            ¿Puedo cancelar en cualquier momento?
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            Sí, sin permanencia. Cancelas desde tu panel con un click. Sin preguntas incómodas.
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <div class="accordion-header" onclick="toggleAccordion(this)">
-                            ¿Cómo sé que el café es de comercio justo?
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            Cada lote incluye el precio pagado al caficultor (+35% sobre mercado) y documentación verificable. Podés verlo en la página de trazabilidad.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </main>
-
-    <!-- ============================================
-         FOOTER
-         ============================================ -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Kaizen en Taza</h4>
-                    <p>De las montañas colombianas a tu taza en Tokio. Café de especialidad con trazabilidad completa y cadena justa.</p>
-                    <div class="certifications" style="margin-top: var(--space-4);">
-                        <span class="cert-badge" onclick="showCertModal('fairtrade')">
-                            <i class="fas fa-check-circle"></i> Comercio justo
-                        </span>
-                        <span class="cert-badge" onclick="showCertModal('trazabilidad')">
-                            <i class="fas fa-map-marked-alt"></i> Trazabilidad
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul class="footer-links">
-                        <li><a href="lotes.html" class="footer-link">Lotes activos</a></li>
-                        <li><a href="suscripcion.html" class="footer-link">Suscripción</a></li>
-                        <li><a href="comunidad.html" class="footer-link">Comunidad</a></li>
-                        <li><a href="aprender.html" class="footer-link">Manual del ritual</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Nosotros</h4>
-                    <ul class="footer-links">
-                        <li><a href="sobre-nosotros.html" class="footer-link">Nuestra historia</a></li>
-                        <li><a href="sobre-nosotros.html#caficultores" class="footer-link">Nuestros caficultores</a></li>
-                        <li><a href="sobre-nosotros.html#impacto" class="footer-link">Impacto y sostenibilidad</a></li>
-                        <li><a href="donde-encontrarnos.html" class="footer-link">Dónde encontrarnos</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Newsletter</h4>
-                    <p style="font-size: var(--font-size-sm);">Recibe novedades de lotes y eventos</p>
-                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Gracias por suscribirte (demo)');">
-                        <input type="email" placeholder="tu@email.com" class="newsletter-input" required>
-                        <button type="submit" class="newsletter-btn">Enviar</button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <div class="footer-copyright">
-                    © 2026 Kaizen en Taza. Hecho con ☕ entre Colombia y Japón.
-                </div>
-                <div class="footer-social">
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- ============================================
-         MODAL DE CERTIFICACIONES
-         ============================================ -->
-    <div id="certModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Certificación</h3>
-                <span class="modal-close" onclick="closeCertModal()">&times;</span>
-            </div>
-            <div class="modal-body" id="modalBody"></div>
-        </div>
+  <!-- INTRO -->
+  <section class="suscrip-intro" aria-labelledby="suscrip-title">
+    <div class="container">
+      <div class="suscrip-intro__eyebrow">
+        <div class="divider--accent" aria-hidden="true"></div>
+        <span class="type-subtitle">Suscripción</span>
+        <div class="divider--accent" aria-hidden="true"></div>
+      </div>
+      <h1 class="suscrip-intro__title" id="suscrip-title">Elige tu ritual</h1>
+      <p class="suscrip-intro__subtitle">
+        Suscripción flexible. Pausas. Cambios. Sin contratos.<br />
+        <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);letter-spacing:0.1em;color:var(--color-accent);">PRIMER LOTE GARANTIZADO · 14 DÍAS DE PRUEBA</span>
+      </p>
     </div>
+  </section>
 
-    <script>
-        // ============================================
-        // VARIABLES GLOBALES
-        // ============================================
-        let selectedPlan = null;
-        let selectedPlanPrice = 0;
-        let selectedPlanAmount = 0;
-        let selectedPlanFrequency = 0;
-        let currentStep = 1;
-        let selectedPaymentMethod = null;
 
-        // ============================================
-        // PLAN DE SUSCRIPCIÓN
-        // ============================================
-        function selectPlan(plan, price, amount, frequency) {
-            selectedPlan = plan;
-            selectedPlanPrice = price;
-            selectedPlanAmount = amount;
-            selectedPlanFrequency = frequency;
-            
-            // Mostrar checkout
-            document.getElementById('checkoutContainer').style.display = 'block';
-            
-            // Scroll al checkout
-            document.getElementById('checkoutContainer').scrollIntoView({ behavior: 'smooth' });
-            
-            // Marcar plan seleccionado visualmente
-            document.querySelectorAll('.pricing-card').forEach(card => {
-                card.style.opacity = '0.6';
-            });
-            document.querySelector(`.pricing-card[data-plan="${plan}"]`).style.opacity = '1';
-        }
+  <!-- PLANES -->
+  <section class="planes-section" aria-labelledby="planes-title">
+    <div class="container">
 
-        // ============================================
-        // CHECKOUT FLOW
-        // ============================================
-        function updateStep() {
-            // Actualizar steps
-            document.querySelectorAll('.step').forEach((step, index) => {
-                const stepNum = index + 1;
-                step.classList.remove('active', 'completed');
-                if (stepNum < currentStep) {
-                    step.classList.add('completed');
-                } else if (stepNum === currentStep) {
-                    step.classList.add('active');
-                }
-            });
-            
-            // Mostrar paso actual
-            document.querySelectorAll('.form-step').forEach(step => {
-                step.classList.remove('active');
-            });
-            document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
-            
-            // Mostrar/ocultar botones
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
-            if (currentStep === 1) {
-                prevBtn.style.display = 'none';
-                nextBtn.innerHTML = 'Siguiente →';
-            } else if (currentStep === 4) {
-                prevBtn.style.display = 'inline-flex';
-                nextBtn.innerHTML = 'Confirmar suscripción';
-            } else {
-                prevBtn.style.display = 'inline-flex';
-                nextBtn.innerHTML = 'Siguiente →';
-            }
-        }
-        
-        function nextStep() {
-            if (currentStep === 1) {
-                // Validar datos de envío
-                const name = document.getElementById('fullName').value;
-                const email = document.getElementById('email').value;
-                const address = document.getElementById('address').value;
-                
-                if (!name || !email || !address) {
-                    alert('Por favor completa todos los campos obligatorios');
-                    return;
-                }
-                currentStep++;
-            } else if (currentStep === 2) {
-                currentStep++;
-            } else if (currentStep === 3) {
-                if (!selectedPaymentMethod) {
-                    alert('Por favor selecciona un método de pago');
-                    return;
-                }
-                
-                // Guardar datos en localStorage para demo
-                const subscriptionData = {
-                    plan: selectedPlan,
-                    price: selectedPlanPrice,
-                    amount: selectedPlanAmount,
-                    frequency: selectedPlanFrequency,
-                    customer: {
-                        name: document.getElementById('fullName').value,
-                        email: document.getElementById('email').value,
-                        phone: document.getElementById('phone').value,
-                        address: document.getElementById('address').value,
-                        city: document.getElementById('city').value
-                    },
-                    preferences: {
-                        profile: document.querySelector('input[name="profile"]:checked')?.value,
-                        experimental: document.querySelector('input[name="experimental"]:checked')?.value,
-                        brewMethod: document.getElementById('brewMethod').value
-                    },
-                    paymentMethod: selectedPaymentMethod,
-                    date: new Date().toISOString()
-                };
-                
-                localStorage.setItem('kaizenSubscription', JSON.stringify(subscriptionData));
-                localStorage.setItem('isSubscribed', 'true');
-                
-                currentStep++;
-            } else if (currentStep === 4) {
-                // Ya está en confirmación, no hacer nada
-                return;
-            }
-            updateStep();
-        }
-        
-        function prevStep() {
-            if (currentStep > 1) {
-                currentStep--;
-                updateStep();
-            }
-        }
-        
-        // ============================================
-        // MÉTODOS DE PAGO
-        // ============================================
-        document.querySelectorAll('.payment-method').forEach(method => {
-            method.addEventListener('click', () => {
-                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-                method.classList.add('selected');
-                selectedPaymentMethod = method.dataset.method;
-                
-                // Mostrar campos de tarjeta
-                const cardDetails = document.getElementById('cardDetails');
-                if (selectedPaymentMethod === 'card') {
-                    cardDetails.style.display = 'block';
-                } else {
-                    cardDetails.style.display = 'none';
-                }
-            });
+      <div class="section-header section-header--center" style="margin-bottom:var(--space-10);">
+        <h2 class="type-title" id="planes-title">Tres maneras de empezar</h2>
+      </div>
+
+      <div class="planes-grid" role="list" id="planes-grid">
+
+        <!-- PLAN 1: El Ritual -->
+        <div class="plan-card-suscripcion selected" role="listitem" tabindex="0"
+          data-plan="ritual" data-precio="2400"
+          onclick="selectPlan('ritual', '¥2,400')"
+          onkeydown="if(event.key==='Enter'||event.key===' ')selectPlan('ritual','¥2,400')"
+          aria-pressed="true" aria-label="Plan El Ritual: 200g cada 3 semanas, ¥2,400 por envío">
+          <div class="plan-selector" aria-hidden="true">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <div>
+            <p class="plan-card-suscripcion__name">Plan 01</p>
+            <h3 class="plan-card-suscripcion__title">El Ritual</h3>
+            <p class="plan-card-suscripcion__desc">Ideal para consumo individual. 2–3 tazas diarias de café de especialidad con trazabilidad completa.</p>
+          </div>
+          <div class="plan-precio">
+            <span class="plan-precio__currency">¥</span>
+            <span class="plan-precio__amount">2,400</span>
+            <span class="plan-precio__per">/ envío</span>
+          </div>
+          <div class="plan-specs">
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>200g por envío</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Cada 3 semanas</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Trazabilidad completa</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Voto en selección de lotes</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Pausa o cancela cuando quieras</span></div>
+          </div>
+        </div>
+
+        <!-- PLAN 2: El Compartir (más popular) -->
+        <div class="plan-card-suscripcion" role="listitem" tabindex="0"
+          data-plan="compartir" data-precio="2800"
+          onclick="selectPlan('compartir', '¥2,800')"
+          onkeydown="if(event.key==='Enter'||event.key===' ')selectPlan('compartir','¥2,800')"
+          aria-pressed="false" aria-label="Plan El Compartir: 250g cada 4 semanas, ¥2,800 por envío. Más popular.">
+          <span class="plan-popular-tag" aria-label="Más popular">Más popular</span>
+          <div class="plan-selector" aria-hidden="true">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <div>
+            <p class="plan-card-suscripcion__name">Plan 02</p>
+            <h3 class="plan-card-suscripcion__title">El Compartir</h3>
+            <p class="plan-card-suscripcion__desc">Para compartir en casa o consumo moderado. Más café, menos frecuencia, mayor exploración.</p>
+          </div>
+          <div class="plan-precio">
+            <span class="plan-precio__currency">¥</span>
+            <span class="plan-precio__amount">2,800</span>
+            <span class="plan-precio__per">/ envío</span>
+          </div>
+          <div class="plan-specs">
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>250g por envío</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Cada 4 semanas</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Trazabilidad completa</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Voto en selección de lotes</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Acceso anticipado a nuevos lotes</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Pausa o cancela cuando quieras</span></div>
+          </div>
+        </div>
+
+        <!-- PLAN 3: Personalizable -->
+        <div class="plan-card-suscripcion" role="listitem" tabindex="0"
+          data-plan="personalizable" data-precio="variable"
+          onclick="selectPlan('personalizable', null)"
+          onkeydown="if(event.key==='Enter'||event.key===' ')selectPlan('personalizable',null)"
+          aria-pressed="false" aria-label="Plan Personalizable: elige cantidad y frecuencia">
+          <div class="plan-selector" aria-hidden="true">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <div>
+            <p class="plan-card-suscripcion__name">Plan 03</p>
+            <h3 class="plan-card-suscripcion__title">Personalizable</h3>
+            <p class="plan-card-suscripcion__desc">Tú defines la cantidad y la frecuencia. El precio se calcula según tu configuración.</p>
+          </div>
+          <div class="plan-precio">
+            <span class="plan-precio__currency">¥</span>
+            <span class="plan-precio__amount" id="custom-precio-display">—</span>
+            <span class="plan-precio__per">/ envío</span>
+          </div>
+
+          <!-- Selectores dinámicos -->
+          <div class="plan-custom-selectors" onclick="event.stopPropagation()" aria-label="Configurar plan personalizable">
+            <div class="custom-selector-group">
+              <span class="custom-selector-label">Cantidad</span>
+              <div class="custom-pills" role="group" aria-label="Cantidad de café">
+                <button class="custom-pill" data-group="custom-cantidad" data-precio-base="1800" onclick="updateCustomPlan(this)" aria-pressed="false">150g</button>
+                <button class="custom-pill active" data-group="custom-cantidad" data-precio-base="2200" onclick="updateCustomPlan(this)" aria-pressed="true">200g</button>
+                <button class="custom-pill" data-group="custom-cantidad" data-precio-base="2800" onclick="updateCustomPlan(this)" aria-pressed="false">350g</button>
+                <button class="custom-pill" data-group="custom-cantidad" data-precio-base="3800" onclick="updateCustomPlan(this)" aria-pressed="false">500g</button>
+              </div>
+            </div>
+            <div class="custom-selector-group">
+              <span class="custom-selector-label">Frecuencia</span>
+              <div class="custom-pills" role="group" aria-label="Frecuencia de envío">
+                <button class="custom-pill" data-group="custom-freq" data-freq-mult="1.1" onclick="updateCustomPlan(this)" aria-pressed="false">2 sem.</button>
+                <button class="custom-pill active" data-group="custom-freq" data-freq-mult="1.0" onclick="updateCustomPlan(this)" aria-pressed="true">3 sem.</button>
+                <button class="custom-pill" data-group="custom-freq" data-freq-mult="0.95" onclick="updateCustomPlan(this)" aria-pressed="false">4 sem.</button>
+                <button class="custom-pill" data-group="custom-freq" data-freq-mult="0.9" onclick="updateCustomPlan(this)" aria-pressed="false">5 sem.</button>
+              </div>
+            </div>
+            <p class="plan-custom-price">
+              Tu precio estimado: <span id="custom-precio-inline">¥2,200</span>
+            </p>
+          </div>
+
+          <div class="plan-specs">
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Cantidad y frecuencia a tu medida</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Trazabilidad completa</span></div>
+            <div class="plan-spec"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Todos los beneficios de comunidad</span></div>
+          </div>
+        </div>
+
+      </div><!-- /planes-grid -->
+
+      <!-- CTA hacia el checkout -->
+      <div style="display:flex;justify-content:center;margin-top:var(--space-10);">
+        <button class="btn-iniciar-ritual" style="max-width:360px;" onclick="scrollToCheckout()" id="btn-plan-cta">
+          Continuar con <span id="plan-cta-label">El Ritual</span> →
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- PASO A PASO -->
+  <section class="pasos-section" aria-labelledby="pasos-title">
+    <div class="container">
+      <div class="section-header section-header--center" style="margin-bottom:var(--space-12);">
+        <p class="type-subtitle">¿Cómo funciona?</p>
+        <h2 class="type-title" id="pasos-title">Cuatro pasos hacia tu ritual</h2>
+      </div>
+
+      <div class="pasos-grid" role="list">
+        <article class="paso" role="listitem">
+          <div class="paso__num" aria-label="Paso 1">01</div>
+          <span class="paso__icon" aria-hidden="true">☕</span>
+          <h3 class="paso__title">Elige tu plan</h3>
+          <p class="paso__desc">Selecciona cantidad y frecuencia. Sin compromisos. Puedes cambiar después.</p>
+        </article>
+        <article class="paso" role="listitem">
+          <div class="paso__num" aria-label="Paso 2">02</div>
+          <span class="paso__icon" aria-hidden="true">🎯</span>
+          <h3 class="paso__title">Cuéntanos tu perfil</h3>
+          <p class="paso__desc">¿Frutal, chocolate o balanceado? Elegimos el lote que mejor encaje con tus gustos.</p>
+        </article>
+        <article class="paso" role="listitem">
+          <div class="paso__num" aria-label="Paso 3">03</div>
+          <span class="paso__icon" aria-hidden="true">📦</span>
+          <h3 class="paso__title">Recibe en 3-5 días</h3>
+          <p class="paso__desc">Tostado fresco. Empaque con trazabilidad completa. Llega antes del 14° día de reposo.</p>
+        </article>
+        <article class="paso" role="listitem">
+          <div class="paso__num" aria-label="Paso 4">04</div>
+          <span class="paso__icon" aria-hidden="true">🗳️</span>
+          <h3 class="paso__title">Participa y mejora</h3>
+          <p class="paso__desc">Vota el próximo lote. Da feedback. Cada envío hace la selección mejor.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FAQ ACORDEÓN -->
+  <section class="faq-section" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-header section-header--center" style="margin-bottom:var(--space-10);">
+        <p class="type-subtitle">Preguntas frecuentes</p>
+        <h2 class="type-title" id="faq-title">Todo lo que necesitas saber</h2>
+      </div>
+
+      <div class="faq-list" role="list" id="faq-list">
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-question__text">¿Puedo pausar mi suscripción?</span>
+            <span class="faq-icon" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer__text">Sí, en cualquier momento desde tu panel de suscriptor. Puedes pausar por 1, 2 o 3 ciclos sin perder tu lugar en la comunidad ni tu historial de lotes. No hay penalización, no hace falta justificación.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-question__text">¿Cómo cambio de lote?</span>
+            <span class="faq-icon" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer__text">Desde tu panel, hasta 5 días antes de cada envío puedes elegir un lote diferente de los que hay disponibles esa semana. Si no eliges, enviamos el lote que votó más la comunidad ese ciclo.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question open" onclick="toggleFaq(this)" aria-expanded="true">
+            <span class="faq-question__text">¿Qué pasa si no me gusta el primer lote?</span>
+            <span class="faq-icon" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+          </button>
+          <div class="faq-answer open" role="region">
+            <p class="faq-answer__text">
+              Tu primer envío está cubierto por nuestra garantía de 14 días. Si no estás satisfecho con el café, tienes dos opciones:
+            </p>
+            <div style="display:flex;flex-direction:column;gap:var(--space-2);margin-top:var(--space-3);">
+              <div class="faq-answer__highlight">
+                <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                Cambio por otro lote sin costo adicional
+              </div>
+              <div class="faq-answer__highlight">
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                Reembolso completo del primer envío
+              </div>
+            </div>
+            <p class="faq-answer__text" style="margin-top:var(--space-3);">Solo escríbenos a ritual@kaizenentaza.jp. Sin formularios complicados.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-question__text">¿Puedo cancelar en cualquier momento?</span>
+            <span class="faq-icon" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer__text">Sí. Sin llamadas, sin retención, sin formularios. Cancelas desde tu panel con un click. El cobro se detiene en el siguiente ciclo. No hay contrato de permanencia.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-question__text">¿Qué significa "trazabilidad completa"?</span>
+            <span class="faq-icon" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer__text">Cada lote tiene una página de detalle pública con: nombre y foto del caficultor, coordenadas GPS de la finca, precio exacto pagado, fecha de cosecha, fecha de tueste, puntaje SCA y curva de tostión descargable. Todo visible antes de comprar, sin necesidad de registro.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-question__text">¿El café llega molido o en grano?</span>
+            <span class="faq-icon" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer__text">Lo elijes tú: en grano (recomendado para mayor frescura) o molido a medida según tu método (V60, espresso, AeroPress, etc.). Puedes cambiar la preferencia antes de cada envío desde tu panel.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-question__text">¿A qué zonas de Japón hacen envíos?</span>
+            <span class="faq-icon" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer__text">Actualmente enviamos a todo Japón continental. Los envíos a Hokkaido, Okinawa e islas pueden tener un suplemento de ¥200–400. Tiempo estimado de entrega: 3–5 días hábiles desde Tokio.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CHECKOUT 3 PASOS -->
+  <section class="checkout-section" id="checkout" aria-labelledby="checkout-title">
+    <div class="container">
+
+      <div style="max-width:760px;margin-bottom:var(--space-8);">
+        <p class="type-subtitle">Checkout</p>
+        <h2 class="type-headline" id="checkout-title">Tres pasos y empiezas</h2>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="checkout-progress" role="list" aria-label="Progreso del checkout">
+        <div class="progress-step active" id="step-indicator-1" role="listitem">
+          <div class="progress-step__dot" aria-label="Paso 1: Datos de envío, actual">1</div>
+          <span class="progress-step__label">Envío</span>
+        </div>
+        <div class="progress-step" id="step-indicator-2" role="listitem">
+          <div class="progress-step__dot" aria-label="Paso 2: Preferencias">2</div>
+          <span class="progress-step__label">Preferencias</span>
+        </div>
+        <div class="progress-step" id="step-indicator-3" role="listitem">
+          <div class="progress-step__dot" aria-label="Paso 3: Pago">3</div>
+          <span class="progress-step__label">Pago</span>
+        </div>
+      </div>
+
+      <div class="checkout-layout">
+
+        <!-- FORM (columna izquierda) -->
+        <div>
+
+          <!-- SUCCESS STATE (oculto hasta completar) -->
+          <div class="checkout-success" id="checkout-success" aria-live="polite">
+            <div class="success-icon" aria-hidden="true">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="success-title">¡Tu ritual empieza ahora!</h3>
+            <p class="success-subtitle">
+              Hemos recibido tu suscripción. Recibirás un email de confirmación en los próximos minutos con el seguimiento de tu primer lote.
+            </p>
+            <div class="success-lote-preview" role="region" aria-label="Tu primer lote">
+              <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-accent);letter-spacing:0.1em;">TU PRIMER LOTE</p>
+              <p style="font-family:var(--font-primary);font-size:var(--font-size-xl);font-weight:300;color:var(--color-text-primary);">Finca La Esperanza · Huila</p>
+              <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-tertiary);">KET-2025-047 · Caturra Lavado · 86.5 SCA</p>
+              <p style="font-size:var(--font-size-sm);color:var(--color-text-secondary);margin-top:var(--space-2);">Estimado de llegada: 3–5 días hábiles</p>
+            </div>
+            <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;justify-content:center;">
+              <a href="comunidad.html" class="btn btn--primary btn--lg">Ir a mi comunidad →</a>
+              <a href="index.html" class="btn btn--secondary">Volver al inicio</a>
+            </div>
+          </div>
+
+          <!-- PASO 1: Datos de envío -->
+          <div class="checkout-panel active" id="panel-1">
+            <h3 class="checkout-panel__title">Datos de envío</h3>
+            <p class="checkout-panel__subtitle">Tu dirección en Japón · Se guarda de forma segura</p>
+
+            <form id="form-envio" novalidate>
+              <div style="display:flex;flex-direction:column;gap:var(--space-5);">
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre completo</label>
+                    <input class="form-control" type="text" id="nombre" name="nombre" placeholder="田中 太郎" autocomplete="name" required aria-required="true" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="furigana">Furigana <span style="font-weight:300;text-transform:none;letter-spacing:0;">(opcional)</span></label>
+                    <input class="form-control" type="text" id="furigana" name="furigana" placeholder="たなか たろう" autocomplete="off" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="postal">Código postal</label>
+                    <input class="form-control" type="text" id="postal" name="postal"
+                      placeholder="〒 100-0001" maxlength="8" pattern="[0-9]{3}-[0-9]{4}"
+                      autocomplete="postal-code" required aria-required="true"
+                      aria-describedby="postal-hint" />
+                    <span class="form-hint" id="postal-hint">Formato: 123-4567</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="ciudad">Ciudad / Prefectura</label>
+                    <div class="form-select-wrapper">
+                      <select class="form-control" id="ciudad" name="ciudad" autocomplete="address-level2" required aria-required="true">
+                        <option value="">Seleccionar…</option>
+                        <option value="tokyo">東京都 (Tokio)</option>
+                        <option value="osaka">大阪府 (Osaka)</option>
+                        <option value="kyoto">京都府 (Kioto)</option>
+                        <option value="kanagawa">神奈川県 (Kanagawa)</option>
+                        <option value="aichi">愛知県 (Aichi)</option>
+                        <option value="fukuoka">福岡県 (Fukuoka)</option>
+                        <option value="sapporo">北海道 (Hokkaido)</option>
+                        <option value="otra">Otra prefectura</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="direccion">Dirección</label>
+                  <input class="form-control" type="text" id="direccion" name="direccion"
+                    placeholder="Chiyoda-ku, 1-1-1, Edificio XX 3F" autocomplete="street-address"
+                    required aria-required="true" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="telefono">Teléfono</label>
+                  <input class="form-control" type="tel" id="telefono" name="telefono"
+                    placeholder="090-0000-0000" autocomplete="tel" required aria-required="true" />
+                  <span class="form-hint">Para coordinación del envío únicamente</span>
+                </div>
+
+              </div>
+
+              <div class="checkout-nav">
+                <span></span>
+                <button type="button" class="btn btn--primary btn--lg" onclick="goToStep(2)">
+                  Siguiente: Preferencias →
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- PASO 2: Preferencias de lote -->
+          <div class="checkout-panel" id="panel-2">
+            <h3 class="checkout-panel__title">Tus preferencias</h3>
+            <p class="checkout-panel__subtitle">Elegimos el lote que mejor encaja con tu paladar</p>
+
+            <div style="display:flex;flex-direction:column;gap:var(--space-6);">
+
+              <div class="form-group">
+                <p class="form-label" id="label-perfil">Perfil de taza que prefieres</p>
+                <div class="perfil-grid" role="group" aria-labelledby="label-perfil">
+                  <button class="perfil-option selected" data-perfil="frutal" onclick="selectPerfil(this)" aria-pressed="true">
+                    <span class="perfil-option__emoji" aria-hidden="true">🍋</span>
+                    <span class="perfil-option__name">Frutal</span>
+                    <span class="perfil-option__desc">Cítricos, bayas, tropicales. Acidez alta, final brillante.</span>
+                  </button>
+                  <button class="perfil-option" data-perfil="chocolate" onclick="selectPerfil(this)" aria-pressed="false">
+                    <span class="perfil-option__emoji" aria-hidden="true">🍫</span>
+                    <span class="perfil-option__name">Chocolate</span>
+                    <span class="perfil-option__desc">Cacao, caramelo, frutos secos. Cuerpo alto, dulzor.</span>
+                  </button>
+                  <button class="perfil-option" data-perfil="balanceado" onclick="selectPerfil(this)" aria-pressed="false">
+                    <span class="perfil-option__emoji" aria-hidden="true">☯️</span>
+                    <span class="perfil-option__name">Balanceado</span>
+                    <span class="perfil-option__desc">Equilibrio entre acidez y cuerpo. Para cualquier método.</span>
+                  </button>
+                  <button class="perfil-option" data-perfil="sorpresa" onclick="selectPerfil(this)" aria-pressed="false">
+                    <span class="perfil-option__emoji" aria-hidden="true">🎲</span>
+                    <span class="perfil-option__name">Sorpresa</span>
+                    <span class="perfil-option__desc">Elegimos el lote más interesante de la temporada.</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-toggle" role="group" aria-labelledby="toggle-experimental-label"
+                onclick="document.getElementById('toggle-experimental').click()">
+                <div class="form-toggle__info">
+                  <p class="form-toggle__title" id="toggle-experimental-label">¿Quieres recibir lotes experimentales?</p>
+                  <p class="form-toggle__desc">Fermentaciones especiales, procesos innovadores, variedades raras. Los que más aprenden también los más arriesgan.</p>
+                </div>
+                <label class="toggle-switch" onclick="event.stopPropagation()">
+                  <input type="checkbox" id="toggle-experimental" role="switch" aria-checked="false" />
+                  <span class="toggle-track"></span>
+                </label>
+              </div>
+
+              <div class="form-group">
+                <p class="form-label" id="label-frecuencia-pref">Frecuencia ideal</p>
+                <div class="option-pills" role="group" aria-labelledby="label-frecuencia-pref">
+                  <button class="option-pill selected" data-group="pref-freq" aria-pressed="true">Cada 3 semanas</button>
+                  <button class="option-pill" data-group="pref-freq" aria-pressed="false">Cada 4 semanas</button>
+                  <button class="option-pill" data-group="pref-freq" aria-pressed="false">Cada 5 semanas</button>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="checkout-nav">
+              <button type="button" class="btn btn--secondary" onclick="goToStep(1)">
+                <i class="fa-regular fa-arrow-left" aria-hidden="true"></i> Volver
+              </button>
+              <button type="button" class="btn btn--primary btn--lg" onclick="goToStep(3)">
+                Siguiente: Pago →
+              </button>
+            </div>
+          </div>
+
+          <!-- PASO 3: Pago -->
+          <div class="checkout-panel" id="panel-3">
+            <h3 class="checkout-panel__title">Método de pago</h3>
+            <p class="checkout-panel__subtitle">Seguro · Encriptado · Sin guardar datos de tarjeta</p>
+
+            <div style="display:flex;flex-direction:column;gap:var(--space-6);">
+
+              <div class="payment-methods" role="group" aria-label="Métodos de pago disponibles">
+                <div class="payment-method selected" onclick="selectPayment(this,'card')" role="radio" aria-checked="true" tabindex="0"
+                  onkeydown="if(event.key==='Enter'||event.key===' ')selectPayment(this,'card')">
+                  <div class="payment-method__radio" aria-hidden="true"><span style="display:none"></span></div>
+                  <span class="payment-method__logo">💳 Tarjeta</span>
+                  <span class="payment-method__desc">Visa · Mastercard · AMEX · JCB</span>
+                </div>
+                <div class="payment-method" onclick="selectPayment(this,'paypay')" role="radio" aria-checked="false" tabindex="0"
+                  onkeydown="if(event.key==='Enter'||event.key===' ')selectPayment(this,'paypay')">
+                  <div class="payment-method__radio" aria-hidden="true"></div>
+                  <span class="payment-method__logo">📱 PayPay</span>
+                  <span class="payment-method__desc">Pago por QR · Aplicación PayPay</span>
+                </div>
+                <div class="payment-method" onclick="selectPayment(this,'konbini')" role="radio" aria-checked="false" tabindex="0"
+                  onkeydown="if(event.key==='Enter'||event.key===' ')selectPayment(this,'konbini')">
+                  <div class="payment-method__radio" aria-hidden="true"></div>
+                  <span class="payment-method__logo">🏪 Konbini</span>
+                  <span class="payment-method__desc">FamilyMart · Lawson · 7-Eleven</span>
+                </div>
+              </div>
+
+              <!-- Campos de tarjeta -->
+              <div class="card-fields show" id="card-fields" aria-label="Datos de la tarjeta">
+                <div class="form-group">
+                  <label class="form-label" for="card-number">Número de tarjeta</label>
+                  <div class="card-field-input">
+                    <input class="form-control" type="text" id="card-number" placeholder="0000 0000 0000 0000"
+                      maxlength="19" autocomplete="cc-number" inputmode="numeric" aria-required="true" />
+                    <i class="fa-regular fa-credit-card" aria-hidden="true"></i>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="card-expiry">Vencimiento</label>
+                    <input class="form-control" type="text" id="card-expiry" placeholder="MM / AA"
+                      maxlength="7" autocomplete="cc-exp" aria-required="true" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="card-cvv">CVV</label>
+                    <div class="card-field-input">
+                      <input class="form-control" type="text" id="card-cvv" placeholder="123"
+                        maxlength="4" autocomplete="cc-csc" aria-required="true" />
+                      <i class="fa-regular fa-circle-question" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="card-name">Nombre en la tarjeta</label>
+                  <input class="form-control" type="text" id="card-name" placeholder="TARO TANAKA"
+                    autocomplete="cc-name" aria-required="true" style="text-transform:uppercase;" />
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check__input" id="save-card" />
+                  <label class="form-check__label" for="save-card">Guardar tarjeta para futuros envíos (encriptado)</label>
+                </div>
+              </div>
+
+              <!-- Resumen antes de confirmar -->
+              <div style="padding:var(--space-5);background-color:var(--color-surface-raised);border-radius:var(--border-radius-md);border:1px solid var(--color-border);">
+                <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:var(--space-4);">Resumen del cargo</p>
+                <div class="order-line" style="margin-bottom:var(--space-2);">
+                  <span class="order-line__label">Plan seleccionado</span>
+                  <span class="order-line__value" id="confirm-plan">El Ritual · 200g</span>
+                </div>
+                <div class="order-line" style="margin-bottom:var(--space-2);">
+                  <span class="order-line__label">Frecuencia</span>
+                  <span class="order-line__value">Cada 3 semanas</span>
+                </div>
+                <div class="order-line" style="margin-bottom:var(--space-2);">
+                  <span class="order-line__label">Envío</span>
+                  <span class="order-line__value" style="color:var(--color-success);">Incluido</span>
+                </div>
+                <div class="order-line" style="padding-top:var(--space-3);border-top:1px solid var(--color-border);">
+                  <span style="font-weight:var(--font-weight-medium);color:var(--color-text-primary);">Total por envío</span>
+                  <span style="font-family:var(--font-primary);font-size:var(--font-size-2xl);font-weight:300;color:var(--color-accent);" id="confirm-total">¥2,400</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="checkout-nav">
+              <button type="button" class="btn btn--secondary" onclick="goToStep(2)">
+                <i class="fa-regular fa-arrow-left" aria-hidden="true"></i> Volver
+              </button>
+              <button type="button" class="btn-iniciar-ritual" style="width:auto;padding:var(--space-4) var(--space-8);" onclick="completarCheckout()">
+                <i class="fa-regular fa-rotate" aria-hidden="true"></i>
+                Iniciar mi ritual →
+              </button>
+            </div>
+          </div>
+
+        </div><!-- /form column -->
+
+        <!-- ORDER SUMMARY (sidebar) -->
+        <aside aria-label="Resumen de tu pedido">
+          <div class="order-summary" role="complementary">
+            <div class="order-summary__header">
+              <p class="order-summary__title">Tu suscripción</p>
+              <p class="order-summary__plan-name" id="summary-plan-name">El Ritual</p>
+              <p class="order-summary__lote">Primer lote: Finca La Esperanza, Huila</p>
+            </div>
+            <div class="order-summary__body">
+              <div class="order-line">
+                <span class="order-line__label">Cantidad</span>
+                <span class="order-line__value" id="summary-cantidad">200g</span>
+              </div>
+              <div class="order-line">
+                <span class="order-line__label">Frecuencia</span>
+                <span class="order-line__value" id="summary-frecuencia">Cada 3 semanas</span>
+              </div>
+              <div class="order-line">
+                <span class="order-line__label">Envío</span>
+                <span class="order-line__value" style="color:var(--color-success);">Incluido</span>
+              </div>
+              <div class="order-line">
+                <span class="order-line__label">Primer envío</span>
+                <span class="order-line__value">3–5 días hábiles</span>
+              </div>
+              <div class="order-total">
+                <div>
+                  <p class="order-total__label">Total por envío</p>
+                  <p class="order-total__period">Sin compromisos</p>
+                </div>
+                <div>
+                  <p class="order-total__amount" id="summary-precio">¥2,400</p>
+                </div>
+              </div>
+            </div>
+            <div class="order-summary__footer">
+              <div class="guarantee-badge" role="note">
+                <i class="fa-solid fa-shield-check" aria-hidden="true"></i>
+                <span>Primer lote garantizado. Si no te gusta, cambio o reembolso completo. Sin preguntas.</span>
+              </div>
+              <div class="security-row" aria-label="Sellos de seguridad">
+                <div class="security-item">
+                  <i class="fa-solid fa-lock"></i>
+                  <span>SSL 256bit</span>
+                </div>
+                <div class="security-item">
+                  <i class="fa-solid fa-rotate"></i>
+                  <span>Cancela siempre</span>
+                </div>
+                <div class="security-item">
+                  <i class="fa-solid fa-leaf"></i>
+                  <span>Comercio justo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+      </div><!-- /checkout-layout -->
+    </div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER MÍNIMO -->
+<footer class="suscripcion-footer" role="contentinfo">
+  <a href="index.html" class="suscripcion-footer__logo" aria-label="Kaizen en Taza — inicio">Kaizen en Taza</a>
+  <div class="suscripcion-footer__links">
+    <a href="#" class="suscripcion-footer__link">Política de privacidad</a>
+    <a href="#" class="suscripcion-footer__link">Términos de servicio</a>
+    <a href="#" class="suscripcion-footer__link">Política de envíos</a>
+    <a href="lotes.html" class="suscripcion-footer__link">Ver lotes activos</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="alert" aria-live="polite" aria-atomic="true">
+  <i class="fa-solid fa-circle-check" style="color:#81C784;"></i>
+  <span id="toast-msg">Preferencia guardada.</span>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+  /* ── Estado global del checkout ── */
+  const state = {
+    plan: 'ritual',
+    precio: '¥2,400',
+    cantidad: '200g',
+    frecuencia: 'Cada 3 semanas',
+    perfilTaza: 'frutal',
+    paymentMethod: 'card',
+    step: 1,
+  };
+
+  /* ── Seleccionar plan ── */
+  function selectPlan(planId, precio) {
+    document.querySelectorAll('.plan-card-suscripcion').forEach(card => {
+      const isThis = card.dataset.plan === planId;
+      card.classList.toggle('selected', isThis);
+      card.setAttribute('aria-pressed', String(isThis));
+    });
+
+    state.plan = planId;
+    const nombres = { ritual: 'El Ritual', compartir: 'El Compartir', personalizable: 'Personalizable' };
+    const cantidades = { ritual: '200g', compartir: '250g', personalizable: '200g' };
+    const frecuencias = { ritual: 'Cada 3 semanas', compartir: 'Cada 4 semanas', personalizable: 'Cada 3 semanas' };
+
+    if (precio) {
+      state.precio = precio;
+    } else {
+      // Plan personalizable: leer precio calculado
+      state.precio = document.getElementById('custom-precio-inline').textContent;
+    }
+
+    state.cantidad   = cantidades[planId];
+    state.frecuencia = frecuencias[planId];
+
+    updateSummary();
+
+    const ctalabel = document.getElementById('plan-cta-label');
+    if (ctalabel) ctalabel.textContent = nombres[planId];
+  }
+
+  /* ── Plan personalizable: calcular precio ── */
+  function updateCustomPlan(clickedPill) {
+    const group = clickedPill.dataset.group;
+    document.querySelectorAll(`[data-group="${group}"]`).forEach(p => {
+      p.classList.remove('active');
+      p.setAttribute('aria-pressed','false');
+    });
+    clickedPill.classList.add('active');
+    clickedPill.setAttribute('aria-pressed','true');
+
+    const precioBase = parseInt(document.querySelector('[data-group="custom-cantidad"].active')?.dataset.precioBase || 2200);
+    const freqMult   = parseFloat(document.querySelector('[data-group="custom-freq"].active')?.dataset.freqMult || 1.0);
+    const precio = Math.round(precioBase * freqMult / 100) * 100;
+    const precioStr = '¥' + precio.toLocaleString();
+
+    document.getElementById('custom-precio-display').textContent = precio.toLocaleString();
+    document.getElementById('custom-precio-inline').textContent = precioStr;
+
+    if (state.plan === 'personalizable') {
+      state.precio = precioStr;
+      updateSummary();
+    }
+  }
+
+  /* ── Actualizar sidebar summary ── */
+  function updateSummary() {
+    document.getElementById('summary-plan-name').textContent = {
+      ritual: 'El Ritual', compartir: 'El Compartir', personalizable: 'Personalizable'
+    }[state.plan];
+    document.getElementById('summary-precio').textContent  = state.precio;
+    document.getElementById('summary-cantidad').textContent = state.cantidad;
+    document.getElementById('summary-frecuencia').textContent = state.frecuencia;
+    document.getElementById('confirm-plan').textContent   = `${state.plan === 'ritual' ? 'El Ritual' : state.plan === 'compartir' ? 'El Compartir' : 'Personalizable'} · ${state.cantidad}`;
+    document.getElementById('confirm-total').textContent  = state.precio;
+  }
+
+  /* ── Scroll al checkout ── */
+  function scrollToCheckout() {
+    const section = document.getElementById('checkout');
+    if (section) {
+      const y = section.getBoundingClientRect().top + window.scrollY - 90;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }
+
+  /* ── Navegación de pasos del checkout ── */
+  function goToStep(step) {
+    // Validación básica del paso 1
+    if (step === 2 && state.step === 1) {
+      const nombre   = document.getElementById('nombre').value.trim();
+      const postal   = document.getElementById('postal').value.trim();
+      const ciudad   = document.getElementById('ciudad').value;
+      const dir      = document.getElementById('direccion').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      if (!nombre || !postal || !ciudad || !dir || !telefono) {
+        showToast('Por favor completa todos los campos requeridos.');
+        // Marcar los campos vacíos como error
+        [
+          { id: 'nombre', val: nombre },
+          { id: 'postal', val: postal },
+          { id: 'direccion', val: dir },
+          { id: 'telefono', val: telefono },
+        ].forEach(({ id, val }) => {
+          const el = document.getElementById(id);
+          el.classList.toggle('form-control--error', !val);
         });
-        
-        // ============================================
-        // PLAN PERSONALIZABLE
-        // ============================================
-        function updateCustomPrice() {
-            const amount = document.getElementById('customAmount').value;
-            let price;
-            if (amount === '200') price = 2400;
-            else if (amount === '250') price = 2800;
-            else price = 5200;
-            
-            document.getElementById('customPrice').innerText = price;
-        }
-        
-        // ============================================
-        // ACCORDION
-        // ============================================
-        function toggleAccordion(header) {
-            const item = header.closest('.accordion-item');
-            item.classList.toggle('active');
-        }
-        
-        // ============================================
-        // CERTIFICACIONES MODAL
-        // ============================================
-        function showCertModal(type) {
-            const modal = document.getElementById('certModal');
-            if (type === 'fairtrade') {
-                document.getElementById('modalTitle').innerHTML = '🌱 Comercio justo verificado';
-                document.getElementById('modalBody').innerHTML = `
-                    <div style="margin-bottom: var(--space-4);">
-                        <p><strong>Certificación:</strong> Relación directa verificada</p>
-                        <p><strong>Precio pagado:</strong> +35% sobre precio de mercado</p>
-                        <p><strong>Impacto:</strong> Este pago garantiza una vida digna para el caficultor y su familia</p>
-                    </div>
-                    <div class="alert alert-success">
-                        <i class="fas fa-file-pdf"></i> Documento de pago verificado
-                    </div>
-                `;
-            } else {
-                document.getElementById('modalTitle').innerHTML = '📍 Trazabilidad completa';
-                document.getElementById('modalBody').innerHTML = `
-                    <div style="margin-bottom: var(--space-4);">
-                        <p><strong>Todos nuestros lotes tienen:</strong></p>
-                        <ul style="list-style: disc; padding-left: var(--space-6); margin-top: var(--space-2);">
-                            <li>Origen específico (región y finca)</li>
-                            <li>Nombre y foto del caficultor</li>
-                            <li>Variedad y proceso detallado</li>
-                            <li>Fecha de tueste</li>
-                            <li>Precio pagado al caficultor</li>
-                        </ul>
-                    </div>
-                    <div class="alert alert-info">
-                        <i class="fas fa-qrcode"></i> Escaneá el código QR en el empaque para verificar cada lote
-                    </div>
-                `;
-            }
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeCertModal() {
-            document.getElementById('certModal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        
-        // ============================================
-        // HEADER Y MENÚ
-        // ============================================
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileOverlay = document.getElementById('mobileOverlay');
-        const closeMenu = document.getElementById('closeMenu');
-        
-        function openMobileMenu() {
-            mobileMenu.classList.add('active');
-            mobileOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeMobileMenu() {
-            mobileMenu.classList.remove('active');
-            mobileOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        
-        if (menuToggle) menuToggle.addEventListener('click', openMobileMenu);
-        if (closeMenu) closeMenu.addEventListener('click', closeMobileMenu);
-        if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
-        
-        // Header scroll effect
-        const header = document.querySelector('.header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('header-scrolled');
-            } else {
-                header.classList.remove('header-scrolled');
-            }
-        });
-        
-        // ============================================
-        // INICIALIZACIÓN
-        // ============================================
-        document.getElementById('nextBtn').addEventListener('click', nextStep);
-        document.getElementById('prevBtn').addEventListener('click', prevStep);
-        
-        // Exponer funciones globalmente
-        window.selectPlan = selectPlan;
-        window.updateCustomPrice = updateCustomPrice;
-        window.toggleAccordion = toggleAccordion;
-        window.showCertModal = showCertModal;
-        window.closeCertModal = closeCertModal;
-        
-        // Si viene de selección de lote, precargar
-        const urlParams = new URLSearchParams(window.location.search);
-        const planParam = urlParams.get('plan');
-        if (planParam === 'ritual') {
-            selectPlan('ritual', 2400, 200, 3);
-        } else if (planParam === 'compartir') {
-            selectPlan('compartir', 2800, 250, 4);
-        }
-    </script>
+        return;
+      }
+    }
+
+    state.step = step;
+
+    // Ocultar todos los paneles
+    document.querySelectorAll('.checkout-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`panel-${step}`).classList.add('active');
+
+    // Actualizar indicadores
+    for (let i = 1; i <= 3; i++) {
+      const indicator = document.getElementById(`step-indicator-${i}`);
+      indicator.classList.toggle('active', i === step);
+      indicator.classList.toggle('done', i < step);
+    }
+
+    // Scroll
+    scrollToCheckout();
+  }
+
+  /* ── Seleccionar perfil de taza ── */
+  function selectPerfil(btn) {
+    document.querySelectorAll('.perfil-option').forEach(b => {
+      b.classList.remove('selected');
+      b.setAttribute('aria-pressed', 'false');
+    });
+    btn.classList.add('selected');
+    btn.setAttribute('aria-pressed', 'true');
+    state.perfilTaza = btn.dataset.perfil;
+  }
+
+  /* ── Seleccionar método de pago ── */
+  function selectPayment(el, method) {
+    document.querySelectorAll('.payment-method').forEach(m => {
+      m.classList.remove('selected');
+      m.setAttribute('aria-checked', 'false');
+    });
+    el.classList.add('selected');
+    el.setAttribute('aria-checked', 'true');
+    state.paymentMethod = method;
+    document.getElementById('card-fields').classList.toggle('show', method === 'card');
+  }
+
+  /* ── Option pills en checkout ── */
+  document.querySelectorAll('.option-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const group = pill.dataset.group;
+      document.querySelectorAll(`[data-group="${group}"]`).forEach(p => {
+        p.classList.remove('selected');
+        p.setAttribute('aria-pressed', 'false');
+      });
+      pill.classList.add('selected');
+      pill.setAttribute('aria-pressed', 'true');
+    });
+  });
+
+  /* ── Completar checkout ── */
+  function completarCheckout() {
+    // Ocultamos los paneles y mostramos el success
+    document.querySelectorAll('.checkout-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('checkout-success').classList.add('show');
+    document.querySelectorAll('.checkout-progress, .checkout-panel').forEach(el => el.style.display = 'none');
+    // Actualizar indicadores a done
+    for (let i = 1; i <= 3; i++) {
+      document.getElementById(`step-indicator-${i}`).classList.add('done');
+      document.getElementById(`step-indicator-${i}`).classList.remove('active');
+    }
+    scrollToCheckout();
+  }
+
+  /* ── FAQ Acordeón ── */
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+
+    // Cerrar todos
+    document.querySelectorAll('.faq-question.open').forEach(q => {
+      q.classList.remove('open');
+      q.setAttribute('aria-expanded', 'false');
+      q.nextElementSibling.classList.remove('open');
+    });
+
+    // Abrir el clickeado (si no estaba abierto)
+    if (!isOpen) {
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      answer.classList.add('open');
+    }
+  }
+
+  // Inicializar el FAQ con la pregunta 3 abierta
+  window.addEventListener('DOMContentLoaded', () => {
+    const faqItems = document.querySelectorAll('.faq-question');
+    // El tercero viene con clase 'open' desde el HTML, así que está bien
+  });
+
+  /* ── Formato de código postal ── */
+  document.getElementById('postal')?.addEventListener('input', function () {
+    let val = this.value.replace(/\D/g, '');
+    if (val.length > 3) val = val.slice(0, 3) + '-' + val.slice(3, 7);
+    this.value = val;
+    this.classList.remove('form-control--error');
+  });
+
+  /* ── Formato de tarjeta ── */
+  document.getElementById('card-number')?.addEventListener('input', function () {
+    let val = this.value.replace(/\D/g, '').slice(0, 16);
+    val = val.match(/.{1,4}/g)?.join(' ') || val;
+    this.value = val;
+  });
+
+  document.getElementById('card-expiry')?.addEventListener('input', function () {
+    let val = this.value.replace(/\D/g, '').slice(0, 4);
+    if (val.length > 2) val = val.slice(0, 2) + ' / ' + val.slice(2);
+    this.value = val;
+  });
+
+  /* ── Toast ── */
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+
+  /* ── Toggle experimental accesibilidad ── */
+  document.getElementById('toggle-experimental')?.addEventListener('change', function () {
+    this.setAttribute('aria-checked', String(this.checked));
+  });
+</script>
+
 </body>
 </html>
