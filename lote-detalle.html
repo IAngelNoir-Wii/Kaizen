@@ -1,0 +1,2974 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lote KET-2025-047 · Finca La Esperanza, Huila. Trazabilidad completa, Caturra lavado, 86.5 SCA. Café colombiano de especialidad para Japón." />
+  <title>La Esperanza · KET-2025-047 — Kaizen en Taza</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ======================================================
+       ESTILOS ESPECÍFICOS — lote-detalle.html
+       ====================================================== */
+
+    /* ── Page wrapper con espacio del header ── */
+    .detalle-wrapper {
+      padding-top: var(--header-height);
+    }
+
+    /* ── Breadcrumb bar ── */
+    .detalle-breadcrumb {
+      padding-block: var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      background-color: var(--color-background);
+    }
+
+    /* ── Layout principal: 2 columnas ── */
+    .detalle-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      padding-block: var(--space-10);
+      align-items: start;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       COLUMNA IZQUIERDA — Galería
+       ══════════════════════════════════════════════════════ */
+    .detalle-gallery {
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-6));
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    /* Imagen principal */
+    .gallery-main {
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: var(--border-radius-lg);
+      background-color: var(--color-surface-raised);
+      position: relative;
+      cursor: zoom-in;
+    }
+
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-slow), opacity var(--transition-base);
+    }
+
+    .gallery-main:hover img {
+      transform: scale(1.03);
+    }
+
+    /* Badge disponibilidad sobre la imagen */
+    .gallery-main__badge {
+      position: absolute;
+      top: var(--space-4);
+      left: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      background-color: rgba(10,9,8,0.75);
+      backdrop-filter: blur(8px);
+      border-radius: var(--border-radius-full);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(250,249,247,0.9);
+    }
+
+    .gallery-main__badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #81C784;
+      animation: pulse 2s ease infinite;
+    }
+
+    /* Lote ID sobre imagen */
+    .gallery-main__id {
+      position: absolute;
+      bottom: var(--space-4);
+      right: var(--space-4);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: rgba(250,249,247,0.6);
+      letter-spacing: 0.1em;
+      background-color: rgba(10,9,8,0.5);
+      backdrop-filter: blur(4px);
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--border-radius-sm);
+    }
+
+    /* Thumbnails */
+    .gallery-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-2);
+    }
+
+    .gallery-thumb {
+      aspect-ratio: 1;
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color var(--transition-fast), opacity var(--transition-fast);
+      background-color: var(--color-surface-raised);
+    }
+
+    .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-base);
+    }
+
+    .gallery-thumb:hover img { transform: scale(1.08); }
+    .gallery-thumb.active { border-color: var(--color-accent); }
+    .gallery-thumb:not(.active) { opacity: 0.55; }
+    .gallery-thumb:hover { opacity: 1; }
+
+    /* ══════════════════════════════════════════════════════
+       COLUMNA DERECHA — Info del producto
+       ══════════════════════════════════════════════════════ */
+    .detalle-info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    /* Encabezado del producto */
+    .detalle-info__header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .detalle-info__badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .detalle-info__nombre {
+      font-family: var(--font-primary);
+      font-size: clamp(var(--font-size-2xl), 3vw, var(--font-size-4xl));
+      font-weight: 200;
+      color: var(--color-text-primary);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .detalle-info__origen {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      letter-spacing: 0.06em;
+    }
+
+    .detalle-info__origen i { color: var(--color-accent); }
+
+    /* Caficultor row */
+    .detalle-caficultor {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      background-color: var(--color-surface-raised);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      text-decoration: none;
+      transition: border-color var(--transition-fast), background-color var(--transition-fast);
+    }
+
+    .detalle-caficultor:hover {
+      border-color: var(--color-accent-light);
+      background-color: var(--color-accent-subtle);
+    }
+
+    .detalle-caficultor__avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C4A27A, #8B5A2B);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-primary);
+      font-size: var(--font-size-xl);
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .detalle-caficultor__info { flex: 1; }
+
+    .detalle-caficultor__name {
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-sm);
+    }
+
+    .detalle-caficultor__finca {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      margin-top: 2px;
+    }
+
+    .detalle-caficultor__verified {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--color-success);
+      margin-top: 3px;
+    }
+
+    /* Perfil de taza */
+    .detalle-perfil {
+      padding: var(--space-4);
+      background-color: var(--color-accent-subtle);
+      border-left: 3px solid var(--color-accent);
+      border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    }
+
+    .detalle-perfil__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-2);
+    }
+
+    .detalle-perfil__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+    }
+
+    .detalle-perfil__notas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    /* SCA score display */
+    .detalle-sca {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) 0;
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .detalle-sca__score {
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
+    }
+
+    .detalle-sca__number {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-4xl);
+      font-weight: 200;
+      color: var(--color-accent);
+      line-height: 1;
+    }
+
+    .detalle-sca__pts {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .detalle-sca__bars {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    /* ── Precio ── */
+    .detalle-precio {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .precio-tabs {
+      display: flex;
+      gap: 1px;
+      background-color: var(--color-border);
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+    }
+
+    .precio-tab {
+      flex: 1;
+      padding: var(--space-3) var(--space-4);
+      background-color: var(--color-surface);
+      cursor: pointer;
+      border: none;
+      text-align: left;
+      transition: background-color var(--transition-fast);
+    }
+
+    .precio-tab.active {
+      background-color: var(--color-accent-subtle);
+    }
+
+    .precio-tab__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .precio-tab.active .precio-tab__label { color: var(--color-accent); }
+
+    .precio-tab__amount {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-2xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      line-height: 1;
+    }
+
+    .precio-tab__sub {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      margin-top: 3px;
+      display: block;
+    }
+
+    .precio-tab--suscripcion .precio-tab__amount {
+      color: var(--color-accent);
+    }
+
+    .precio-discount {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: 2px var(--space-2);
+      background-color: var(--color-success-light);
+      border-radius: var(--border-radius-full);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--color-success);
+      margin-left: var(--space-2);
+    }
+
+    /* ── Selectores de opciones ── */
+    .detalle-opciones {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .option-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .option-group__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+
+    .option-pills {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .option-pill {
+      padding: var(--space-2) var(--space-4);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+    }
+
+    .option-pill:hover {
+      border-color: var(--color-accent-light);
+      color: var(--color-accent);
+    }
+
+    .option-pill.selected {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+      color: white;
+    }
+
+    .option-pill.selected-outline {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    /* Selector de molienda */
+    .molienda-select {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      appearance: none;
+      cursor: pointer;
+      transition: border-color var(--transition-fast);
+    }
+
+    .molienda-select:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(139,90,43,0.08);
+    }
+
+    /* ── CTAs del producto ── */
+    .detalle-ctas {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .btn-suscribir {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-8);
+      background-color: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius-sm);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-medium);
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .btn-suscribir:hover {
+      background-color: #9E6830;
+      box-shadow: var(--shadow-accent);
+      transform: translateY(-1px);
+    }
+
+    .btn-comprar-unica {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-6);
+      background-color: transparent;
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--border-radius-sm);
+      font-size: var(--font-size-sm);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .btn-comprar-unica:hover {
+      border-color: var(--color-accent-light);
+      color: var(--color-accent);
+      background-color: var(--color-accent-subtle);
+    }
+
+    /* Garantía */
+    .detalle-garantia {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      background-color: var(--color-surface-raised);
+      border-radius: var(--border-radius-md);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+    }
+
+    .detalle-garantia i {
+      color: var(--color-accent);
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       SECCIÓN TABS DE TRAZABILIDAD
+       ══════════════════════════════════════════════════════ */
+    .trazabilidad-section {
+      padding-block: var(--space-16);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .trazabilidad-section__header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+
+    /* Tabs */
+    .traza-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--color-border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .traza-tabs::-webkit-scrollbar { display: none; }
+
+    .traza-tab {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-4) var(--space-6);
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: color var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .traza-tab:hover { color: var(--color-text-primary); }
+
+    .traza-tab.active {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+      font-weight: var(--font-weight-medium);
+    }
+
+    .traza-tab .tab-emoji {
+      font-size: var(--font-size-base);
+    }
+
+    /* Paneles de contenido */
+    .traza-panel {
+      display: none;
+      padding-top: var(--space-8);
+    }
+
+    .traza-panel.active { display: block; }
+
+    /* ── TAB ORIGEN ── */
+    .origen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .origen-datos {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .origen-dato {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-4) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .origen-dato:last-child { border-bottom: none; }
+
+    .origen-dato__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+    }
+
+    .origen-dato__value {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      text-align: right;
+    }
+
+    .origen-dato__value strong {
+      font-weight: var(--font-weight-medium);
+    }
+
+    .mapa-container {
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface-raised);
+      aspect-ratio: 4/3;
+      position: relative;
+    }
+
+    .mapa-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .mapa-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+      color: var(--color-text-tertiary);
+    }
+
+    .mapa-placeholder i {
+      font-size: 2.5rem;
+      color: var(--color-accent-light);
+    }
+
+    .mapa-placeholder__coords {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.1em;
+      color: var(--color-text-tertiary);
+    }
+
+    /* Foto de la finca */
+    .finca-foto {
+      width: 100%;
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      margin-top: var(--space-4);
+    }
+
+    .finca-foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── TAB CAFICULTOR ── */
+    .caficultor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .caficultor-profile {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .caficultor-foto {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      background-color: var(--color-surface-raised);
+    }
+
+    .caficultor-foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .caficultor-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+
+    .caficultor-stat {
+      padding: var(--space-4);
+      background-color: var(--color-surface-raised);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      text-align: center;
+    }
+
+    .caficultor-stat__value {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-2xl);
+      font-weight: 200;
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: var(--space-1);
+    }
+
+    .caficultor-stat__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.08em;
+    }
+
+    .caficultor-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .caficultor-quote {
+      position: relative;
+      padding: var(--space-6);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+    }
+
+    .caficultor-quote::before {
+      content: '"';
+      position: absolute;
+      top: var(--space-3);
+      left: var(--space-4);
+      font-family: var(--font-primary);
+      font-size: 4rem;
+      line-height: 0.7;
+      color: var(--color-accent-light);
+      font-weight: 200;
+      pointer-events: none;
+    }
+
+    .caficultor-quote__text {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      line-height: 1.45;
+      padding-top: var(--space-3);
+    }
+
+    .caficultor-quote__author {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: var(--space-4);
+    }
+
+    /* Video placeholder */
+    .video-placeholder {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background-color: #0A0908;
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .video-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+      transition: opacity var(--transition-base);
+    }
+
+    .video-placeholder:hover img { opacity: 0.65; }
+
+    .video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      background-color: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: var(--font-size-xl);
+      transition: background-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .video-placeholder:hover .video-play-btn {
+      background-color: rgba(139,90,43,0.6);
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .video-meta {
+      position: absolute;
+      bottom: var(--space-4);
+      left: var(--space-4);
+      right: var(--space-4);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .video-meta__title {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: rgba(250,249,247,0.75);
+      letter-spacing: 0.06em;
+    }
+
+    .video-meta__duration {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: rgba(250,249,247,0.5);
+      padding: 2px var(--space-2);
+      background-color: rgba(10,9,8,0.6);
+      border-radius: var(--border-radius-sm);
+    }
+
+    /* ── TAB TÉCNICO ── */
+    .tecnico-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .tecnico-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+    }
+
+    .tecnico-spec-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--color-border);
+      transition: background-color var(--transition-fast);
+    }
+
+    .tecnico-spec-row:last-child { border-bottom: none; }
+    .tecnico-spec-row:hover { background-color: var(--color-card-hover); }
+
+    .tecnico-spec-row__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+    }
+
+    .tecnico-spec-row__value {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+    }
+
+    .sca-large {
+      padding: var(--space-6);
+      background: linear-gradient(135deg, var(--color-accent-subtle), rgba(196,162,122,0.08));
+      border: 1px solid rgba(139,90,43,0.15);
+      border-radius: var(--border-radius-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .sca-large__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+
+    .sca-large__score {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+    }
+
+    .sca-large__number {
+      font-family: var(--font-primary);
+      font-size: clamp(3.5rem, 6vw, 5rem);
+      font-weight: 200;
+      color: var(--color-accent);
+      line-height: 1;
+    }
+
+    .sca-large__denom {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-lg);
+      color: var(--color-text-tertiary);
+    }
+
+    .sca-bar-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    /* Perfil de tostión  */
+    .tueste-card {
+      padding: var(--space-5);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    .tueste-icon {
+      font-size: 2rem;
+    }
+
+    .tueste-info__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+      margin-bottom: var(--space-1);
+    }
+
+    .tueste-info__value {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+    }
+
+    .tueste-info__sub {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      margin-top: 2px;
+    }
+
+    /* ── TAB COMERCIO JUSTO ── */
+    .justo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .precio-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .precio-breakdown__hero {
+      padding: var(--space-6);
+      background: linear-gradient(135deg, #1a1a14, #2A1F0A);
+      border-radius: var(--border-radius-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .precio-breakdown__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(250,249,247,0.4);
+    }
+
+    .precio-breakdown__amount {
+      font-family: var(--font-primary);
+      font-size: clamp(var(--font-size-3xl), 4vw, var(--font-size-4xl));
+      font-weight: 200;
+      color: var(--color-accent-light);
+      line-height: 1;
+    }
+
+    .precio-breakdown__sub {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: rgba(250,249,247,0.35);
+    }
+
+    .precio-breakdown__premium {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      background-color: rgba(46,125,50,0.2);
+      border: 1px solid rgba(46,125,50,0.3);
+      border-radius: var(--border-radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: #81C784;
+      width: fit-content;
+    }
+
+    .precio-comparacion {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding: var(--space-5);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+    }
+
+    .precio-comparacion__title {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+    }
+
+    .precio-bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .precio-bar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .precio-bar-header span:first-child {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+    }
+
+    .precio-bar-header span:last-child {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+    }
+
+    /* Certificaciones y documentos */
+    .cert-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .cert-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .cert-item:hover {
+      border-color: var(--color-accent-light);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .cert-item__icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--border-radius-md);
+      background-color: var(--color-success-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-success);
+      font-size: var(--font-size-lg);
+      flex-shrink: 0;
+    }
+
+    .cert-item__info { flex: 1; }
+
+    .cert-item__title {
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--space-1);
+    }
+
+    .cert-item__desc {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-snug);
+    }
+
+    .cert-item__action {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-accent);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      transition: gap var(--transition-fast);
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    .cert-item__action:hover { gap: var(--space-2); }
+
+    /* ══════════════════════════════════════════════════════
+       BADGES DE CERTIFICACIÓN (debajo de tabs)
+       ══════════════════════════════════════════════════════ */
+    .cert-badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      padding: var(--space-6);
+      background-color: var(--color-surface-raised);
+      border-radius: var(--border-radius-lg);
+      border: 1px solid var(--color-border);
+      margin-top: var(--space-8);
+    }
+
+    .cert-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-4);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-full);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .cert-badge i { color: var(--color-accent); }
+
+    .cert-badge:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background-color: var(--color-accent-subtle);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ══════════════════════════════════════════════════════
+       RECOMENDACIÓN DE PREPARACIÓN
+       ══════════════════════════════════════════════════════ */
+    .preparacion-section {
+      padding-block: var(--space-16);
+      border-top: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+    }
+
+    .preparacion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      align-items: center;
+    }
+
+    .preparacion-visual {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .preparacion-metodo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-6);
+      background-color: var(--color-accent-subtle);
+      border: 1px solid rgba(139,90,43,0.15);
+      border-radius: var(--border-radius-lg);
+    }
+
+    .preparacion-metodo__icon {
+      font-size: 3.5rem;
+      line-height: 1;
+    }
+
+    .preparacion-metodo__name {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-2xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      line-height: 1;
+    }
+
+    .preparacion-metodo__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-1);
+    }
+
+    .preparacion-params {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-3);
+    }
+
+    .preparacion-param {
+      padding: var(--space-4);
+      background-color: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .preparacion-param__icon {
+      font-size: var(--font-size-xl);
+      color: var(--color-accent);
+      margin-bottom: var(--space-1);
+    }
+
+    .preparacion-param__value {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      line-height: 1;
+    }
+
+    .preparacion-param__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.06em;
+    }
+
+    .preparacion-steps {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .preparacion-step {
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+    }
+
+    .preparacion-step__num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: var(--color-accent-subtle);
+      border: 1px solid rgba(139,90,43,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-accent);
+      flex-shrink: 0;
+    }
+
+    .preparacion-step__text {
+      flex: 1;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+      padding-top: 4px;
+    }
+
+    .preparacion-step__text strong {
+      color: var(--color-text-primary);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* ══════════════════════════════════════════════════════
+       LOTES RELACIONADOS — Carrousel
+       ══════════════════════════════════════════════════════ */
+    .relacionados-section {
+      padding-block: var(--space-16);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .carrousel-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carrousel-track {
+      display: flex;
+      gap: var(--space-6);
+      transition: transform var(--transition-slow);
+    }
+
+    .carrousel-slide {
+      flex: 0 0 calc(33.33% - var(--space-4));
+      min-width: 0;
+    }
+
+    .carrousel-controls {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      justify-content: flex-end;
+    }
+
+    .carrousel-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-sm);
+      transition: all var(--transition-fast);
+    }
+
+    .carrousel-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background-color: var(--color-accent-subtle);
+    }
+
+    .carrousel-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       MODALES
+       ══════════════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(10,9,8,0.75);
+      backdrop-filter: blur(6px);
+      z-index: var(--z-modal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-doc {
+      background-color: var(--color-surface);
+      border-radius: var(--border-radius-lg);
+      border: 1px solid var(--color-border);
+      max-width: 640px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+      transform: translateY(16px) scale(0.97);
+      transition: transform var(--transition-spring);
+    }
+
+    .modal-overlay.open .modal-doc {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-doc__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .modal-doc__title {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+    }
+
+    .modal-doc__close {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--border-radius-md);
+      background-color: var(--color-surface-raised);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      transition: background-color var(--transition-fast);
+    }
+
+    .modal-doc__close:hover { background-color: var(--color-border); }
+
+    .modal-doc__body {
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .doc-preview {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background-color: var(--color-surface-raised);
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-4);
+      color: var(--color-text-tertiary);
+    }
+
+    .doc-preview i {
+      font-size: 3rem;
+      color: var(--color-accent-light);
+    }
+
+    .doc-preview__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      letter-spacing: 0.06em;
+    }
+
+    .doc-preview__meta {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      margin-top: var(--space-2);
+    }
+
+    .doc-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--color-border);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+    }
+
+    .doc-info-row:last-child { border-bottom: none; }
+
+    .doc-info-row__label { color: var(--color-text-tertiary); letter-spacing: 0.08em; }
+    .doc-info-row__value { color: var(--color-text-primary); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1199px) {
+      .detalle-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-8);
+      }
+      .origen-grid,
+      .caficultor-grid,
+      .tecnico-grid,
+      .justo-grid,
+      .preparacion-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      .caficultor-foto {
+        aspect-ratio: 16/9;
+        max-height: 300px;
+      }
+      .carrousel-slide {
+        flex: 0 0 calc(50% - var(--space-3));
+      }
+    }
+
+    @media (max-width: 767px) {
+      .detalle-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      .detalle-gallery {
+        position: static;
+      }
+      .gallery-thumbs {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .traza-tab {
+        padding: var(--space-3) var(--space-4);
+        font-size: var(--font-size-xs);
+      }
+      .preparacion-params {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .carrousel-slide {
+        flex: 0 0 85%;
+      }
+      .cert-badges-row {
+        gap: var(--space-2);
+      }
+      .precio-tabs {
+        flex-direction: column;
+        gap: 1px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="site-header" role="banner">
+  <div class="site-header__inner">
+    <a href="index.html" class="site-logo" aria-label="Kaizen en Taza — inicio">
+      <span class="site-logo__wordmark">Kaizen en Taza</span>
+      <span class="site-logo__tagline">改善 · Café de especialidad</span>
+    </a>
+    <nav class="site-nav" role="navigation" aria-label="Navegación principal">
+      <ul class="site-nav__list" role="list">
+        <li><a href="aprender.html" class="site-nav__link">El Ritual</a></li>
+        <li><a href="lotes.html" class="site-nav__link active">Lotes</a></li>
+        <li><a href="suscripcion.html" class="site-nav__link">Suscripción</a></li>
+        <li><a href="comunidad.html" class="site-nav__link">Comunidad</a></li>
+        <li><a href="aprender.html" class="site-nav__link">Aprender</a></li>
+      </ul>
+    </nav>
+    <div class="site-header__actions">
+      <button class="btn btn--ghost btn--icon" aria-label="Buscar"><i class="fa-regular fa-magnifying-glass"></i></button>
+      <button class="btn btn--ghost btn--icon" aria-label="Tu pedido" style="position:relative;">
+        <i class="fa-regular fa-bag-shopping"></i>
+        <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--color-accent);border:1.5px solid var(--color-background);"></span>
+      </button>
+      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Abrir menú" aria-controls="mobile-menu">
+        <span class="menu-toggle__bar"></span>
+        <span class="menu-toggle__bar"></span>
+        <span class="menu-toggle__bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Menú móvil" aria-hidden="true">
+  <ul class="mobile-menu__list" role="list">
+    <li><a href="aprender.html" class="mobile-menu__link">El Ritual <i class="fa-regular fa-arrow-right"></i></a></li>
+    <li><a href="lotes.html" class="mobile-menu__link">Lotes <i class="fa-regular fa-arrow-right"></i></a></li>
+    <li><a href="suscripcion.html" class="mobile-menu__link">Suscripción <i class="fa-regular fa-arrow-right"></i></a></li>
+    <li><a href="comunidad.html" class="mobile-menu__link">Comunidad <i class="fa-regular fa-arrow-right"></i></a></li>
+  </ul>
+  <div class="mobile-menu__footer">
+    <a href="suscripcion.html" class="btn btn--primary btn--full btn--lg">Inicia tu ritual →</a>
+  </div>
+</nav>
+
+
+<!-- PÁGINA -->
+<div class="detalle-wrapper">
+
+  <!-- Breadcrumb -->
+  <div class="detalle-breadcrumb">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Ruta de navegación">
+        <span class="breadcrumb__item"><a href="index.html">Inicio</a></span>
+        <span class="breadcrumb__separator" aria-hidden="true">—</span>
+        <span class="breadcrumb__item"><a href="lotes.html">Lotes</a></span>
+        <span class="breadcrumb__separator" aria-hidden="true">—</span>
+        <span class="breadcrumb__item breadcrumb__item--current">KET-2025-047</span>
+      </nav>
+    </div>
+  </div>
+
+  <main id="main-content">
+  <div class="container">
+
+    <!-- ═══════════════════════════════════════════════════════
+         LAYOUT 2 COLUMNAS: GALERÍA + INFO
+         ═══════════════════════════════════════════════════════ -->
+    <div class="detalle-layout">
+
+      <!-- ── COLUMNA IZQUIERDA: GALERÍA ── -->
+      <aside class="detalle-gallery" aria-label="Galería de imágenes del lote">
+
+        <!-- Imagen principal -->
+        <div class="gallery-main" id="gallery-main" aria-label="Imagen principal del lote">
+          <img
+            id="gallery-main-img"
+            src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=900&q=80"
+            alt="Granos de café Caturra de la Finca La Esperanza, Huila, Colombia"
+            loading="eager"
+          />
+          <div class="gallery-main__badge">
+            <span class="dot" aria-hidden="true"></span>
+            42 kg disponibles
+          </div>
+          <span class="gallery-main__id">KET-2025-047</span>
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="gallery-thumbs" role="list" aria-label="Imágenes adicionales del lote">
+          <button class="gallery-thumb active" role="listitem"
+            data-full="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=900&q=80"
+            data-alt="Granos de café Caturra, Finca La Esperanza"
+            aria-label="Ver imagen 1: granos del lote" aria-pressed="true">
+            <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=200&q=70" alt="" />
+          </button>
+          <button class="gallery-thumb" role="listitem"
+            data-full="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=900&q=80"
+            data-alt="Frutos de café en la planta, Finca La Esperanza"
+            aria-label="Ver imagen 2: frutos de café" aria-pressed="false">
+            <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=200&q=70" alt="" />
+          </button>
+          <button class="gallery-thumb" role="listitem"
+            data-full="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=900&q=80"
+            data-alt="Proceso de secado en camas africanas"
+            aria-label="Ver imagen 3: proceso de secado" aria-pressed="false">
+            <img src="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=200&q=70" alt="" />
+          </button>
+          <button class="gallery-thumb" role="listitem"
+            data-full="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&q=80"
+            data-alt="Taza del lote La Esperanza preparada"
+            aria-label="Ver imagen 4: taza preparada" aria-pressed="false">
+            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&q=70" alt="" />
+          </button>
+        </div>
+
+      </aside>
+
+
+      <!-- ── COLUMNA DERECHA: INFO PRODUCTO ── -->
+      <section class="detalle-info" aria-labelledby="lote-nombre">
+
+        <!-- Header -->
+        <div class="detalle-info__header">
+          <div class="detalle-info__badges">
+            <span class="badge badge--available badge--success">Disponible</span>
+            <span class="badge badge--accent">86.5 SCA</span>
+            <span class="badge badge--default">Temporada 2025</span>
+          </div>
+
+          <h1 class="detalle-info__nombre" id="lote-nombre">
+            Finca La Esperanza<br />
+            <span style="font-size:0.55em;color:var(--color-text-secondary);font-weight:300;letter-spacing:0.01em;">Huila, Colombia</span>
+          </h1>
+
+          <div class="detalle-info__origen">
+            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            <span>Municipio de La Argentina · 1.850 msnm</span>
+            <span style="color:var(--color-border-strong);">·</span>
+            <span>Lote KET-2025-047</span>
+          </div>
+        </div>
+
+        <!-- Caficultor -->
+        <a href="#tab-caficultor" class="detalle-caficultor" onclick="activateTab('caficultor')" aria-label="Ver perfil del caficultor Don Rodrigo Zapata">
+          <div class="detalle-caficultor__avatar" aria-hidden="true">R</div>
+          <div class="detalle-caficultor__info">
+            <p class="detalle-caficultor__name">Don Rodrigo Zapata</p>
+            <p class="detalle-caficultor__finca">Finca La Esperanza · 18 años cultivando</p>
+            <div class="detalle-caficultor__verified">
+              <i class="fa-solid fa-circle-check" style="font-size:9px;" aria-hidden="true"></i>
+              <span>Identidad verificada · Visita en campo 2025</span>
+            </div>
+          </div>
+          <i class="fa-regular fa-arrow-right" style="color:var(--color-text-tertiary);" aria-hidden="true"></i>
+        </a>
+
+        <!-- Perfil de taza -->
+        <div class="detalle-perfil" role="region" aria-label="Perfil de taza">
+          <p class="detalle-perfil__label">Perfil de taza</p>
+          <p class="detalle-perfil__text">
+            Acidez brillante con notas de naranja y mandarina. Final largo con caramelo y cacao. Cuerpo sedoso, proceso limpio. Ideal para métodos de filtro.
+          </p>
+          <div class="detalle-perfil__notas">
+            <span class="badge badge--default">🍊 Naranja</span>
+            <span class="badge badge--default">🍫 Cacao</span>
+            <span class="badge badge--default">🍮 Caramelo</span>
+            <span class="badge badge--default">🌸 Floral</span>
+          </div>
+        </div>
+
+        <!-- SCA + barras de atributos -->
+        <div class="detalle-sca" role="region" aria-label="Puntuación SCA y atributos sensoriales">
+          <div class="detalle-sca__score">
+            <span class="detalle-sca__number" aria-label="Puntaje SCA: 86.5 puntos">86.5</span>
+            <span class="detalle-sca__pts">/ 100 pts<br /><span style="font-size:0.8em;color:var(--color-text-tertiary);">SCA Score</span></span>
+          </div>
+          <div class="detalle-sca__bars">
+            <div class="flavor-bar">
+              <div class="flavor-bar__header">
+                <span class="flavor-bar__label">Acidez</span>
+                <span class="flavor-bar__value">7/10</span>
+              </div>
+              <div class="progress-bar"><div class="progress-bar__fill" style="width:70%"></div></div>
+            </div>
+            <div class="flavor-bar">
+              <div class="flavor-bar__header">
+                <span class="flavor-bar__label">Cuerpo</span>
+                <span class="flavor-bar__value">5/10</span>
+              </div>
+              <div class="progress-bar"><div class="progress-bar__fill" style="width:50%"></div></div>
+            </div>
+            <div class="flavor-bar">
+              <div class="flavor-bar__header">
+                <span class="flavor-bar__label">Dulzor</span>
+                <span class="flavor-bar__value">6/10</span>
+              </div>
+              <div class="progress-bar"><div class="progress-bar__fill" style="width:60%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Precio: suscripción vs única -->
+        <div class="detalle-precio" role="region" aria-label="Opciones de precio">
+          <div class="precio-tabs" role="tablist" aria-label="Modalidad de compra">
+            <button class="precio-tab precio-tab--suscripcion active" role="tab" id="precio-tab-suscrip"
+              aria-selected="true" aria-controls="precio-panel-suscrip"
+              onclick="switchPrecioTab('suscrip')">
+              <span class="precio-tab__label">Suscripción</span>
+              <span class="precio-tab__amount">¥1,620
+                <span class="precio-discount">-10%</span>
+              </span>
+              <span class="precio-tab__sub">por 200g · renovación automática</span>
+            </button>
+            <button class="precio-tab" role="tab" id="precio-tab-unica"
+              aria-selected="false" aria-controls="precio-panel-unica"
+              onclick="switchPrecioTab('unica')">
+              <span class="precio-tab__label">Compra única</span>
+              <span class="precio-tab__amount">¥1,800</span>
+              <span class="precio-tab__sub">por 200g · sin compromiso</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Selectores de opciones -->
+        <div class="detalle-opciones" role="region" aria-label="Opciones del pedido">
+
+          <div class="option-group">
+            <span class="option-group__label" id="label-cantidad">Cantidad</span>
+            <div class="option-pills" role="group" aria-labelledby="label-cantidad">
+              <button class="option-pill selected" data-group="cantidad" aria-pressed="true">200g</button>
+              <button class="option-pill" data-group="cantidad" aria-pressed="false">250g</button>
+              <button class="option-pill" data-group="cantidad" aria-pressed="false">500g</button>
+            </div>
+          </div>
+
+          <div class="option-group" id="frecuencia-group">
+            <span class="option-group__label" id="label-frecuencia">Frecuencia</span>
+            <div class="option-pills" role="group" aria-labelledby="label-frecuencia">
+              <button class="option-pill selected" data-group="frecuencia" aria-pressed="true">Cada 3 semanas</button>
+              <button class="option-pill" data-group="frecuencia" aria-pressed="false">Cada 4 semanas</button>
+              <button class="option-pill" data-group="frecuencia" aria-pressed="false">Cada 2 semanas</button>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <label class="option-group__label" for="molienda-select">Molienda</label>
+            <div class="form-select-wrapper">
+              <select class="molienda-select" id="molienda-select" aria-label="Seleccionar tipo de molienda">
+                <option value="grano">En grano (sin moler)</option>
+                <option value="filtro">Filtro (V60 / Chemex)</option>
+                <option value="espresso">Espresso</option>
+                <option value="aeropress">AeroPress</option>
+                <option value="sifon">Sifón / French Press</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CTAs -->
+        <div class="detalle-ctas" role="region" aria-label="Opciones de compra">
+          <a href="suscripcion.html" class="btn-suscribir" id="cta-suscribir">
+            <i class="fa-regular fa-rotate" aria-hidden="true"></i>
+            Suscribirme — ¥1,620 / envío
+          </a>
+          <button class="btn-comprar-unica" id="cta-compra-unica" onclick="addToCart()">
+            <i class="fa-regular fa-bag-shopping" aria-hidden="true"></i>
+            Comprar una vez — ¥1,800
+          </button>
+
+          <div class="detalle-garantia" role="note">
+            <i class="fa-regular fa-shield-check" aria-hidden="true"></i>
+            <span>Envío gratis en pedidos superiores a ¥4,000. Cancela tu suscripción cuando quieras, sin penalización. Período de prueba de 14 días con devolución garantizada.</span>
+          </div>
+        </div>
+
+      </section>
+    </div><!-- /detalle-layout -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECCIÓN: TABS DE TRAZABILIDAD
+         ═══════════════════════════════════════════════════════ -->
+    <section class="trazabilidad-section" id="trazabilidad" aria-labelledby="traza-heading">
+
+      <div class="trazabilidad-section__header">
+        <p class="type-subtitle">Trazabilidad completa</p>
+        <h2 class="type-headline" id="traza-heading">De la finca a tu taza,<br />sin secretos</h2>
+      </div>
+
+      <!-- Tabs -->
+      <div class="traza-tabs" role="tablist" aria-label="Secciones de trazabilidad">
+        <button class="traza-tab active" role="tab" id="tab-btn-origen"
+          aria-selected="true" aria-controls="traza-panel-origen"
+          onclick="activateTab('origen')">
+          <span class="tab-emoji" aria-hidden="true">📍</span> Origen
+        </button>
+        <button class="traza-tab" role="tab" id="tab-btn-caficultor"
+          aria-selected="false" aria-controls="traza-panel-caficultor"
+          onclick="activateTab('caficultor')">
+          <span class="tab-emoji" aria-hidden="true">👨‍🌾</span> Caficultor
+        </button>
+        <button class="traza-tab" role="tab" id="tab-btn-tecnico"
+          aria-selected="false" aria-controls="traza-panel-tecnico"
+          onclick="activateTab('tecnico')">
+          <span class="tab-emoji" aria-hidden="true">🔬</span> Técnico
+        </button>
+        <button class="traza-tab" role="tab" id="tab-btn-justo"
+          aria-selected="false" aria-controls="traza-panel-justo"
+          onclick="activateTab('justo')">
+          <span class="tab-emoji" aria-hidden="true">💰</span> Comercio justo
+        </button>
+      </div>
+
+
+      <!-- ── PANEL: ORIGEN ── -->
+      <div class="traza-panel active" id="traza-panel-origen" role="tabpanel" aria-labelledby="tab-btn-origen">
+        <div class="origen-grid">
+
+          <div class="origen-datos">
+            <h3 style="font-family:var(--font-primary);font-size:var(--font-size-xl);font-weight:300;color:var(--color-text-primary);margin-bottom:var(--space-4);">Finca La Esperanza</h3>
+
+            <div class="origen-dato">
+              <span class="origen-dato__label">País</span>
+              <span class="origen-dato__value"><strong>Colombia</strong></span>
+            </div>
+            <div class="origen-dato">
+              <span class="origen-dato__label">Departamento</span>
+              <span class="origen-dato__value">Huila</span>
+            </div>
+            <div class="origen-dato">
+              <span class="origen-dato__label">Municipio</span>
+              <span class="origen-dato__value">La Argentina</span>
+            </div>
+            <div class="origen-dato">
+              <span class="origen-dato__label">Vereda</span>
+              <span class="origen-dato__value">El Porvenir</span>
+            </div>
+            <div class="origen-dato">
+              <span class="origen-dato__label">Altitud</span>
+              <span class="origen-dato__value"><strong>1.850 msnm</strong></span>
+            </div>
+            <div class="origen-dato">
+              <span class="origen-dato__label">Coordenadas</span>
+              <span class="origen-dato__value" style="font-family:var(--font-mono);">1.9412°N 75.9641°O</span>
+            </div>
+            <div class="origen-dato">
+              <span class="origen-dato__label">Extensión de la finca</span>
+              <span class="origen-dato__value">3.2 hectáreas</span>
+            </div>
+            <div class="origen-dato">
+              <span class="origen-dato__label">Árboles productivos</span>
+              <span class="origen-dato__value">~4.200 plantas</span>
+            </div>
+
+            <!-- Foto de la finca -->
+            <div class="finca-foto">
+              <img
+                src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=75"
+                alt="Vista de la Finca La Esperanza, La Argentina, Huila"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <!-- Mapa -->
+          <div>
+            <h4 style="font-family:var(--font-mono);font-size:var(--font-size-xs);letter-spacing:0.12em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:var(--space-4);">Ubicación verificada</h4>
+            <div class="mapa-container" aria-label="Mapa de ubicación de la finca">
+              <div class="mapa-placeholder">
+                <i class="fa-regular fa-map-location-dot" aria-hidden="true"></i>
+                <p style="font-family:var(--font-mono);font-size:var(--font-size-sm);color:var(--color-text-secondary);">Finca La Esperanza</p>
+                <p class="mapa-placeholder__coords">1.9412°N · 75.9641°O</p>
+                <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-tertiary);">La Argentina, Huila · Colombia</p>
+                <a
+                  href="https://maps.google.com/?q=1.9412,-75.9641"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn--outline-accent btn--sm"
+                  style="margin-top:var(--space-2);"
+                >
+                  <i class="fa-regular fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                  Abrir en Google Maps
+                </a>
+              </div>
+            </div>
+
+            <!-- Datos climáticos -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3);margin-top:var(--space-4);">
+              <div style="padding:var(--space-4);background:var(--color-surface-raised);border:1px solid var(--color-border);border-radius:var(--border-radius-md);text-align:center;">
+                <div style="font-size:1.5rem;margin-bottom:var(--space-1);">🌡️</div>
+                <p style="font-family:var(--font-primary);font-size:var(--font-size-lg);font-weight:300;color:var(--color-text-primary);">18°C</p>
+                <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-tertiary);">Temp. media</p>
+              </div>
+              <div style="padding:var(--space-4);background:var(--color-surface-raised);border:1px solid var(--color-border);border-radius:var(--border-radius-md);text-align:center;">
+                <div style="font-size:1.5rem;margin-bottom:var(--space-1);">🌧️</div>
+                <p style="font-family:var(--font-primary);font-size:var(--font-size-lg);font-weight:300;color:var(--color-text-primary);">1.800mm</p>
+                <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-tertiary);">Lluvia anual</p>
+              </div>
+              <div style="padding:var(--space-4);background:var(--color-surface-raised);border:1px solid var(--color-border);border-radius:var(--border-radius-md);text-align:center;">
+                <div style="font-size:1.5rem;margin-bottom:var(--space-1);">☁️</div>
+                <p style="font-family:var(--font-primary);font-size:var(--font-size-lg);font-weight:300;color:var(--color-text-primary);">75%</p>
+                <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-tertiary);">Humedad</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- ── PANEL: CAFICULTOR ── -->
+      <div class="traza-panel" id="traza-panel-caficultor" role="tabpanel" aria-labelledby="tab-btn-caficultor">
+        <div class="caficultor-grid">
+
+          <div class="caficultor-profile">
+            <div class="caficultor-foto">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=75"
+                alt="Don Rodrigo Zapata, caficultor de la Finca La Esperanza, Huila"
+                loading="lazy"
+              />
+            </div>
+            <div class="caficultor-stats">
+              <div class="caficultor-stat">
+                <p class="caficultor-stat__value">18</p>
+                <p class="caficultor-stat__label">años cultivando</p>
+              </div>
+              <div class="caficultor-stat">
+                <p class="caficultor-stat__value">3.2</p>
+                <p class="caficultor-stat__label">hectáreas</p>
+              </div>
+              <div class="caficultor-stat">
+                <p class="caficultor-stat__value">3ª</p>
+                <p class="caficultor-stat__label">generación</p>
+              </div>
+              <div class="caficultor-stat">
+                <p class="caficultor-stat__value">4</p>
+                <p class="caficultor-stat__label">lotes con KET</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="caficultor-content">
+            <div>
+              <p class="type-subtitle" style="margin-bottom:var(--space-3);">Caficultor verificado</p>
+              <h3 style="font-family:var(--font-primary);font-size:var(--font-size-2xl);font-weight:300;color:var(--color-text-primary);margin-bottom:var(--space-2);">Rodrigo Zapata Lozano</h3>
+              <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-tertiary);letter-spacing:0.08em;">Finca La Esperanza · La Argentina, Huila</p>
+            </div>
+
+            <p style="font-size:var(--font-size-base);color:var(--color-text-secondary);line-height:var(--line-height-loose);">
+              Rodrigo heredó la finca de su padre a los 22 años. Durante los primeros diez años cultivó para el mercado convencional. En 2015 decidió hacer la transición al café de especialidad. Hoy gestiona su finca con un enfoque de mejora continua que resonó inmediatamente con la filosofía de Kaizen en Taza.
+            </p>
+
+            <div class="caficultor-quote">
+              <blockquote>
+                <p class="caficultor-quote__text">
+                  "Esto es lo que siempre debió ser. Que alguien del otro lado del mundo sepa mi nombre, conozca mi finca, y pague lo que vale mi trabajo."
+                </p>
+                <footer>
+                  <cite class="caficultor-quote__author">— Rodrigo Zapata, Finca La Esperanza · 2025</cite>
+                </footer>
+              </blockquote>
+            </div>
+
+            <!-- Video placeholder -->
+            <div>
+              <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:var(--space-3);">Video del caficultor</p>
+              <div class="video-placeholder" onclick="playVideo()" role="button" tabindex="0"
+                aria-label="Reproducir video de Don Rodrigo en la finca, 32 segundos"
+                onkeydown="if(event.key==='Enter'||event.key===' ')playVideo()">
+                <img
+                  src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=65"
+                  alt=""
+                  loading="lazy"
+                  aria-hidden="true"
+                />
+                <div class="video-play-btn" aria-hidden="true">
+                  <i class="fa-solid fa-play" style="margin-left:3px;"></i>
+                </div>
+                <div class="video-meta">
+                  <span class="video-meta__title">Don Rodrigo en la finca · La Esperanza, Huila</span>
+                  <span class="video-meta__duration">0:32</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ── PANEL: TÉCNICO ── -->
+      <div class="traza-panel" id="traza-panel-tecnico" role="tabpanel" aria-labelledby="tab-btn-tecnico">
+        <div class="tecnico-grid">
+
+          <div>
+            <div class="sca-large">
+              <span class="sca-large__label">Puntaje SCA · Café de especialidad</span>
+              <div class="sca-large__score">
+                <span class="sca-large__number" aria-label="86.5 puntos">86.5</span>
+                <span class="sca-large__denom">/ 100</span>
+              </div>
+              <div class="sca-bar-group">
+                <div class="flavor-bar">
+                  <div class="flavor-bar__header">
+                    <span class="flavor-bar__label">Fragancia / Aroma</span>
+                    <span class="flavor-bar__value">8.5</span>
+                  </div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:85%"></div></div>
+                </div>
+                <div class="flavor-bar">
+                  <div class="flavor-bar__header">
+                    <span class="flavor-bar__label">Sabor</span>
+                    <span class="flavor-bar__value">8.0</span>
+                  </div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:80%"></div></div>
+                </div>
+                <div class="flavor-bar">
+                  <div class="flavor-bar__header">
+                    <span class="flavor-bar__label">Acidez</span>
+                    <span class="flavor-bar__value">8.5</span>
+                  </div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:85%"></div></div>
+                </div>
+                <div class="flavor-bar">
+                  <div class="flavor-bar__header">
+                    <span class="flavor-bar__label">Cuerpo</span>
+                    <span class="flavor-bar__value">7.5</span>
+                  </div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:75%"></div></div>
+                </div>
+                <div class="flavor-bar">
+                  <div class="flavor-bar__header">
+                    <span class="flavor-bar__label">Balance</span>
+                    <span class="flavor-bar__value">8.0</span>
+                  </div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:80%"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Perfil de tostión -->
+            <div class="tueste-card">
+              <span class="tueste-icon" aria-hidden="true">🔥</span>
+              <div class="tueste-info">
+                <p class="tueste-info__label">Perfil de tostión</p>
+                <p class="tueste-info__value">Tostión media clara</p>
+                <p class="tueste-info__sub">Agtron 58 · Tiempo total: 11'42" · RoR descargado</p>
+              </div>
+              <button class="btn btn--ghost btn--sm" style="margin-left:auto;" onclick="openModal('modal-roast')" aria-label="Descargar curva de tostión">
+                <i class="fa-regular fa-download"></i>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="font-family:var(--font-mono);font-size:var(--font-size-xs);letter-spacing:0.12em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:var(--space-4);">Ficha técnica del lote</h3>
+            <div class="tecnico-specs" role="table" aria-label="Especificaciones técnicas del lote">
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Variedad botánica</span>
+                <span class="tecnico-spec-row__value" role="cell">Caturra</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Proceso</span>
+                <span class="tecnico-spec-row__value" role="cell">Lavado (Washed)</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Fermentación</span>
+                <span class="tecnico-spec-row__value" role="cell">36 horas</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Secado</span>
+                <span class="tecnico-spec-row__value" role="cell">Camas africanas · 18 días</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Fecha de cosecha</span>
+                <span class="tecnico-spec-row__value" role="cell">Febrero 2026</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Fecha de tueste</span>
+                <span class="tecnico-spec-row__value" role="cell">15 mayo 2026</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Mejor antes de</span>
+                <span class="tecnico-spec-row__value" role="cell" style="color:var(--color-success);">15 julio 2026</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Humedad del grano</span>
+                <span class="tecnico-spec-row__value" role="cell">11.2%</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Actividad de agua (Aw)</span>
+                <span class="tecnico-spec-row__value" role="cell">0.55</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Tamaño del grano</span>
+                <span class="tecnico-spec-row__value" role="cell">Malla 16 / 17</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Cupper</span>
+                <span class="tecnico-spec-row__value" role="cell">Valentina Cruz · Q-Grader</span>
+              </div>
+              <div class="tecnico-spec-row" role="row">
+                <span class="tecnico-spec-row__label" role="rowheader">Lugar de cata</span>
+                <span class="tecnico-spec-row__value" role="cell">Bogotá, Colombia</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- ── PANEL: COMERCIO JUSTO ── -->
+      <div class="traza-panel" id="traza-panel-justo" role="tabpanel" aria-labelledby="tab-btn-justo">
+        <div class="justo-grid">
+
+          <div class="precio-breakdown">
+            <div class="precio-breakdown__hero">
+              <span class="precio-breakdown__label">Precio pagado al caficultor</span>
+              <span class="precio-breakdown__amount">45.000 COP</span>
+              <span class="precio-breakdown__sub">por libra (500g) · ≈ ¥1.350 · Mayo 2026</span>
+              <span class="precio-breakdown__premium">
+                <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i>
+                +35% sobre precio de mercado
+              </span>
+            </div>
+
+            <div class="precio-comparacion">
+              <p class="precio-comparacion__title">Comparación con precio de mercado</p>
+              <div class="precio-bar-item">
+                <div class="precio-bar-header">
+                  <span style="color:var(--color-accent);">Kaizen en Taza</span>
+                  <span>45.000 COP / lb</span>
+                </div>
+                <div class="progress-bar"><div class="progress-bar__fill" id="bar-kaizen-j" style="width:0" data-target="80%"></div></div>
+              </div>
+              <div class="precio-bar-item">
+                <div class="precio-bar-header">
+                  <span>Precio FNC 2026</span>
+                  <span>33.000 COP / lb</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" id="bar-fnc" style="width:0;background-color:var(--color-border-strong);" data-target="59%"></div>
+                </div>
+              </div>
+              <div class="precio-bar-item">
+                <div class="precio-bar-header">
+                  <span>Mercado convencional</span>
+                  <span>~28.000 COP / lb</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" id="bar-conv" style="width:0;background-color:var(--color-border-strong);" data-target="50%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cert-list">
+              <div class="cert-item">
+                <div class="cert-item__icon"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i></div>
+                <div class="cert-item__info">
+                  <p class="cert-item__title">Documento de pago verificado</p>
+                  <p class="cert-item__desc">Factura de compra con precio, fecha y firma del caficultor. Documento original accesible.</p>
+                </div>
+                <button class="cert-item__action" onclick="openModal('modal-factura')" aria-label="Ver documento de pago">
+                  Ver <i class="fa-regular fa-arrow-right" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="cert-item">
+                <div class="cert-item__icon"><i class="fa-solid fa-handshake" aria-hidden="true"></i></div>
+                <div class="cert-item__info">
+                  <p class="cert-item__title">Relación directa certificada</p>
+                  <p class="cert-item__desc">Sin intermediarios. Contrato de compra directa entre Kaizen en Taza y la finca.</p>
+                </div>
+                <button class="cert-item__action" onclick="openModal('modal-contrato')" aria-label="Ver certificado de relación directa">
+                  Ver <i class="fa-regular fa-arrow-right" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Desglose de distribución del precio -->
+          <div>
+            <h3 style="font-family:var(--font-primary);font-size:var(--font-size-xl);font-weight:300;color:var(--color-text-primary);margin-bottom:var(--space-6);">¿A dónde va tu dinero?</h3>
+
+            <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+              <!-- Caficultor -->
+              <div style="display:flex;align-items:center;gap:var(--space-4);">
+                <div style="width:40px;height:40px;border-radius:var(--border-radius-md);background:linear-gradient(135deg,#C4A27A,#8B5A2B);display:flex;align-items:center;justify-content:center;color:white;font-size:var(--font-size-lg);flex-shrink:0;">👨‍🌾</div>
+                <div style="flex:1;">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-1);">
+                    <span style="font-size:var(--font-size-sm);color:var(--color-text-primary);">Caficultor (precio directo)</span>
+                    <span style="font-family:var(--font-mono);font-size:var(--font-size-sm);color:var(--color-accent);font-weight:500;">42%</span>
+                  </div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:42%;background-color:var(--color-accent);"></div></div>
+                </div>
+              </div>
+              <!-- Proceso y transporte -->
+              <div style="display:flex;align-items:center;gap:var(--space-4);">
+                <div style="width:40px;height:40px;border-radius:var(--border-radius-md);background-color:var(--color-surface-raised);border:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;font-size:var(--font-size-lg);flex-shrink:0;">🚢</div>
+                <div style="flex:1;">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-1);">
+                    <span style="font-size:var(--font-size-sm);color:var(--color-text-primary);">Proceso, tueste y transporte</span>
+                    <span style="font-family:var(--font-mono);font-size:var(--font-size-sm);color:var(--color-text-secondary);">31%</span>
+                  </div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:31%;background-color:var(--color-text-secondary);"></div></div>
+                </div>
+              </div>
+              <!-- Operación -->
+              <div style="display:flex;align-items:center;gap:var(--space-4);">
+                <div style="width:40px;height:40px;border-radius:var(--border-radius-md);background-color:var(--color-surface-raised);border:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;font-size:var(--font-size-lg);flex-shrink:0;">⚙️</div>
+                <div style="flex:1;">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-1);">
+                    <span style="font-size:var(--font-size-sm);color:var(--color-text-primary);">Operación y plataforma</span>
+                    <span style="font-family:var(--font-mono);font-size:var(--font-size-sm);color:var(--color-text-secondary);">18%</span>
+                  </div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:18%;background-color:var(--color-border-strong);"></div></div>
+                </div>
+              </div>
+              <!-- Margen -->
+              <div style="display:flex;align-items:center;gap:var(--space-4);">
+                <div style="width:40px;height:40px;border-radius:var(--border-radius-md);background-color:var(--color-surface-raised);border:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;font-size:var(--font-size-lg);flex-shrink:0;">📊</div>
+                <div style="flex:1;">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-1);">
+                    <span style="font-size:var(--font-size-sm);color:var(--color-text-primary);">Margen Kaizen en Taza</span>
+                    <span style="font-family:var(--font-mono);font-size:var(--font-size-sm);color:var(--color-text-secondary);">9%</span>
+                  </div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:9%;background-color:var(--color-border-strong);"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <p style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-tertiary);margin-top:var(--space-6);line-height:var(--line-height-normal);border-left:2px solid var(--color-border);padding-left:var(--space-4);">
+              Publicamos la distribución de cada ¥1,800 que pagas. No es perfecta, pero es honesta. Cada año intentamos aumentar el porcentaje que llega al caficultor.
+            </p>
+          </div>
+
+        </div>
+      </div><!-- /traza-panel-justo -->
+
+
+      <!-- Fila de certificaciones clickeables -->
+      <div class="cert-badges-row" role="list" aria-label="Certificaciones del lote">
+        <a href="#trazabilidad" class="cert-badge" role="listitem" onclick="activateTab('origen')">
+          <i class="fa-solid fa-seedling" aria-hidden="true"></i>
+          Comercio justo verificado
+        </a>
+        <a href="#trazabilidad" class="cert-badge" role="listitem" onclick="activateTab('origen')">
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          Trazabilidad completa
+        </a>
+        <button class="cert-badge" role="listitem" onclick="openModal('modal-contrato')" aria-label="Ver certificado de relación directa">
+          <i class="fa-solid fa-handshake" aria-hidden="true"></i>
+          Relación directa
+        </button>
+        <button class="cert-badge" role="listitem" onclick="openModal('modal-factura')" aria-label="Ver documento de pago">
+          <i class="fa-solid fa-file-certificate" aria-hidden="true"></i>
+          Precio documentado
+        </button>
+        <a href="#" class="cert-badge" role="listitem">
+          <i class="fa-solid fa-award" aria-hidden="true"></i>
+          SCA Certified Q-Grader
+        </a>
+      </div>
+
+    </section><!-- /trazabilidad-section -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECCIÓN: RECOMENDACIÓN DE PREPARACIÓN
+         ═══════════════════════════════════════════════════════ -->
+    <section class="preparacion-section" aria-labelledby="preparacion-heading">
+      <div class="container">
+        <div class="section-header" style="margin-bottom:var(--space-10);">
+          <p class="type-subtitle">Ritual sugerido</p>
+          <h2 class="type-headline" id="preparacion-heading">Cómo preparar este lote</h2>
+        </div>
+
+        <div class="preparacion-grid">
+
+          <!-- Visual -->
+          <div class="preparacion-visual">
+            <div class="preparacion-metodo">
+              <span class="preparacion-metodo__icon" aria-hidden="true">☕</span>
+              <div>
+                <p class="preparacion-metodo__label">Método sugerido</p>
+                <p class="preparacion-metodo__name">V60</p>
+              </div>
+            </div>
+
+            <div class="preparacion-params" aria-label="Parámetros de preparación">
+              <div class="preparacion-param">
+                <span class="preparacion-param__icon" aria-hidden="true">🌡️</span>
+                <span class="preparacion-param__value">93°C</span>
+                <span class="preparacion-param__label">Temperatura</span>
+              </div>
+              <div class="preparacion-param">
+                <span class="preparacion-param__icon" aria-hidden="true">⚖️</span>
+                <span class="preparacion-param__value">1:16</span>
+                <span class="preparacion-param__label">Relación</span>
+              </div>
+              <div class="preparacion-param">
+                <span class="preparacion-param__icon" aria-hidden="true">⏱️</span>
+                <span class="preparacion-param__value">3:30</span>
+                <span class="preparacion-param__label">Tiempo total</span>
+              </div>
+              <div class="preparacion-param">
+                <span class="preparacion-param__icon" aria-hidden="true">☕</span>
+                <span class="preparacion-param__value">15g</span>
+                <span class="preparacion-param__label">Café</span>
+              </div>
+              <div class="preparacion-param">
+                <span class="preparacion-param__icon" aria-hidden="true">💧</span>
+                <span class="preparacion-param__value">240ml</span>
+                <span class="preparacion-param__label">Agua</span>
+              </div>
+              <div class="preparacion-param">
+                <span class="preparacion-param__icon" aria-hidden="true">🔩</span>
+                <span class="preparacion-param__value">Media</span>
+                <span class="preparacion-param__label">Molienda</span>
+              </div>
+            </div>
+
+            <a href="aprender.html" class="btn btn--outline-accent" style="align-self:flex-start;">
+              <i class="fa-regular fa-book-open" aria-hidden="true"></i>
+              Ver Manual del Ritual completo →
+            </a>
+          </div>
+
+          <!-- Pasos -->
+          <div class="preparacion-steps" aria-label="Pasos de preparación">
+            <h3 style="font-family:var(--font-primary);font-size:var(--font-size-xl);font-weight:300;color:var(--color-text-primary);margin-bottom:var(--space-4);">Protocolo paso a paso</h3>
+
+            <div class="preparacion-step">
+              <span class="preparacion-step__num" aria-label="Paso 1">01</span>
+              <p class="preparacion-step__text"><strong>Moler al momento.</strong> Molienda media-fina, similar a sal de mesa. La frescura del molido determina la expresión de los aromas.</p>
+            </div>
+            <div class="preparacion-step">
+              <span class="preparacion-step__num" aria-label="Paso 2">02</span>
+              <p class="preparacion-step__text"><strong>Enjuagar el filtro</strong> con agua caliente. Descarta el agua de enjuague para eliminar el sabor a papel.</p>
+            </div>
+            <div class="preparacion-step">
+              <span class="preparacion-step__num" aria-label="Paso 3">03</span>
+              <p class="preparacion-step__text"><strong>Bloom: 30ml de agua a 93°C</strong> sobre los 15g de café. Espera 45 segundos. Verás el café "florecer" — es el CO₂ liberándose.</p>
+            </div>
+            <div class="preparacion-step">
+              <span class="preparacion-step__num" aria-label="Paso 4">04</span>
+              <p class="preparacion-step__text"><strong>Vertidos en círculos concéntricos</strong> hasta 240ml. Tres vertidos de ~70ml cada uno con pausas de 30 segundos.</p>
+            </div>
+            <div class="preparacion-step">
+              <span class="preparacion-step__num" aria-label="Paso 5">05</span>
+              <p class="preparacion-step__text"><strong>El drenaje completo</strong> debe ocurrir entre 3:00 y 3:45 minutos. Si es más rápido, muele más fino. Si es más lento, más grueso.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECCIÓN: LOTES RELACIONADOS — Carrousel
+         ═══════════════════════════════════════════════════════ -->
+    <section class="relacionados-section" aria-labelledby="relacionados-heading">
+      <div class="container">
+
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:var(--space-8);">
+          <div>
+            <p class="type-subtitle">Seguir explorando</p>
+            <h2 class="type-headline" id="relacionados-heading">Lotes similares</h2>
+          </div>
+          <div class="carrousel-controls">
+            <button class="carrousel-btn" id="carr-prev" onclick="moveCarrousel(-1)" aria-label="Lote anterior" disabled>
+              <i class="fa-regular fa-chevron-left"></i>
+            </button>
+            <button class="carrousel-btn" id="carr-next" onclick="moveCarrousel(1)" aria-label="Lote siguiente">
+              <i class="fa-regular fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="carrousel-wrapper">
+          <div class="carrousel-track" id="carrousel-track">
+
+            <!-- Slide 1 -->
+            <div class="carrousel-slide">
+              <a href="lote-detalle.html" class="lote-card-full" style="display:flex;flex-direction:column;text-decoration:none;color:inherit;">
+                <div class="lote-card-full__media">
+                  <img src="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=500&q=70" alt="Finca El Paraíso, Nariño" loading="lazy" />
+                  <div class="lote-card-full__img-badges">
+                    <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+                  </div>
+                </div>
+                <div class="lote-card-full__body">
+                  <p class="lote-card-full__id">KET-2025-052</p>
+                  <h3 class="lote-card-full__name">Finca El Paraíso<br/>Nariño</h3>
+                  <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Doña Carmen Rosero</p>
+                  <div class="lote-specs-row">
+                    <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Gesha</span></div>
+                    <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Natural</span></div>
+                    <div class="lote-spec-item"><span class="lote-spec-item__label">SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">88.0</span><span class="sca-score__pts"> pts</span></span></span></div>
+                  </div>
+                </div>
+                <div class="lote-card-full__footer">
+                  <div class="lote-price"><span class="lote-price__amount">¥2,800</span><span class="lote-price__unit">por 200g</span></div>
+                  <span class="lote-card-full__cta" style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-accent);display:flex;align-items:center;gap:var(--space-2);">Ver lote <i class="fa-regular fa-arrow-right"></i></span>
+                </div>
+              </a>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carrousel-slide">
+              <a href="lote-detalle.html" class="lote-card-full" style="display:flex;flex-direction:column;text-decoration:none;color:inherit;">
+                <div class="lote-card-full__media">
+                  <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=500&q=70" alt="Finca Las Palmas, Cauca" loading="lazy" />
+                  <div class="lote-card-full__img-badges">
+                    <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+                  </div>
+                </div>
+                <div class="lote-card-full__body">
+                  <p class="lote-card-full__id">KET-2025-061</p>
+                  <h3 class="lote-card-full__name">Finca Las Palmas<br/>Cauca</h3>
+                  <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Don Héctor Medina</p>
+                  <div class="lote-specs-row">
+                    <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Castillo</span></div>
+                    <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Honey</span></div>
+                    <div class="lote-spec-item"><span class="lote-spec-item__label">SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">85.5</span><span class="sca-score__pts"> pts</span></span></span></div>
+                  </div>
+                </div>
+                <div class="lote-card-full__footer">
+                  <div class="lote-price"><span class="lote-price__amount">¥2,100</span><span class="lote-price__unit">por 200g</span></div>
+                  <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-accent);display:flex;align-items:center;gap:var(--space-2);">Ver lote <i class="fa-regular fa-arrow-right"></i></span>
+                </div>
+              </a>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carrousel-slide">
+              <a href="lote-detalle.html" class="lote-card-full" style="display:flex;flex-direction:column;text-decoration:none;color:inherit;">
+                <div class="lote-card-full__media">
+                  <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&q=70" alt="Finca El Edén, Huila" loading="lazy" />
+                  <div class="lote-card-full__img-badges">
+                    <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+                  </div>
+                </div>
+                <div class="lote-card-full__body">
+                  <p class="lote-card-full__id">KET-2025-068</p>
+                  <h3 class="lote-card-full__name">Finca El Edén<br/>Huila</h3>
+                  <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Don Luis Perdomo</p>
+                  <div class="lote-specs-row">
+                    <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Pink Bourbon</span></div>
+                    <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Natural</span></div>
+                    <div class="lote-spec-item"><span class="lote-spec-item__label">SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">87.0</span><span class="sca-score__pts"> pts</span></span></span></div>
+                  </div>
+                </div>
+                <div class="lote-card-full__footer">
+                  <div class="lote-price"><span class="lote-price__amount">¥2,400</span><span class="lote-price__unit">por 200g</span></div>
+                  <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-accent);display:flex;align-items:center;gap:var(--space-2);">Ver lote <i class="fa-regular fa-arrow-right"></i></span>
+                </div>
+              </a>
+            </div>
+
+          </div><!-- /carrousel-track -->
+        </div><!-- /carrousel-wrapper -->
+
+      </div>
+    </section>
+
+  </div><!-- /container -->
+  </main>
+</div><!-- /detalle-wrapper -->
+
+
+<!-- FOOTER -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-manifesto">
+      <p class="footer-manifesto__text">
+        De las montañas colombianas a tu taza en Tokio.<br/>
+        <em>Mejora continua. Cadena honesta. Ritual consciente.</em>
+      </p>
+    </div>
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a href="index.html" class="site-footer__logo">Kaizen en Taza<span style="display:block;font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;color:rgba(250,249,247,0.25);margin-top:4px;">改善 · CAFÉ DE ESPECIALIDAD</span></a>
+        <p class="site-footer__tagline">Café colombiano de especialidad con trazabilidad completa para el consumidor consciente en Japón.</p>
+      </div>
+      <div>
+        <p class="site-footer__column-title">El café</p>
+        <ul class="site-footer__links">
+          <li><a href="lotes.html" class="site-footer__link">Lotes activos</a></li>
+          <li><a href="suscripcion.html" class="site-footer__link">Suscripción</a></li>
+          <li><a href="donde-encontrarnos.html" class="site-footer__link">Dónde encontrarnos</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-footer__column-title">Aprender</p>
+        <ul class="site-footer__links">
+          <li><a href="aprender.html" class="site-footer__link">El ritual del café</a></li>
+          <li><a href="comunidad.html" class="site-footer__link">Comunidad</a></li>
+          <li><a href="sobre-nosotros.html" class="site-footer__link">Sobre nosotros</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-footer__column-title">Nuevos lotes</p>
+        <form class="footer-newsletter" onsubmit="handleNewsletter(event)">
+          <label for="newsletter-email2" class="visually-hidden">Tu email</label>
+          <input type="email" id="newsletter-email2" placeholder="tu@email.com" required />
+          <button type="submit">→</button>
+        </form>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">© 2025 Kaizen en Taza · Hecho con cuidado entre Colombia y Japón</p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="alert" aria-live="polite" aria-atomic="true">
+  <i class="fa-solid fa-circle-check" style="color:#81C784;"></i>
+  <span id="toast-msg">Añadido al carrito correctamente.</span>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     MODALES DE DOCUMENTOS
+     ══════════════════════════════════════════════════ -->
+
+<!-- Modal: Factura de pago -->
+<div class="modal-overlay" id="modal-factura" role="dialog" aria-modal="true" aria-labelledby="modal-factura-title">
+  <div class="modal-doc">
+    <div class="modal-doc__header">
+      <h2 class="modal-doc__title" id="modal-factura-title">Documento de pago al caficultor</h2>
+      <button class="modal-doc__close" onclick="closeModal('modal-factura')" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-doc__body">
+      <div class="doc-preview" role="img" aria-label="Vista previa del documento de pago">
+        <i class="fa-regular fa-file-invoice-dollar" aria-hidden="true"></i>
+        <p class="doc-preview__label">Comprobante de pago · Lote KET-2025-047</p>
+        <p class="doc-preview__meta">PDF · Firmado digitalmente · Mayo 2026</p>
+      </div>
+      <div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Caficultor</span>
+          <span class="doc-info-row__value">Rodrigo Zapata Lozano</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Finca</span>
+          <span class="doc-info-row__value">La Esperanza · La Argentina, Huila</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Cantidad comprada</span>
+          <span class="doc-info-row__value">100 libras (50 kg en pergamino)</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Precio acordado</span>
+          <span class="doc-info-row__value" style="color:var(--color-accent);font-weight:500;">45.000 COP / libra</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Total pagado</span>
+          <span class="doc-info-row__value">4.500.000 COP</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Fecha de pago</span>
+          <span class="doc-info-row__value">12 de mayo de 2026</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Método de verificación</span>
+          <span class="doc-info-row__value" style="color:var(--color-success);">Firma digital + visita en campo</span>
+        </div>
+      </div>
+      <button class="btn btn--primary btn--full" onclick="closeModal('modal-factura')">
+        <i class="fa-regular fa-download" aria-hidden="true"></i>
+        Descargar documento completo (PDF)
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Contrato de relación directa -->
+<div class="modal-overlay" id="modal-contrato" role="dialog" aria-modal="true" aria-labelledby="modal-contrato-title">
+  <div class="modal-doc">
+    <div class="modal-doc__header">
+      <h2 class="modal-doc__title" id="modal-contrato-title">Certificado de relación directa</h2>
+      <button class="modal-doc__close" onclick="closeModal('modal-contrato')" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-doc__body">
+      <div class="doc-preview" role="img" aria-label="Vista previa del certificado de relación directa">
+        <i class="fa-regular fa-handshake" aria-hidden="true"></i>
+        <p class="doc-preview__label">Contrato de compraventa directa</p>
+        <p class="doc-preview__meta">PDF · Año 2025 · Temporada actual</p>
+      </div>
+      <div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Tipo de relación</span>
+          <span class="doc-info-row__value">Compra directa sin intermediario</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Temporadas activas</span>
+          <span class="doc-info-row__value">2023, 2024, 2025</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Visitas en campo</span>
+          <span class="doc-info-row__value" style="color:var(--color-success);">2 visitas verificadas (2024, 2025)</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Verificado por</span>
+          <span class="doc-info-row__value">Valentina Cruz · Q-Grader SCA</span>
+        </div>
+      </div>
+      <button class="btn btn--primary btn--full" onclick="closeModal('modal-contrato')">
+        <i class="fa-regular fa-download" aria-hidden="true"></i>
+        Descargar certificado (PDF)
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Curva de tostión -->
+<div class="modal-overlay" id="modal-roast" role="dialog" aria-modal="true" aria-labelledby="modal-roast-title">
+  <div class="modal-doc">
+    <div class="modal-doc__header">
+      <h2 class="modal-doc__title" id="modal-roast-title">Curva de tostión · KET-2025-047</h2>
+      <button class="modal-doc__close" onclick="closeModal('modal-roast')" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-doc__body">
+      <div class="doc-preview" role="img" aria-label="Vista previa de la curva de tostión">
+        <i class="fa-regular fa-chart-line" aria-hidden="true"></i>
+        <p class="doc-preview__label">Perfil de tostión en Cropster</p>
+        <p class="doc-preview__meta">PNG + CSV · Tostador: Andrés Mejía · Bogotá</p>
+      </div>
+      <div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Tiempo total</span>
+          <span class="doc-info-row__value">11 min 42 seg</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Temperatura de carga</span>
+          <span class="doc-info-row__value">190°C</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Temperatura de descarga</span>
+          <span class="doc-info-row__value">197°C</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Desarrollo (% tiempo)</span>
+          <span class="doc-info-row__value">21.4%</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Agtron (color)</span>
+          <span class="doc-info-row__value">58 (media clara)</span>
+        </div>
+        <div class="doc-info-row">
+          <span class="doc-info-row__label">Máquina</span>
+          <span class="doc-info-row__value">Probat P12 · Lote 2026</span>
+        </div>
+      </div>
+      <button class="btn btn--primary btn--full" onclick="closeModal('modal-roast')">
+        <i class="fa-regular fa-download" aria-hidden="true"></i>
+        Descargar curva + CSV
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+  /* ── Header scroll ── */
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  /* ── Menú hamburguesa ── */
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuToggle.addEventListener('click', () => {
+    const open = menuToggle.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    menuToggle.setAttribute('aria-expanded', String(open));
+    mobileMenu.setAttribute('aria-hidden', String(!open));
+    document.body.classList.toggle('menu-open', open);
+  });
+  mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
+    menuToggle.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded','false');
+    mobileMenu.setAttribute('aria-hidden','true');
+    document.body.classList.remove('menu-open');
+  }));
+
+  /* ── Galería: cambio de imagen principal ── */
+  document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      document.querySelectorAll('.gallery-thumb').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-pressed', 'false');
+      });
+      thumb.classList.add('active');
+      thumb.setAttribute('aria-pressed', 'true');
+
+      const mainImg = document.getElementById('gallery-main-img');
+      mainImg.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = thumb.dataset.full;
+        mainImg.alt = thumb.dataset.alt;
+        mainImg.style.opacity = '1';
+      }, 180);
+    });
+  });
+
+  /* ── Tabs de trazabilidad ── */
+  function activateTab(tabId) {
+    // Desactivar todos
+    document.querySelectorAll('.traza-tab').forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
+    });
+    document.querySelectorAll('.traza-panel').forEach(panel => {
+      panel.classList.remove('active');
+    });
+
+    // Activar el elegido
+    const btn   = document.getElementById(`tab-btn-${tabId}`);
+    const panel = document.getElementById(`traza-panel-${tabId}`);
+    if (btn)   { btn.classList.add('active');   btn.setAttribute('aria-selected','true'); }
+    if (panel) { panel.classList.add('active'); }
+
+    // Animar barras del tab de comercio justo
+    if (tabId === 'justo') animateJustoPrices();
+
+    // Scroll al área de tabs
+    const section = document.getElementById('trazabilidad');
+    if (section) {
+      const y = section.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }
+
+  /* ── Precio tabs (Suscripción / Única) ── */
+  function switchPrecioTab(type) {
+    document.querySelectorAll('.precio-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(`precio-tab-${type}`).classList.add('active');
+
+    const frecuenciaGroup = document.getElementById('frecuencia-group');
+    if (type === 'suscrip') {
+      frecuenciaGroup.style.display = '';
+      document.getElementById('cta-suscribir').textContent = ''; // reset
+      document.getElementById('cta-suscribir').innerHTML = '<i class="fa-regular fa-rotate" aria-hidden="true"></i> Suscribirme — ¥1,620 / envío';
+    } else {
+      frecuenciaGroup.style.display = 'none';
+      document.getElementById('cta-suscribir').innerHTML = '<i class="fa-regular fa-bag-shopping" aria-hidden="true"></i> Comprar — ¥1,800';
+      document.getElementById('cta-suscribir').href = 'javascript:void(0)';
+      document.getElementById('cta-suscribir').addEventListener('click', addToCart, { once: true });
+    }
+  }
+
+  /* ── Option pills (cantidad / frecuencia) ── */
+  document.querySelectorAll('.option-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const group = pill.dataset.group;
+      document.querySelectorAll(`[data-group="${group}"]`).forEach(p => {
+        p.classList.remove('selected');
+        p.setAttribute('aria-pressed', 'false');
+      });
+      pill.classList.add('selected');
+      pill.setAttribute('aria-pressed', 'true');
+    });
+  });
+
+  /* ── Carrito ── */
+  function addToCart() {
+    showToast('Añadido al carrito correctamente.');
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+
+  /* ── Modales ── */
+  function openModal(id) {
+    const overlay = document.getElementById(id);
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Focus en el botón de cerrar para accesibilidad
+    setTimeout(() => overlay.querySelector('.modal-doc__close')?.focus(), 100);
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Cerrar modales con overlay click o Escape
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) closeModal(overlay.id);
+    });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(o => closeModal(o.id));
+    }
+  });
+
+  /* ── Video placeholder ── */
+  function playVideo() {
+    showToast('Video próximamente disponible en este lote.');
+  }
+
+  /* ── Animación barras de precio justo (IntersectionObserver) ── */
+  function animateJustoPrices() {
+    setTimeout(() => {
+      const ids = ['bar-kaizen-j', 'bar-fnc', 'bar-conv'];
+      ids.forEach(id => {
+        const bar = document.getElementById(id);
+        if (bar) bar.style.width = bar.dataset.target;
+      });
+    }, 150);
+  }
+
+  // Observer para el panel de comercio justo
+  const justoPanel = document.getElementById('traza-panel-justo');
+  if (justoPanel) {
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && justoPanel.classList.contains('active')) {
+        animateJustoPrices();
+        obs.disconnect();
+      }
+    }, { threshold: 0.3 });
+    obs.observe(justoPanel);
+  }
+
+  /* ── Carrousel de lotes relacionados ── */
+  let carrouselIndex = 0;
+  const track  = document.getElementById('carrousel-track');
+  const slides = track ? track.querySelectorAll('.carrousel-slide') : [];
+  const btnPrev = document.getElementById('carr-prev');
+  const btnNext = document.getElementById('carr-next');
+
+  function getSlideWidth() {
+    if (!slides.length) return 0;
+    const slide = slides[0];
+    return slide.offsetWidth + parseInt(getComputedStyle(track).gap || 24);
+  }
+
+  function moveCarrousel(dir) {
+    const maxIndex = Math.max(0, slides.length - getVisibleSlides());
+    carrouselIndex = Math.max(0, Math.min(carrouselIndex + dir, maxIndex));
+    track.style.transform = `translateX(-${carrouselIndex * getSlideWidth()}px)`;
+    if (btnPrev) btnPrev.disabled = carrouselIndex === 0;
+    if (btnNext) btnNext.disabled = carrouselIndex >= maxIndex;
+  }
+
+  function getVisibleSlides() {
+    const w = window.innerWidth;
+    if (w < 768) return 1;
+    if (w < 1200) return 2;
+    return 3;
+  }
+
+  window.addEventListener('resize', () => {
+    carrouselIndex = 0;
+    if (track) track.style.transform = 'translateX(0)';
+    if (btnPrev) btnPrev.disabled = true;
+    if (btnNext) btnNext.disabled = slides.length <= getVisibleSlides();
+  });
+
+  // Swipe en móvil
+  if (track) {
+    let touchStartX = 0;
+    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) moveCarrousel(diff > 0 ? 1 : -1);
+    });
+  }
+
+  /* ── Newsletter ── */
+  function handleNewsletter(e) {
+    e.preventDefault();
+    showToast('¡Listo! Te avisamos con el próximo lote.');
+    e.target.reset();
+  }
+</script>
+
+</body>
+</html>
