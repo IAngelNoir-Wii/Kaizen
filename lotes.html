@@ -1,1007 +1,2138 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Explora nuestros lotes de café colombiano de especialidad. Filtra por origen, proceso y perfil de taza. Trazabilidad completa en cada lote.">
-    <title>Lotes Activos | Kaizen en Taza - Café colombiano de especialidad</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Estilos adicionales específicos para la página de lotes */
-        .filter-section {
-            background: var(--color-surface);
-            border-radius: var(--border-radius-xl);
-            padding: var(--space-6);
-            margin-bottom: var(--space-8);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--color-border);
-        }
-        
-        .filter-group {
-            margin-bottom: var(--space-4);
-        }
-        
-        .filter-label {
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-2);
-            display: block;
-        }
-        
-        .filter-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-2);
-        }
-        
-        .filter-chip {
-            padding: var(--space-2) var(--space-4);
-            background: var(--color-background);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius-full);
-            font-size: var(--font-size-sm);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .filter-chip:hover {
-            border-color: var(--color-accent);
-            background: var(--color-accent-ultra-light);
-        }
-        
-        .filter-chip.active {
-            background: var(--color-accent);
-            color: white;
-            border-color: var(--color-accent);
-        }
-        
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-6);
-            flex-wrap: wrap;
-            gap: var(--space-4);
-        }
-        
-        .results-count {
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-        }
-        
-        .sort-select {
-            padding: var(--space-2) var(--space-4);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius-full);
-            background: var(--color-surface);
-            font-size: var(--font-size-sm);
-            cursor: pointer;
-        }
-        
-        .comparison-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--color-surface);
-            border-top: 1px solid var(--color-border);
-            padding: var(--space-4) var(--space-6);
-            box-shadow: var(--shadow-2xl);
-            z-index: 1000;
-            transform: translateY(100%);
-            transition: transform var(--transition-base);
-        }
-        
-        .comparison-bar.active {
-            transform: translateY(0);
-        }
-        
-        .comparison-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: var(--space-4);
-        }
-        
-        .comparison-items {
-            display: flex;
-            gap: var(--space-4);
-            flex-wrap: wrap;
-        }
-        
-        .comparison-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            background: var(--color-accent-ultra-light);
-            padding: var(--space-2) var(--space-3);
-            border-radius: var(--border-radius-full);
-            font-size: var(--font-size-sm);
-        }
-        
-        .comparison-item i {
-            cursor: pointer;
-            color: var(--color-text-tertiary);
-        }
-        
-        .comparison-item i:hover {
-            color: var(--color-error);
-        }
-        
-        .btn-compare {
-            background: var(--color-accent);
-            color: white;
-            padding: var(--space-2) var(--space-6);
-            border-radius: var(--border-radius-full);
-            font-weight: 600;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: var(--space-16);
-            background: var(--color-surface);
-            border-radius: var(--border-radius-xl);
-        }
-        
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-2);
-            margin-top: var(--space-12);
-        }
-        
-        .page-btn {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius-md);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .page-btn:hover {
-            border-color: var(--color-accent);
-            color: var(--color-accent);
-        }
-        
-        .page-btn.active {
-            background: var(--color-accent);
-            color: white;
-            border-color: var(--color-accent);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lotes activos de café colombiano de especialidad. Filtra por origen, proceso y perfil de taza. Trazabilidad completa en cada lote." />
+  <title>Lotes activos — Kaizen en Taza</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ======================================================
+       ESTILOS ESPECÍFICOS — lotes.html
+       ====================================================== */
+
+    /* ── Page header ── */
+    .page-header {
+      padding-top: calc(var(--header-height) + var(--space-12));
+      padding-bottom: var(--space-10);
+      border-bottom: 1px solid var(--color-border);
+      background-color: var(--color-background);
+    }
+
+    .page-header__inner {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-6);
+    }
+
+    .page-header__left {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .page-header__count {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.1em;
+    }
+
+    .page-header__title {
+      font-family: var(--font-primary);
+      font-size: clamp(var(--font-size-3xl), 4vw, var(--font-size-4xl));
+      font-weight: 200;
+      color: var(--color-text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+
+    /* ── Filtros ── */
+    .filters-bar {
+      position: sticky;
+      top: var(--header-height);
+      z-index: var(--z-sticky);
+      background-color: rgba(250,249,247,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+      padding-block: var(--space-4);
+    }
+
+    .filters-bar__inner {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .filters-bar__inner::-webkit-scrollbar { display: none; }
+
+    /* Grupo de filtro */
+    .filter-group-inline {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-shrink: 0;
+    }
+
+    .filter-group-inline__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+      white-space: nowrap;
+    }
+
+    .filter-separator {
+      width: 1px;
+      height: 24px;
+      background-color: var(--color-border);
+      flex-shrink: 0;
+    }
+
+    /* Botones de filtro */
+    .filter-btn {
+      padding: var(--space-2) var(--space-3);
+      background-color: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-full);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.05em;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+
+    .filter-btn:hover {
+      border-color: var(--color-accent-light);
+      color: var(--color-accent);
+      background-color: var(--color-accent-subtle);
+    }
+
+    .filter-btn.active {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+      color: white;
+    }
+
+    /* Botón Comparar */
+    .btn-comparar {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background-color: transparent;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--border-radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.06em;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+
+    .btn-comparar:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background-color: var(--color-accent-subtle);
+    }
+
+    .btn-comparar.active {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+      color: white;
+    }
+
+    .btn-comparar .comparar-count {
+      display: none;
+      width: 18px;
+      height: 18px;
+      background-color: white;
+      color: var(--color-accent);
+      border-radius: 50%;
+      font-size: 0.6rem;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .btn-comparar.active .comparar-count {
+      display: flex;
+    }
+
+    /* ── Content area ── */
+    .lotes-content {
+      padding-block: var(--space-10);
+      min-height: 60vh;
+    }
+
+    /* Resultado vacío */
+    .empty-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-20);
+      text-align: center;
+      gap: var(--space-4);
+    }
+
+    .empty-state.show { display: flex; }
+
+    .empty-state__icon {
+      font-size: 2.5rem;
+      color: var(--color-border-strong);
+    }
+
+    .empty-state__title {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+    }
+
+    .empty-state__desc {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+    }
+
+    /* ── Grid de lotes ── */
+    .lotes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    /* ── Card de lote ── */
+    .lote-card-full {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow var(--transition-base),
+                  transform var(--transition-base),
+                  border-color var(--transition-base);
+      position: relative;
+    }
+
+    .lote-card-full:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+
+    /* Estado seleccionado para comparar */
+    .lote-card-full.selected-for-compare {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px var(--color-accent), var(--shadow-md);
+    }
+
+    /* Checkbox comparar — oculto por defecto */
+    .compare-checkbox-wrap {
+      display: none;
+      position: absolute;
+      top: var(--space-3);
+      left: var(--space-3);
+      z-index: 10;
+    }
+
+    .compare-mode .compare-checkbox-wrap {
+      display: flex;
+    }
+
+    .compare-checkbox {
+      width: 22px;
+      height: 22px;
+      border-radius: var(--border-radius-sm);
+      border: 2px solid white;
+      background-color: rgba(255,255,255,0.9);
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+      appearance: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color var(--transition-fast), border-color var(--transition-fast);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .compare-checkbox:checked {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .compare-checkbox:checked::after {
+      content: '';
+      width: 5px;
+      height: 9px;
+      border: 1.5px solid white;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg) translateY(-1px);
+      display: block;
+    }
+
+    .compare-checkbox:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Media del lote */
+    .lote-card-full__media {
+      height: 200px;
+      overflow: hidden;
+      background-color: var(--color-surface-raised);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .lote-card-full__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-slow);
+    }
+
+    .lote-card-full:hover .lote-card-full__media img {
+      transform: scale(1.05);
+    }
+
+    /* Badges sobre la imagen */
+    .lote-card-full__img-badges {
+      position: absolute;
+      bottom: var(--space-3);
+      left: var(--space-3);
+      right: var(--space-3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+    }
+
+    .img-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px var(--space-2);
+      border-radius: var(--border-radius-full);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      white-space: nowrap;
+    }
+
+    .img-badge--trazabilidad {
+      background-color: rgba(10,9,8,0.75);
+      color: rgba(250,249,247,0.9);
+    }
+
+    .img-badge--trazabilidad i { color: #81C784; }
+
+    .img-badge--comercio {
+      background-color: rgba(46,125,50,0.8);
+      color: rgba(250,249,247,0.9);
+    }
+
+    /* Disponibilidad dot */
+    .lote-card-full__availability {
+      position: absolute;
+      top: var(--space-3);
+      right: var(--space-3);
+      padding: 4px var(--space-2);
+      border-radius: var(--border-radius-full);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      backdrop-filter: blur(8px);
+      background-color: rgba(10,9,8,0.75);
+      color: rgba(250,249,247,0.8);
+    }
+
+    .availability-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .availability-dot--available { background-color: #81C784; }
+    .availability-dot--limited   {
+      background-color: #FBB040;
+      animation: pulse 2s ease infinite;
+    }
+
+    /* Body del card */
+    .lote-card-full__body {
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      flex: 1;
+    }
+
+    .lote-card-full__id {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-accent);
+      letter-spacing: 0.1em;
+    }
+
+    .lote-card-full__name {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    .lote-card-full__caficultor {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .lote-card-full__caficultor i {
+      font-size: 11px;
+      color: var(--color-text-tertiary);
+    }
+
+    /* Specs row */
+    .lote-specs-row {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .lote-spec-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .lote-spec-item:last-child {
+      border-bottom: none;
+    }
+
+    .lote-spec-item__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+    }
+
+    .lote-spec-item__value {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+    }
+
+    /* SCA badge */
+    .sca-score {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 2px;
+      font-family: var(--font-mono);
+    }
+
+    .sca-score__number {
+      font-size: var(--font-size-base);
+      font-weight: 500;
+      color: var(--color-accent);
+    }
+
+    .sca-score__pts {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+    }
+
+    /* Notas de cata */
+    .notas-cata {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+    }
+
+    /* Footer del card */
+    .lote-card-full__footer {
+      padding: var(--space-4) var(--space-5);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-shrink: 0;
+    }
+
+    .lote-price {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .lote-price__amount {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      line-height: 1;
+    }
+
+    .lote-price__unit {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Barra comparador fija ── */
+    .compare-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: var(--z-fixed);
+      background-color: var(--color-text-primary);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      transform: translateY(100%);
+      transition: transform var(--transition-spring);
+      box-shadow: 0 -8px 32px rgba(0,0,0,0.2);
+    }
+
+    .compare-bar.visible {
+      transform: translateY(0);
+    }
+
+    .compare-bar__label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(250,249,247,0.4);
+      flex-shrink: 0;
+    }
+
+    .compare-bar__slots {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .compare-slot {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      background-color: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--border-radius-sm);
+      min-width: 160px;
+      max-width: 220px;
+      transition: background-color var(--transition-fast);
+    }
+
+    .compare-slot--empty {
+      border-style: dashed;
+      background-color: transparent;
+      opacity: 0.4;
+    }
+
+    .compare-slot__name {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: rgba(250,249,247,0.85);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .compare-slot--empty .compare-slot__name {
+      color: rgba(250,249,247,0.35);
+    }
+
+    .compare-slot__remove {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      color: rgba(250,249,247,0.5);
+      font-size: 0.55rem;
+      flex-shrink: 0;
+      transition: background-color var(--transition-fast);
+    }
+
+    .compare-slot__remove:hover {
+      background-color: rgba(255,255,255,0.2);
+      color: rgba(250,249,247,0.9);
+    }
+
+    .compare-slot--empty .compare-slot__remove {
+      display: none;
+    }
+
+    .compare-bar__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-shrink: 0;
+    }
+
+    .btn-compare-now {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-6);
+      background-color: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background-color var(--transition-fast), opacity var(--transition-fast);
+    }
+
+    .btn-compare-now:hover {
+      background-color: #9E6830;
+    }
+
+    .btn-compare-now:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-compare-cancel {
+      background: none;
+      border: none;
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: rgba(250,249,247,0.35);
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: color var(--transition-fast);
+    }
+
+    .btn-compare-cancel:hover {
+      color: rgba(250,249,247,0.7);
+    }
+
+    /* ── Modal Comparador ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(10,9,8,0.7);
+      backdrop-filter: blur(4px);
+      z-index: var(--z-modal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background-color: var(--color-surface);
+      border-radius: var(--border-radius-lg);
+      border: 1px solid var(--color-border);
+      max-width: 960px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+      transform: translateY(20px) scale(0.98);
+      transition: transform var(--transition-spring);
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      background-color: var(--color-surface);
+      z-index: 1;
+    }
+
+    .modal__title {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-xl);
+      font-weight: 300;
+      color: var(--color-text-primary);
+    }
+
+    .modal__close {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--border-radius-md);
+      background-color: var(--color-surface-raised);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-sm);
+      transition: background-color var(--transition-fast);
+    }
+
+    .modal__close:hover {
+      background-color: var(--color-border);
+    }
+
+    .modal__body {
+      padding: var(--space-6);
+    }
+
+    /* Tabla comparativa */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .compare-table th {
+      padding: var(--space-4) var(--space-5);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .compare-table th:first-child {
+      width: 140px;
+    }
+
+    .compare-table td {
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: middle;
+    }
+
+    .compare-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .compare-table tr:hover td {
+      background-color: var(--color-card-hover);
+    }
+
+    .compare-attr-label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+    }
+
+    .compare-lote-header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      padding: var(--space-4);
+      background-color: var(--color-surface-raised);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+    }
+
+    .compare-lote-header__id {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-accent);
+      letter-spacing: 0.1em;
+    }
+
+    .compare-lote-header__name {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-lg);
+      font-weight: 300;
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    /* Barra de atributo en la tabla */
+    .attr-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .attr-bar__track {
+      flex: 1;
+      height: 4px;
+      background-color: var(--color-border);
+      border-radius: var(--border-radius-full);
+      overflow: hidden;
+    }
+
+    .attr-bar__fill {
+      height: 100%;
+      background-color: var(--color-accent);
+      border-radius: var(--border-radius-full);
+      transition: width 0.8s cubic-bezier(0.25,1,0.5,1);
+    }
+
+    .attr-bar__value {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      width: 30px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Ganador destacado en la tabla */
+    .compare-winner {
+      background-color: var(--color-accent-subtle) !important;
+    }
+
+    .compare-winner .attr-bar__fill {
+      background-color: var(--color-success);
+    }
+
+    .modal__footer {
+      padding: var(--space-6);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .modal__footer-note {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+    }
+
+    /* ── Paginación ── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding-top: var(--space-12);
+    }
+
+    .pagination__btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      background-color: var(--color-surface);
+      transition: all var(--transition-fast);
+    }
+
+    .pagination__btn:hover {
+      border-color: var(--color-accent-light);
+      color: var(--color-accent);
+    }
+
+    .pagination__btn.active {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+      color: white;
+    }
+
+    .pagination__btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .pagination__ellipsis {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      padding-inline: var(--space-2);
+    }
+
+    /* ── Active filters summary ── */
+    .active-filters {
+      display: none;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      padding-block: var(--space-3);
+    }
+
+    .active-filters.has-filters { display: flex; }
+
+    .active-filter-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: 3px var(--space-3);
+      background-color: var(--color-accent-subtle);
+      border: 1px solid rgba(139,90,43,0.15);
+      border-radius: var(--border-radius-full);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-accent);
+    }
+
+    .active-filter-tag__remove {
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity var(--transition-fast);
+      background: none;
+      border: none;
+      color: var(--color-accent);
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .active-filter-tag__remove:hover { opacity: 1; }
+
+    .clear-all-filters {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      cursor: pointer;
+      background: none;
+      border: none;
+      letter-spacing: 0.06em;
+      text-decoration: underline;
+      transition: color var(--transition-fast);
+    }
+
+    .clear-all-filters:hover { color: var(--color-accent); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1199px) {
+      .lotes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .compare-slot {
+        min-width: 130px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .page-header {
+        padding-top: calc(var(--header-height) + var(--space-8));
+        padding-bottom: var(--space-6);
+      }
+      .page-header__inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .lotes-grid {
+        grid-template-columns: 1fr;
+      }
+      .compare-bar {
+        flex-wrap: wrap;
+        padding: var(--space-3) var(--space-4);
+        gap: var(--space-3);
+      }
+      .compare-bar__label { display: none; }
+      .compare-bar__slots {
+        flex: none;
+        width: 100%;
+        overflow-x: auto;
+      }
+      .compare-bar__actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .modal {
+        max-height: 95vh;
+      }
+      .modal__body {
+        padding: var(--space-4);
+        overflow-x: auto;
+      }
+      .compare-table { min-width: 560px; }
+    }
+  </style>
 </head>
+
 <body>
 
-    <!-- ============================================
-         HEADER
-         ============================================ -->
-    <header class="header" id="header">
-        <div class="header-container">
-            <a href="index.html" class="logo">
-                Kaizen en <span>Taza</span>
-            </a>
-            
-            <nav class="nav">
-                <ul class="nav-links">
-                    <li><a href="index.html" class="nav-link">Inicio</a></li>
-                    <li><a href="lotes.html" class="nav-link active">Lotes</a></li>
-                    <li><a href="suscripcion.html" class="nav-link">Suscripción</a></li>
-                    <li><a href="comunidad.html" class="nav-link">Comunidad</a></li>
-                    <li><a href="aprender.html" class="nav-link">Aprender</a></li>
-                </ul>
-            </nav>
-            
-            <div class="header-actions">
-                <button class="icon-btn" id="searchBtn" aria-label="Buscar">
-                    <i class="fas fa-search"></i>
-                </button>
-                <button class="icon-btn" id="cartBtn" aria-label="Carrito">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count">0</span>
-                </button>
-                <button class="menu-toggle" id="menuToggle" aria-label="Menú">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </header>
+<!-- HEADER (idéntico al index) -->
+<header class="site-header" id="site-header" role="banner">
+  <div class="site-header__inner">
+    <a href="index.html" class="site-logo" aria-label="Kaizen en Taza — inicio">
+      <span class="site-logo__wordmark">Kaizen en Taza</span>
+      <span class="site-logo__tagline">改善 · Café de especialidad</span>
+    </a>
+    <nav class="site-nav" role="navigation" aria-label="Navegación principal">
+      <ul class="site-nav__list" role="list">
+        <li><a href="aprender.html" class="site-nav__link">El Ritual</a></li>
+        <li><a href="lotes.html" class="site-nav__link active">Lotes</a></li>
+        <li><a href="suscripcion.html" class="site-nav__link">Suscripción</a></li>
+        <li><a href="comunidad.html" class="site-nav__link">Comunidad</a></li>
+        <li><a href="aprender.html" class="site-nav__link">Aprender</a></li>
+      </ul>
+    </nav>
+    <div class="site-header__actions">
+      <button class="btn btn--ghost btn--icon" aria-label="Buscar">
+        <i class="fa-regular fa-magnifying-glass"></i>
+      </button>
+      <button class="btn btn--ghost btn--icon" aria-label="Tu pedido" style="position:relative;">
+        <i class="fa-regular fa-bag-shopping"></i>
+        <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--color-accent);border:1.5px solid var(--color-background);"></span>
+      </button>
+      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Abrir menú" aria-controls="mobile-menu">
+        <span class="menu-toggle__bar"></span>
+        <span class="menu-toggle__bar"></span>
+        <span class="menu-toggle__bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-header">
-            <span class="logo-small">Kaizen en <span>Taza</span></span>
-            <button class="mobile-menu-close" id="closeMenu">
-                <i class="fas fa-times"></i>
-            </button>
+<nav class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Menú móvil" aria-hidden="true">
+  <ul class="mobile-menu__list" role="list">
+    <li><a href="aprender.html" class="mobile-menu__link">El Ritual <i class="fa-regular fa-arrow-right"></i></a></li>
+    <li><a href="lotes.html" class="mobile-menu__link">Lotes <i class="fa-regular fa-arrow-right"></i></a></li>
+    <li><a href="suscripcion.html" class="mobile-menu__link">Suscripción <i class="fa-regular fa-arrow-right"></i></a></li>
+    <li><a href="comunidad.html" class="mobile-menu__link">Comunidad <i class="fa-regular fa-arrow-right"></i></a></li>
+    <li><a href="aprender.html" class="mobile-menu__link">Aprender <i class="fa-regular fa-arrow-right"></i></a></li>
+  </ul>
+  <div class="mobile-menu__footer">
+    <a href="suscripcion.html" class="btn btn--primary btn--full btn--lg">Inicia tu ritual →</a>
+  </div>
+</nav>
+
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <span class="breadcrumb__item"><a href="index.html">Inicio</a></span>
+      <span class="breadcrumb__separator" aria-hidden="true">—</span>
+      <span class="breadcrumb__item breadcrumb__item--current">Lotes</span>
+    </nav>
+    <div class="page-header__inner" style="margin-top:var(--space-4);">
+      <div class="page-header__left">
+        <h1 class="page-header__title">Lotes activos</h1>
+        <p class="page-header__count" id="lotes-count">9 lotes disponibles · Temporada 2025</p>
+      </div>
+      <a href="suscripcion.html" class="btn btn--primary">
+        <i class="fa-regular fa-bag-shopping" aria-hidden="true"></i>
+        Suscribirme
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- FILTROS STICKY -->
+<div class="filters-bar" role="search" aria-label="Filtros de lotes">
+  <div class="container">
+    <div class="filters-bar__inner">
+
+      <!-- Origen -->
+      <div class="filter-group-inline" role="group" aria-label="Filtrar por origen">
+        <span class="filter-group-inline__label">Origen</span>
+        <button class="filter-btn active" data-filter="origen" data-value="todos" aria-pressed="true">Todos</button>
+        <button class="filter-btn" data-filter="origen" data-value="huila" aria-pressed="false">Huila</button>
+        <button class="filter-btn" data-filter="origen" data-value="nariño" aria-pressed="false">Nariño</button>
+        <button class="filter-btn" data-filter="origen" data-value="cauca" aria-pressed="false">Cauca</button>
+      </div>
+
+      <div class="filter-separator" aria-hidden="true"></div>
+
+      <!-- Proceso -->
+      <div class="filter-group-inline" role="group" aria-label="Filtrar por proceso">
+        <span class="filter-group-inline__label">Proceso</span>
+        <button class="filter-btn active" data-filter="proceso" data-value="todos" aria-pressed="true">Todos</button>
+        <button class="filter-btn" data-filter="proceso" data-value="lavado" aria-pressed="false">Lavado</button>
+        <button class="filter-btn" data-filter="proceso" data-value="natural" aria-pressed="false">Natural</button>
+        <button class="filter-btn" data-filter="proceso" data-value="honey" aria-pressed="false">Honey</button>
+      </div>
+
+      <div class="filter-separator" aria-hidden="true"></div>
+
+      <!-- Perfil -->
+      <div class="filter-group-inline" role="group" aria-label="Filtrar por perfil de taza">
+        <span class="filter-group-inline__label">Perfil</span>
+        <button class="filter-btn active" data-filter="perfil" data-value="todos" aria-pressed="true">Todos</button>
+        <button class="filter-btn" data-filter="perfil" data-value="frutal" aria-pressed="false">Frutal</button>
+        <button class="filter-btn" data-filter="perfil" data-value="chocolate" aria-pressed="false">Chocolate</button>
+        <button class="filter-btn" data-filter="perfil" data-value="citrico" aria-pressed="false">Cítrico</button>
+      </div>
+
+      <div class="filter-separator" aria-hidden="true"></div>
+
+      <!-- Precio -->
+      <div class="filter-group-inline" role="group" aria-label="Filtrar por precio">
+        <span class="filter-group-inline__label">Precio</span>
+        <button class="filter-btn active" data-filter="precio" data-value="todos" aria-pressed="true">Todos</button>
+        <button class="filter-btn" data-filter="precio" data-value="1500-2000" aria-pressed="false">¥1,500–2,000</button>
+        <button class="filter-btn" data-filter="precio" data-value="2000-2500" aria-pressed="false">¥2,000–2,500</button>
+        <button class="filter-btn" data-filter="precio" data-value="2500+" aria-pressed="false">¥2,500+</button>
+      </div>
+
+      <!-- Botón comparar -->
+      <button class="btn-comparar" id="btn-comparar" aria-pressed="false" aria-label="Modo comparar lotes">
+        <i class="fa-regular fa-code-compare" aria-hidden="true"></i>
+        Comparar lotes
+        <span class="comparar-count" id="comparar-count" aria-live="polite">0</span>
+      </button>
+
+    </div>
+
+    <!-- Tags de filtros activos -->
+    <div class="active-filters" id="active-filters" aria-live="polite" aria-label="Filtros activos">
+      <!-- Se genera por JS -->
+    </div>
+  </div>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<main id="main-content">
+<div class="lotes-content">
+  <div class="container">
+
+    <!-- Estado vacío -->
+    <div class="empty-state" id="empty-state" role="status">
+      <i class="fa-regular fa-mug-saucer empty-state__icon" aria-hidden="true"></i>
+      <p class="empty-state__title">No hay lotes con esos filtros</p>
+      <p class="empty-state__desc">Prueba ajustando la combinación de filtros</p>
+      <button class="btn btn--secondary" onclick="resetFilters()">Limpiar filtros</button>
+    </div>
+
+    <!-- Grid de lotes -->
+    <div class="lotes-grid" id="lotes-grid" role="list" aria-label="Lista de lotes disponibles">
+
+      <!-- ─── LOTE 1 ─── -->
+      <article class="lote-card-full" role="listitem"
+        data-id="KET-2025-047"
+        data-nombre="Finca La Esperanza"
+        data-origen="huila"
+        data-proceso="lavado"
+        data-perfil="citrico"
+        data-precio-rango="1500-2000"
+        data-variedad="Caturra"
+        data-altitud="1.850"
+        data-sca="86.5"
+        data-acidez="7"
+        data-cuerpo="5"
+        data-dulzor="6"
+        data-precio="¥1,800"
+        data-notas="Cítrico · Chocolate · Panela"
+        data-disponibilidad="available"
+        data-stock="42 kg"
+        data-img="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=600&q=75"
+      >
+        <label class="compare-checkbox-wrap" aria-label="Seleccionar Finca La Esperanza para comparar">
+          <input type="checkbox" class="compare-checkbox" data-lote-id="KET-2025-047" aria-label="Comparar este lote" />
+        </label>
+        <div class="lote-card-full__media">
+          <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=600&q=75" alt="Granos de café Caturra, Finca La Esperanza, Huila" loading="lazy" />
+          <div class="lote-card-full__img-badges">
+            <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+            <span class="img-badge img-badge--comercio"><i class="fa-solid fa-leaf"></i> Comercio justo</span>
+          </div>
+          <div class="lote-card-full__availability">
+            <span class="availability-dot availability-dot--available"></span>42 kg disponibles
+          </div>
         </div>
-        <ul class="mobile-nav-links">
-            <li><a href="index.html" class="mobile-nav-link">Inicio</a></li>
-            <li><a href="lotes.html" class="mobile-nav-link active">Lotes</a></li>
-            <li><a href="suscripcion.html" class="mobile-nav-link">Suscripción</a></li>
-            <li><a href="comunidad.html" class="mobile-nav-link">Comunidad</a></li>
-            <li><a href="aprender.html" class="mobile-nav-link">Aprender</a></li>
-            <li><a href="sobre-nosotros.html" class="mobile-nav-link">Sobre nosotros</a></li>
-            <li><a href="donde-encontrarnos.html" class="mobile-nav-link">Dónde encontrarnos</a></li>
+        <div class="lote-card-full__body">
+          <p class="lote-card-full__id">KET-2025-047</p>
+          <h2 class="lote-card-full__name">Finca La Esperanza<br/>Huila</h2>
+          <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Don Rodrigo Zapata</p>
+          <div class="lote-specs-row">
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Caturra</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Lavado</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Altitud</span><span class="lote-spec-item__value">1.850 msnm</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Puntaje SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">86.5</span><span class="sca-score__pts"> pts</span></span></span></div>
+          </div>
+          <div class="notas-cata">
+            <span class="badge badge--default">🍋 Cítrico</span>
+            <span class="badge badge--default">🍫 Chocolate</span>
+            <span class="badge badge--default">🍭 Panela</span>
+          </div>
+        </div>
+        <div class="lote-card-full__footer">
+          <div class="lote-price"><span class="lote-price__amount">¥1,800</span><span class="lote-price__unit">por 200g</span></div>
+          <a href="lote-detalle.html" class="btn btn--primary btn--sm">Ver detalles</a>
+        </div>
+      </article>
+
+      <!-- ─── LOTE 2 ─── -->
+      <article class="lote-card-full" role="listitem"
+        data-id="KET-2025-052"
+        data-nombre="Finca El Paraíso"
+        data-origen="nariño"
+        data-proceso="natural"
+        data-perfil="frutal"
+        data-precio-rango="2500+"
+        data-variedad="Gesha"
+        data-altitud="2.100"
+        data-sca="88.0"
+        data-acidez="9"
+        data-cuerpo="4"
+        data-dulzor="8"
+        data-precio="¥2,800"
+        data-notas="Frutal · Jazmín · Fresa"
+        data-disponibilidad="limited"
+        data-stock="18 kg"
+        data-img="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=600&q=75"
+      >
+        <label class="compare-checkbox-wrap" aria-label="Seleccionar Finca El Paraíso para comparar">
+          <input type="checkbox" class="compare-checkbox" data-lote-id="KET-2025-052" />
+        </label>
+        <div class="lote-card-full__media">
+          <img src="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=600&q=75" alt="Proceso de secado natural, Finca El Paraíso, Nariño" loading="lazy" />
+          <div class="lote-card-full__img-badges">
+            <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+            <span class="img-badge img-badge--comercio"><i class="fa-solid fa-leaf"></i> Comercio justo</span>
+          </div>
+          <div class="lote-card-full__availability" style="color:#FBB040;">
+            <span class="availability-dot availability-dot--limited"></span>Últimas 18 kg
+          </div>
+        </div>
+        <div class="lote-card-full__body">
+          <p class="lote-card-full__id">KET-2025-052</p>
+          <h2 class="lote-card-full__name">Finca El Paraíso<br/>Nariño</h2>
+          <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Doña Carmen Rosero</p>
+          <div class="lote-specs-row">
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Gesha</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Natural</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Altitud</span><span class="lote-spec-item__value">2.100 msnm</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Puntaje SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">88.0</span><span class="sca-score__pts"> pts</span></span></span></div>
+          </div>
+          <div class="notas-cata">
+            <span class="badge badge--default">🍓 Fresa</span>
+            <span class="badge badge--default">🌸 Jazmín</span>
+            <span class="badge badge--default">🍑 Durazno</span>
+          </div>
+        </div>
+        <div class="lote-card-full__footer">
+          <div class="lote-price"><span class="lote-price__amount">¥2,800</span><span class="lote-price__unit">por 200g</span></div>
+          <a href="lote-detalle.html" class="btn btn--primary btn--sm">Ver detalles</a>
+        </div>
+      </article>
+
+      <!-- ─── LOTE 3 ─── -->
+      <article class="lote-card-full" role="listitem"
+        data-id="KET-2025-061"
+        data-nombre="Finca Las Palmas"
+        data-origen="cauca"
+        data-proceso="honey"
+        data-perfil="chocolate"
+        data-precio-rango="2000-2500"
+        data-variedad="Castillo"
+        data-altitud="1.950"
+        data-sca="85.5"
+        data-acidez="5"
+        data-cuerpo="8"
+        data-dulzor="7"
+        data-precio="¥2,100"
+        data-notas="Chocolate · Caramelo · Nuez"
+        data-disponibilidad="available"
+        data-stock="67 kg"
+        data-img="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&q=75"
+      >
+        <label class="compare-checkbox-wrap" aria-label="Seleccionar Finca Las Palmas para comparar">
+          <input type="checkbox" class="compare-checkbox" data-lote-id="KET-2025-061" />
+        </label>
+        <div class="lote-card-full__media">
+          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&q=75" alt="Barista preparando café Las Palmas, Cauca" loading="lazy" />
+          <div class="lote-card-full__img-badges">
+            <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+          </div>
+          <div class="lote-card-full__availability">
+            <span class="availability-dot availability-dot--available"></span>67 kg disponibles
+          </div>
+        </div>
+        <div class="lote-card-full__body">
+          <p class="lote-card-full__id">KET-2025-061</p>
+          <h2 class="lote-card-full__name">Finca Las Palmas<br/>Cauca</h2>
+          <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Don Héctor Medina</p>
+          <div class="lote-specs-row">
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Castillo</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Honey</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Altitud</span><span class="lote-spec-item__value">1.950 msnm</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Puntaje SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">85.5</span><span class="sca-score__pts"> pts</span></span></span></div>
+          </div>
+          <div class="notas-cata">
+            <span class="badge badge--default">🍫 Chocolate</span>
+            <span class="badge badge--default">🍮 Caramelo</span>
+            <span class="badge badge--default">🌰 Nuez</span>
+          </div>
+        </div>
+        <div class="lote-card-full__footer">
+          <div class="lote-price"><span class="lote-price__amount">¥2,100</span><span class="lote-price__unit">por 200g</span></div>
+          <a href="lote-detalle.html" class="btn btn--primary btn--sm">Ver detalles</a>
+        </div>
+      </article>
+
+      <!-- ─── LOTE 4 ─── -->
+      <article class="lote-card-full" role="listitem"
+        data-id="KET-2025-068"
+        data-nombre="Finca El Edén"
+        data-origen="huila"
+        data-proceso="natural"
+        data-perfil="frutal"
+        data-precio-rango="2000-2500"
+        data-variedad="Pink Bourbon"
+        data-altitud="1.780"
+        data-sca="87.0"
+        data-acidez="8"
+        data-cuerpo="6"
+        data-dulzor="9"
+        data-precio="¥2,400"
+        data-notas="Frutal · Mandarina · Miel"
+        data-disponibilidad="available"
+        data-stock="30 kg"
+        data-img="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=75"
+      >
+        <label class="compare-checkbox-wrap" aria-label="Seleccionar Finca El Edén para comparar">
+          <input type="checkbox" class="compare-checkbox" data-lote-id="KET-2025-068" />
+        </label>
+        <div class="lote-card-full__media">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=75" alt="Café Pink Bourbon, Finca El Edén, Huila" loading="lazy" />
+          <div class="lote-card-full__img-badges">
+            <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+            <span class="img-badge img-badge--comercio"><i class="fa-solid fa-leaf"></i> Comercio justo</span>
+          </div>
+          <div class="lote-card-full__availability">
+            <span class="availability-dot availability-dot--available"></span>30 kg disponibles
+          </div>
+        </div>
+        <div class="lote-card-full__body">
+          <p class="lote-card-full__id">KET-2025-068</p>
+          <h2 class="lote-card-full__name">Finca El Edén<br/>Huila</h2>
+          <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Don Luis Perdomo</p>
+          <div class="lote-specs-row">
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Pink Bourbon</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Natural</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Altitud</span><span class="lote-spec-item__value">1.780 msnm</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Puntaje SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">87.0</span><span class="sca-score__pts"> pts</span></span></span></div>
+          </div>
+          <div class="notas-cata">
+            <span class="badge badge--default">🍊 Mandarina</span>
+            <span class="badge badge--default">🍯 Miel</span>
+            <span class="badge badge--default">🌺 Rosa</span>
+          </div>
+        </div>
+        <div class="lote-card-full__footer">
+          <div class="lote-price"><span class="lote-price__amount">¥2,400</span><span class="lote-price__unit">por 200g</span></div>
+          <a href="lote-detalle.html" class="btn btn--primary btn--sm">Ver detalles</a>
+        </div>
+      </article>
+
+      <!-- ─── LOTE 5 ─── -->
+      <article class="lote-card-full" role="listitem"
+        data-id="KET-2025-074"
+        data-nombre="Finca La Paloma"
+        data-origen="nariño"
+        data-proceso="lavado"
+        data-perfil="citrico"
+        data-precio-rango="1500-2000"
+        data-variedad="Typica"
+        data-altitud="2.050"
+        data-sca="85.0"
+        data-acidez="8"
+        data-cuerpo="4"
+        data-dulzor="5"
+        data-precio="¥1,650"
+        data-notas="Cítrico · Bergamota · Té negro"
+        data-disponibilidad="available"
+        data-stock="55 kg"
+        data-img="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=75"
+      >
+        <label class="compare-checkbox-wrap" aria-label="Seleccionar Finca La Paloma para comparar">
+          <input type="checkbox" class="compare-checkbox" data-lote-id="KET-2025-074" />
+        </label>
+        <div class="lote-card-full__media">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=75" alt="Taza de café Typica, Finca La Paloma, Nariño" loading="lazy" />
+          <div class="lote-card-full__img-badges">
+            <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+          </div>
+          <div class="lote-card-full__availability">
+            <span class="availability-dot availability-dot--available"></span>55 kg disponibles
+          </div>
+        </div>
+        <div class="lote-card-full__body">
+          <p class="lote-card-full__id">KET-2025-074</p>
+          <h2 class="lote-card-full__name">Finca La Paloma<br/>Nariño</h2>
+          <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Doña Ana Guerrero</p>
+          <div class="lote-specs-row">
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Typica</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Lavado</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Altitud</span><span class="lote-spec-item__value">2.050 msnm</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Puntaje SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">85.0</span><span class="sca-score__pts"> pts</span></span></span></div>
+          </div>
+          <div class="notas-cata">
+            <span class="badge badge--default">🍋 Bergamota</span>
+            <span class="badge badge--default">🍵 Té negro</span>
+            <span class="badge badge--default">🌿 Herbal</span>
+          </div>
+        </div>
+        <div class="lote-card-full__footer">
+          <div class="lote-price"><span class="lote-price__amount">¥1,650</span><span class="lote-price__unit">por 200g</span></div>
+          <a href="lote-detalle.html" class="btn btn--primary btn--sm">Ver detalles</a>
+        </div>
+      </article>
+
+      <!-- ─── LOTE 6 ─── -->
+      <article class="lote-card-full" role="listitem"
+        data-id="KET-2025-081"
+        data-nombre="Finca Bella Vista"
+        data-origen="cauca"
+        data-proceso="honey"
+        data-perfil="chocolate"
+        data-precio-rango="1500-2000"
+        data-variedad="Colombia"
+        data-altitud="1.700"
+        data-sca="84.0"
+        data-acidez="4"
+        data-cuerpo="9"
+        data-dulzor="7"
+        data-precio="¥1,550"
+        data-notas="Chocolate · Avellana · Vainilla"
+        data-disponibilidad="available"
+        data-stock="80 kg"
+        data-img="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=75"
+      >
+        <label class="compare-checkbox-wrap" aria-label="Seleccionar Finca Bella Vista para comparar">
+          <input type="checkbox" class="compare-checkbox" data-lote-id="KET-2025-081" />
+        </label>
+        <div class="lote-card-full__media">
+          <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=75" alt="Granos tostados Colombia, Finca Bella Vista, Cauca" loading="lazy" />
+          <div class="lote-card-full__img-badges">
+            <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+            <span class="img-badge img-badge--comercio"><i class="fa-solid fa-leaf"></i> Comercio justo</span>
+          </div>
+          <div class="lote-card-full__availability">
+            <span class="availability-dot availability-dot--available"></span>80 kg disponibles
+          </div>
+        </div>
+        <div class="lote-card-full__body">
+          <p class="lote-card-full__id">KET-2025-081</p>
+          <h2 class="lote-card-full__name">Finca Bella Vista<br/>Cauca</h2>
+          <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Don Jairo Muñoz</p>
+          <div class="lote-specs-row">
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Colombia</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Honey</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Altitud</span><span class="lote-spec-item__value">1.700 msnm</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Puntaje SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">84.0</span><span class="sca-score__pts"> pts</span></span></span></div>
+          </div>
+          <div class="notas-cata">
+            <span class="badge badge--default">🍫 Chocolate</span>
+            <span class="badge badge--default">🌰 Avellana</span>
+            <span class="badge badge--default">🍦 Vainilla</span>
+          </div>
+        </div>
+        <div class="lote-card-full__footer">
+          <div class="lote-price"><span class="lote-price__amount">¥1,550</span><span class="lote-price__unit">por 200g</span></div>
+          <a href="lote-detalle.html" class="btn btn--primary btn--sm">Ver detalles</a>
+        </div>
+      </article>
+
+      <!-- ─── LOTE 7 ─── -->
+      <article class="lote-card-full" role="listitem"
+        data-id="KET-2025-089"
+        data-nombre="Finca El Roble"
+        data-origen="huila"
+        data-proceso="lavado"
+        data-perfil="citrico"
+        data-precio-rango="2000-2500"
+        data-variedad="Tabi"
+        data-altitud="2.000"
+        data-sca="86.0"
+        data-acidez="7"
+        data-cuerpo="5"
+        data-dulzor="6"
+        data-precio="¥2,200"
+        data-notas="Cítrico · Ciruela · Hibisco"
+        data-disponibilidad="limited"
+        data-stock="12 kg"
+        data-img="https://images.unsplash.com/photo-1498804103079-a6351b050096?w=600&q=75"
+      >
+        <label class="compare-checkbox-wrap" aria-label="Seleccionar Finca El Roble para comparar">
+          <input type="checkbox" class="compare-checkbox" data-lote-id="KET-2025-089" />
+        </label>
+        <div class="lote-card-full__media">
+          <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?w=600&q=75" alt="Café Tabi proceso lavado, Finca El Roble, Huila" loading="lazy" />
+          <div class="lote-card-full__img-badges">
+            <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+          </div>
+          <div class="lote-card-full__availability" style="color:#FBB040;">
+            <span class="availability-dot availability-dot--limited"></span>Últimas 12 kg
+          </div>
+        </div>
+        <div class="lote-card-full__body">
+          <p class="lote-card-full__id">KET-2025-089</p>
+          <h2 class="lote-card-full__name">Finca El Roble<br/>Huila</h2>
+          <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Don Fabio Torres</p>
+          <div class="lote-specs-row">
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Tabi</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Lavado</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Altitud</span><span class="lote-spec-item__value">2.000 msnm</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Puntaje SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">86.0</span><span class="sca-score__pts"> pts</span></span></span></div>
+          </div>
+          <div class="notas-cata">
+            <span class="badge badge--default">🫐 Ciruela</span>
+            <span class="badge badge--default">🌺 Hibisco</span>
+            <span class="badge badge--default">🍋 Cítrico</span>
+          </div>
+        </div>
+        <div class="lote-card-full__footer">
+          <div class="lote-price"><span class="lote-price__amount">¥2,200</span><span class="lote-price__unit">por 200g</span></div>
+          <a href="lote-detalle.html" class="btn btn--primary btn--sm">Ver detalles</a>
+        </div>
+      </article>
+
+      <!-- ─── LOTE 8 ─── -->
+      <article class="lote-card-full" role="listitem"
+        data-id="KET-2025-095"
+        data-nombre="Finca Las Brisas"
+        data-origen="cauca"
+        data-proceso="natural"
+        data-perfil="frutal"
+        data-precio-rango="2000-2500"
+        data-variedad="Bourbon"
+        data-altitud="1.900"
+        data-sca="86.5"
+        data-acidez="7"
+        data-cuerpo="7"
+        data-dulzor="8"
+        data-precio="¥2,300"
+        data-notas="Frutal · Cereza · Caña de azúcar"
+        data-disponibilidad="available"
+        data-stock="45 kg"
+        data-img="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=75"
+      >
+        <label class="compare-checkbox-wrap" aria-label="Seleccionar Finca Las Brisas para comparar">
+          <input type="checkbox" class="compare-checkbox" data-lote-id="KET-2025-095" />
+        </label>
+        <div class="lote-card-full__media">
+          <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=75" alt="Bourbon proceso natural, Finca Las Brisas, Cauca" loading="lazy" />
+          <div class="lote-card-full__img-badges">
+            <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+            <span class="img-badge img-badge--comercio"><i class="fa-solid fa-leaf"></i> Comercio justo</span>
+          </div>
+          <div class="lote-card-full__availability">
+            <span class="availability-dot availability-dot--available"></span>45 kg disponibles
+          </div>
+        </div>
+        <div class="lote-card-full__body">
+          <p class="lote-card-full__id">KET-2025-095</p>
+          <h2 class="lote-card-full__name">Finca Las Brisas<br/>Cauca</h2>
+          <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Doña Esperanza Villa</p>
+          <div class="lote-specs-row">
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Bourbon</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Natural</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Altitud</span><span class="lote-spec-item__value">1.900 msnm</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Puntaje SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">86.5</span><span class="sca-score__pts"> pts</span></span></span></div>
+          </div>
+          <div class="notas-cata">
+            <span class="badge badge--default">🍒 Cereza</span>
+            <span class="badge badge--default">🎋 Caña</span>
+            <span class="badge badge--default">🍫 Cacao</span>
+          </div>
+        </div>
+        <div class="lote-card-full__footer">
+          <div class="lote-price"><span class="lote-price__amount">¥2,300</span><span class="lote-price__unit">por 200g</span></div>
+          <a href="lote-detalle.html" class="btn btn--primary btn--sm">Ver detalles</a>
+        </div>
+      </article>
+
+      <!-- ─── LOTE 9 ─── -->
+      <article class="lote-card-full" role="listitem"
+        data-id="KET-2025-103"
+        data-nombre="Finca Monserrate"
+        data-origen="nariño"
+        data-proceso="honey"
+        data-perfil="frutal"
+        data-precio-rango="2500+"
+        data-variedad="Sidra"
+        data-altitud="2.200"
+        data-sca="89.0"
+        data-acidez="9"
+        data-cuerpo="5"
+        data-dulzor="9"
+        data-precio="¥3,200"
+        data-notas="Frutal · Maracuyá · Flor blanca"
+        data-disponibilidad="limited"
+        data-stock="8 kg"
+        data-img="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&q=75"
+      >
+        <label class="compare-checkbox-wrap" aria-label="Seleccionar Finca Monserrate para comparar">
+          <input type="checkbox" class="compare-checkbox" data-lote-id="KET-2025-103" />
+        </label>
+        <div class="lote-card-full__media">
+          <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&q=75" alt="Sidra proceso honey, Finca Monserrate, Nariño" loading="lazy" />
+          <div class="lote-card-full__img-badges">
+            <span class="img-badge img-badge--trazabilidad"><i class="fa-solid fa-circle-check"></i> Trazabilidad completa</span>
+            <span class="img-badge img-badge--comercio"><i class="fa-solid fa-leaf"></i> Comercio justo</span>
+          </div>
+          <div class="lote-card-full__availability" style="color:#FBB040;">
+            <span class="availability-dot availability-dot--limited"></span>Últimas 8 kg
+          </div>
+        </div>
+        <div class="lote-card-full__body">
+          <p class="lote-card-full__id">KET-2025-103</p>
+          <h2 class="lote-card-full__name">Finca Monserrate<br/>Nariño</h2>
+          <p class="lote-card-full__caficultor"><i class="fa-regular fa-user"></i> Don Germán Benavides</p>
+          <div class="lote-specs-row">
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Variedad</span><span class="lote-spec-item__value">Sidra</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Proceso</span><span class="lote-spec-item__value">Honey</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Altitud</span><span class="lote-spec-item__value">2.200 msnm</span></div>
+            <div class="lote-spec-item"><span class="lote-spec-item__label">Puntaje SCA</span><span class="lote-spec-item__value"><span class="sca-score"><span class="sca-score__number">89.0</span><span class="sca-score__pts"> pts</span></span></span></div>
+          </div>
+          <div class="notas-cata">
+            <span class="badge badge--default">🍹 Maracuyá</span>
+            <span class="badge badge--default">🌸 Flor blanca</span>
+            <span class="badge badge--default">🫐 Tropical</span>
+          </div>
+        </div>
+        <div class="lote-card-full__footer">
+          <div class="lote-price"><span class="lote-price__amount">¥3,200</span><span class="lote-price__unit">por 200g</span></div>
+          <a href="lote-detalle.html" class="btn btn--primary btn--sm">Ver detalles</a>
+        </div>
+      </article>
+
+    </div><!-- /lotes-grid -->
+
+    <!-- Paginación -->
+    <nav class="pagination" id="pagination" aria-label="Paginación de lotes">
+      <button class="pagination__btn" aria-label="Página anterior" disabled>
+        <i class="fa-regular fa-chevron-left"></i>
+      </button>
+      <button class="pagination__btn active" aria-label="Página 1" aria-current="page">1</button>
+      <button class="pagination__btn" aria-label="Página 2">2</button>
+      <span class="pagination__ellipsis" aria-hidden="true">…</span>
+      <button class="pagination__btn" aria-label="Página 5">5</button>
+      <button class="pagination__btn" aria-label="Página siguiente">
+        <i class="fa-regular fa-chevron-right"></i>
+      </button>
+    </nav>
+
+  </div>
+</div>
+</main>
+
+
+<!-- FOOTER -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-manifesto">
+      <p class="footer-manifesto__text">
+        De las montañas colombianas a tu taza en Tokio.<br/>
+        <em>Mejora continua. Cadena honesta. Ritual consciente.</em>
+      </p>
+    </div>
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a href="index.html" class="site-footer__logo">Kaizen en Taza<span style="display:block;font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;color:rgba(250,249,247,0.25);margin-top:4px;">改善 · CAFÉ DE ESPECIALIDAD</span></a>
+        <p class="site-footer__tagline">Café colombiano de especialidad con trazabilidad completa para el consumidor consciente en Japón.</p>
+        <div class="footer-certs">
+          <a href="#" class="footer-cert"><i class="fa-solid fa-leaf"></i> Comercio Justo Certificado</a>
+          <a href="#" class="footer-cert"><i class="fa-solid fa-qrcode"></i> Trazabilidad completa en cada lote</a>
+        </div>
+      </div>
+      <div>
+        <p class="site-footer__column-title">El café</p>
+        <ul class="site-footer__links">
+          <li><a href="lotes.html" class="site-footer__link">Lotes activos</a></li>
+          <li><a href="lote-detalle.html" class="site-footer__link">Cómo funciona la trazabilidad</a></li>
+          <li><a href="suscripcion.html" class="site-footer__link">Planes de suscripción</a></li>
+          <li><a href="donde-encontrarnos.html" class="site-footer__link">Dónde encontrarnos</a></li>
         </ul>
+      </div>
+      <div>
+        <p class="site-footer__column-title">Aprender</p>
+        <ul class="site-footer__links">
+          <li><a href="aprender.html" class="site-footer__link">El ritual del café</a></li>
+          <li><a href="aprender.html" class="site-footer__link">Guía de extracción</a></li>
+          <li><a href="comunidad.html" class="site-footer__link">Comunidad</a></li>
+          <li><a href="sobre-nosotros.html" class="site-footer__link">Sobre nosotros</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-footer__column-title">Nuevos lotes</p>
+        <p style="font-size:var(--font-size-sm);color:rgba(250,249,247,0.4);margin-bottom:var(--space-4);line-height:var(--line-height-normal);">Sin spam. Solo cuando llega un lote nuevo.</p>
+        <form class="footer-newsletter" onsubmit="handleNewsletter(event)">
+          <label for="newsletter-email" class="visually-hidden">Tu email</label>
+          <input type="email" id="newsletter-email" placeholder="tu@email.com" required />
+          <button type="submit">→</button>
+        </form>
+      </div>
     </div>
-    <div class="mobile-overlay" id="mobileOverlay"></div>
-
-    <main>
-
-        <!-- ============================================
-             PAGE HEADER
-             ============================================ -->
-        <section class="hero" style="min-height: 40vh; padding: var(--space-12) 0;">
-            <div class="hero-content">
-                <div class="hero-badge">Catálogo</div>
-                <h1 class="hero-title">Lotes <span style="color: var(--color-accent);">Activos</span></h1>
-                <p class="hero-subtitle">
-                    Explorá nuestra selección de cafés colombianos de especialidad.<br>
-                    Cada lote tiene trazabilidad completa y comercio justo verificable.
-                </p>
-            </div>
-        </section>
-
-        <div class="container" style="margin-top: -60px; position: relative; z-index: 2;">
-
-            <!-- ============================================
-                 FILTROS
-                 ============================================ -->
-            <div class="filter-section">
-                <div class="filter-group">
-                    <label class="filter-label">🌍 Origen</label>
-                    <div class="filter-options" id="filterOrigen">
-                        <span data-filter="todos" class="filter-chip active">Todos</span>
-                        <span data-filter="huila" class="filter-chip">Huila</span>
-                        <span data-filter="nariño" class="filter-chip">Nariño</span>
-                        <span data-filter="cauca" class="filter-chip">Cauca</span>
-                        <span data-filter="tolima" class="filter-chip">Tolima</span>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <label class="filter-label">🔬 Proceso</label>
-                    <div class="filter-options" id="filterProceso">
-                        <span data-proceso="todos" class="filter-chip active">Todos</span>
-                        <span data-proceso="lavado" class="filter-chip">Lavado</span>
-                        <span data-proceso="natural" class="filter-chip">Natural</span>
-                        <span data-proceso="honey" class="filter-chip">Honey</span>
-                        <span data-proceso="experimental" class="filter-chip">Experimental</span>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <label class="filter-label">👅 Perfil de taza</label>
-                    <div class="filter-options" id="filterPerfil">
-                        <span data-perfil="todos" class="filter-chip active">Todos</span>
-                        <span data-perfil="frutal" class="filter-chip">Frutal</span>
-                        <span data-perfil="chocolate" class="filter-chip">Chocolate</span>
-                        <span data-perfil="citrico" class="filter-chip">Cítrico</span>
-                        <span data-perfil="floral" class="filter-chip">Floral</span>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <label class="filter-label">💰 Precio (200g)</label>
-                    <div class="filter-options" id="filterPrecio">
-                        <span data-precio="todos" class="filter-chip active">Todos</span>
-                        <span data-precio="bajo" class="filter-chip">¥1,500 - ¥2,000</span>
-                        <span data-precio="medio" class="filter-chip">¥2,000 - ¥2,500</span>
-                        <span data-precio="alto" class="filter-chip">¥2,500 - ¥3,000</span>
-                        <span data-precio="premium" class="filter-chip">¥3,000+</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ============================================
-                 RESULTADOS HEADER
-                 ============================================ -->
-            <div class="results-header">
-                <div class="results-count" id="resultsCount">Mostrando 12 lotes</div>
-                <select class="sort-select" id="sortSelect">
-                    <option value="default">Ordenar por: Destacados</option>
-                    <option value="price-asc">Precio: menor a mayor</option>
-                    <option value="price-desc">Precio: mayor a menor</option>
-                    <option value="name">Nombre: A-Z</option>
-                    <option value="sca">Puntaje SCA: mayor a menor</option>
-                </select>
-            </div>
-
-            <!-- ============================================
-                 LOTES GRID
-                 ============================================ -->
-            <div class="grid-3" id="lotesGrid">
-                <!-- Los lotes se cargarán dinámicamente con JS -->
-            </div>
-
-            <!-- ============================================
-                 PAGINACIÓN
-                 ============================================ -->
-            <div class="pagination" id="pagination">
-                <!-- Paginación dinámica -->
-            </div>
-
-        </div>
-
-    </main>
-
-    <!-- ============================================
-         COMPARISON BAR
-         ============================================ -->
-    <div class="comparison-bar" id="comparisonBar">
-        <div class="comparison-container">
-            <div class="comparison-items" id="comparisonItems">
-                <!-- Items seleccionados para comparar -->
-            </div>
-            <button class="btn-compare" id="compareBtn" onclick="compareSelected()">
-                Comparar (0)
-            </button>
-        </div>
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">© 2025 Kaizen en Taza · Hecho con cuidado entre Colombia y Japón</p>
+      <div style="display:flex;gap:var(--space-6);">
+        <a href="#" class="site-footer__link" style="font-size:var(--font-size-xs);">Privacidad</a>
+        <a href="#" class="site-footer__link" style="font-size:var(--font-size-xs);">Términos</a>
+      </div>
     </div>
+  </div>
+</footer>
 
-    <!-- ============================================
-         MODAL DE COMPARACIÓN
-         ============================================ -->
-    <div id="compareModal" class="modal">
-        <div class="modal-content" style="max-width: 900px;">
-            <div class="modal-header">
-                <h3>Comparador de lotes</h3>
-                <span class="modal-close" onclick="closeCompareModal()">&times;</span>
-            </div>
-            <div class="modal-body" id="compareModalBody">
-                <!-- Comparación dinámica -->
-            </div>
-        </div>
+<div class="toast" id="toast" role="alert" aria-live="polite" aria-atomic="true">
+  <i class="fa-solid fa-circle-check" style="color:#81C784;"></i>
+  <span>¡Listo! Te avisamos con el próximo lote.</span>
+</div>
+
+
+<!-- BARRA COMPARADOR (FIJA) -->
+<div class="compare-bar" id="compare-bar" role="region" aria-label="Comparador de lotes" aria-live="polite">
+  <span class="compare-bar__label">Comparando</span>
+  <div class="compare-bar__slots" id="compare-slots">
+    <div class="compare-slot compare-slot--empty" id="slot-0">
+      <span class="compare-slot__name">+ Selecciona un lote</span>
+      <button class="compare-slot__remove" aria-label="Quitar del comparador"><i class="fa-solid fa-xmark"></i></button>
     </div>
-
-    <!-- ============================================
-         MODAL DE CERTIFICACIONES
-         ============================================ -->
-    <div id="certModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Certificación</h3>
-                <span class="modal-close" onclick="closeCertModal()">&times;</span>
-            </div>
-            <div class="modal-body" id="modalBody"></div>
-        </div>
+    <div class="compare-slot compare-slot--empty" id="slot-1">
+      <span class="compare-slot__name">+ Agrega otro lote</span>
+      <button class="compare-slot__remove" aria-label="Quitar del comparador"><i class="fa-solid fa-xmark"></i></button>
     </div>
+    <div class="compare-slot compare-slot--empty" id="slot-2">
+      <span class="compare-slot__name">+ Opcional</span>
+      <button class="compare-slot__remove" aria-label="Quitar del comparador"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+  <div class="compare-bar__actions">
+    <button class="btn-compare-now" id="btn-compare-now" disabled aria-label="Comparar lotes seleccionados">
+      <i class="fa-regular fa-code-compare"></i> Comparar ahora
+    </button>
+    <button class="btn-compare-cancel" id="btn-compare-cancel">Cancelar</button>
+  </div>
+</div>
 
-    <!-- ============================================
-         FOOTER
-         ============================================ -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Kaizen en Taza</h4>
-                    <p>De las montañas colombianas a tu taza en Tokio. Café de especialidad con trazabilidad completa y cadena justa.</p>
-                    <div class="certifications" style="margin-top: var(--space-4);">
-                        <span class="cert-badge" onclick="showCertModal('fairtrade')">
-                            <i class="fas fa-check-circle"></i> Comercio justo
-                        </span>
-                        <span class="cert-badge" onclick="showCertModal('trazabilidad')">
-                            <i class="fas fa-map-marked-alt"></i> Trazabilidad
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul class="footer-links">
-                        <li><a href="lotes.html" class="footer-link">Lotes activos</a></li>
-                        <li><a href="suscripcion.html" class="footer-link">Suscripción</a></li>
-                        <li><a href="comunidad.html" class="footer-link">Comunidad</a></li>
-                        <li><a href="aprender.html" class="footer-link">Manual del ritual</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Nosotros</h4>
-                    <ul class="footer-links">
-                        <li><a href="sobre-nosotros.html" class="footer-link">Nuestra historia</a></li>
-                        <li><a href="sobre-nosotros.html#caficultores" class="footer-link">Nuestros caficultores</a></li>
-                        <li><a href="sobre-nosotros.html#impacto" class="footer-link">Impacto y sostenibilidad</a></li>
-                        <li><a href="donde-encontrarnos.html" class="footer-link">Dónde encontrarnos</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Newsletter</h4>
-                    <p style="font-size: var(--font-size-sm);">Recibe novedades de lotes y eventos</p>
-                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Gracias por suscribirte (demo)');">
-                        <input type="email" placeholder="tu@email.com" class="newsletter-input" required>
-                        <button type="submit" class="newsletter-btn">Enviar</button>
-                    </form>
-                </div>
+
+<!-- MODAL COMPARADOR -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal" id="modal">
+    <div class="modal__header">
+      <h2 class="modal__title" id="modal-title">Comparando lotes</h2>
+      <button class="modal__close" id="modal-close" aria-label="Cerrar comparador">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal__body" id="modal-body">
+      <!-- Generado por JS -->
+    </div>
+    <div class="modal__footer">
+      <p class="modal__footer-note">Los valores de acidez, cuerpo y dulzor son escala 1–10</p>
+      <a href="suscripcion.html" class="btn btn--primary btn--lg">
+        Suscribirme al ganador →
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ── Header scroll ── */
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+/* ── Menú hamburguesa ── */
+const menuToggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+menuToggle.addEventListener('click', () => {
+  const open = menuToggle.classList.toggle('open');
+  mobileMenu.classList.toggle('open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  mobileMenu.setAttribute('aria-hidden', String(!open));
+  document.body.classList.toggle('menu-open', open);
+});
+mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
+  menuToggle.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('menu-open');
+}));
+
+/* ── Estado de filtros ── */
+const activeFilters = { origen: 'todos', proceso: 'todos', perfil: 'todos', precio: 'todos' };
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.lote-card-full');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const matchOrigen  = activeFilters.origen  === 'todos' || card.dataset.origen  === activeFilters.origen;
+    const matchProceso = activeFilters.proceso === 'todos' || card.dataset.proceso  === activeFilters.proceso;
+    const matchPerfil  = activeFilters.perfil  === 'todos' || card.dataset.perfil   === activeFilters.perfil;
+    const matchPrecio  = activeFilters.precio  === 'todos' || card.dataset.precioRango === activeFilters.precio;
+
+    const show = matchOrigen && matchProceso && matchPerfil && matchPrecio;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  // Actualizar contador
+  document.getElementById('lotes-count').textContent =
+    `${visible} lote${visible !== 1 ? 's' : ''} disponible${visible !== 1 ? 's' : ''} · Temporada 2025`;
+
+  // Estado vacío
+  document.getElementById('empty-state').classList.toggle('show', visible === 0);
+  document.getElementById('lotes-grid').style.display = visible === 0 ? 'none' : '';
+  document.getElementById('pagination').style.display = visible === 0 ? 'none' : '';
+
+  renderActiveTags();
+}
+
+function renderActiveTags() {
+  const container = document.getElementById('active-filters');
+  const hasActive = Object.values(activeFilters).some(v => v !== 'todos');
+  container.classList.toggle('has-filters', hasActive);
+  container.innerHTML = '';
+
+  if (!hasActive) return;
+
+  const labels = { origen: 'Origen', proceso: 'Proceso', perfil: 'Perfil', precio: 'Precio' };
+  Object.entries(activeFilters).forEach(([key, val]) => {
+    if (val === 'todos') return;
+    const tag = document.createElement('span');
+    tag.className = 'active-filter-tag';
+    tag.innerHTML = `${labels[key]}: ${val} <button class="active-filter-tag__remove" aria-label="Quitar filtro ${val}"><i class="fa-solid fa-xmark"></i></button>`;
+    tag.querySelector('button').addEventListener('click', () => {
+      activeFilters[key] = 'todos';
+      // Reset el botón activo del grupo
+      document.querySelectorAll(`[data-filter="${key}"]`).forEach(b => {
+        b.classList.toggle('active', b.dataset.value === 'todos');
+        b.setAttribute('aria-pressed', b.dataset.value === 'todos' ? 'true' : 'false');
+      });
+      applyFilters();
+    });
+    container.appendChild(tag);
+  });
+
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'clear-all-filters';
+  clearBtn.textContent = 'Limpiar todo';
+  clearBtn.addEventListener('click', resetFilters);
+  container.appendChild(clearBtn);
+}
+
+function resetFilters() {
+  Object.keys(activeFilters).forEach(k => activeFilters[k] = 'todos');
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.value === 'todos');
+    b.setAttribute('aria-pressed', b.dataset.value === 'todos' ? 'true' : 'false');
+  });
+  applyFilters();
+}
+
+// Event listeners para filtros
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+    const value  = btn.dataset.value;
+    activeFilters[filter] = value;
+
+    document.querySelectorAll(`[data-filter="${filter}"]`).forEach(b => {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    applyFilters();
+  });
+});
+
+
+/* ── Modo comparador ── */
+let compareMode = false;
+let selectedLotes = [];
+
+const btnComparar   = document.getElementById('btn-comparar');
+const compareBar    = document.getElementById('compare-bar');
+const btnCompareNow = document.getElementById('btn-compare-now');
+const btnCancel     = document.getElementById('btn-compare-cancel');
+const comparCount   = document.getElementById('comparar-count');
+const grid          = document.getElementById('lotes-grid');
+
+function enterCompareMode() {
+  compareMode = true;
+  selectedLotes = [];
+  btnComparar.classList.add('active');
+  btnComparar.setAttribute('aria-pressed', 'true');
+  grid.classList.add('compare-mode');
+  compareBar.classList.add('visible');
+  updateCompareBar();
+}
+
+function exitCompareMode() {
+  compareMode = false;
+  selectedLotes = [];
+  btnComparar.classList.remove('active');
+  btnComparar.setAttribute('aria-pressed', 'false');
+  grid.classList.remove('compare-mode');
+  compareBar.classList.remove('visible');
+  // Deseleccionar todos los checkboxes
+  document.querySelectorAll('.compare-checkbox').forEach(cb => {
+    cb.checked = false;
+    cb.disabled = false;
+  });
+  document.querySelectorAll('.lote-card-full').forEach(c => c.classList.remove('selected-for-compare'));
+  comparCount.textContent = '0';
+}
+
+function updateCompareBar() {
+  // Actualizar slots
+  for (let i = 0; i < 3; i++) {
+    const slot = document.getElementById(`slot-${i}`);
+    const lote = selectedLotes[i];
+    if (lote) {
+      slot.classList.remove('compare-slot--empty');
+      slot.querySelector('.compare-slot__name').textContent = lote.nombre;
+    } else {
+      slot.classList.add('compare-slot--empty');
+      const placeholders = ['+ Selecciona un lote', '+ Agrega otro lote', '+ Opcional'];
+      slot.querySelector('.compare-slot__name').textContent = placeholders[i];
+    }
+  }
+
+  btnCompareNow.disabled = selectedLotes.length < 2;
+  comparCount.textContent = String(selectedLotes.length);
+}
+
+// Botón activar modo comparar
+btnComparar.addEventListener('click', () => {
+  if (compareMode) { exitCompareMode(); } else { enterCompareMode(); }
+});
+
+// Botón cancelar en la barra
+btnCancel.addEventListener('click', exitCompareMode);
+
+// Remove buttons en slots
+for (let i = 0; i < 3; i++) {
+  const slot = document.getElementById(`slot-${i}`);
+  slot.querySelector('.compare-slot__remove').addEventListener('click', () => {
+    if (!selectedLotes[i]) return;
+    const id = selectedLotes[i].id;
+    removeFromCompare(id);
+  });
+}
+
+function removeFromCompare(id) {
+  selectedLotes = selectedLotes.filter(l => l.id !== id);
+  const cb = document.querySelector(`.compare-checkbox[data-lote-id="${id}"]`);
+  if (cb) cb.checked = false;
+  const card = document.querySelector(`[data-id="${id}"]`);
+  if (card) card.classList.remove('selected-for-compare');
+  // Habilitar todos los checkboxes si hay menos de 3
+  document.querySelectorAll('.compare-checkbox').forEach(cb => {
+    cb.disabled = false;
+  });
+  updateCompareBar();
+}
+
+// Checkboxes de comparar
+document.querySelectorAll('.compare-checkbox').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const card = cb.closest('.lote-card-full');
+    const id   = cb.dataset.loteId;
+
+    if (cb.checked) {
+      if (selectedLotes.length >= 3) { cb.checked = false; return; }
+      selectedLotes.push({ id, nombre: card.dataset.nombre });
+      card.classList.add('selected-for-compare');
+      if (selectedLotes.length === 3) {
+        // Deshabilitar los no seleccionados
+        document.querySelectorAll('.compare-checkbox:not(:checked)').forEach(c => c.disabled = true);
+      }
+    } else {
+      selectedLotes = selectedLotes.filter(l => l.id !== id);
+      card.classList.remove('selected-for-compare');
+      document.querySelectorAll('.compare-checkbox').forEach(c => c.disabled = false);
+    }
+    updateCompareBar();
+  });
+});
+
+
+/* ── Modal comparador ── */
+const modalOverlay = document.getElementById('modal-overlay');
+const modalBody    = document.getElementById('modal-body');
+const modalClose   = document.getElementById('modal-close');
+
+btnCompareNow.addEventListener('click', openCompareModal);
+modalClose.addEventListener('click', closeCompareModal);
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeCompareModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCompareModal(); });
+
+function openCompareModal() {
+  if (selectedLotes.length < 2) return;
+
+  const loteData = selectedLotes.map(sl => {
+    const card = document.querySelector(`[data-id="${sl.id}"]`);
+    return {
+      id:       card.dataset.id,
+      nombre:   card.dataset.nombre,
+      origen:   card.dataset.origen,
+      variedad: card.dataset.variedad,
+      proceso:  card.dataset.proceso,
+      altitud:  card.dataset.altitud,
+      sca:      parseFloat(card.dataset.sca),
+      acidez:   parseInt(card.dataset.acidez),
+      cuerpo:   parseInt(card.dataset.cuerpo),
+      dulzor:   parseInt(card.dataset.dulzor),
+      notas:    card.dataset.notas,
+      precio:   card.dataset.precio,
+    };
+  });
+
+  // Encontrar el mejor SCA
+  const maxSca = Math.max(...loteData.map(l => l.sca));
+
+  const attrs = [
+    { key: 'variedad', label: 'Variedad',  type: 'text' },
+    { key: 'proceso',  label: 'Proceso',   type: 'text' },
+    { key: 'altitud',  label: 'Altitud',   type: 'text', suffix: ' msnm' },
+    { key: 'sca',      label: 'Puntaje SCA', type: 'sca' },
+    { key: 'acidez',   label: 'Acidez',    type: 'bar' },
+    { key: 'cuerpo',   label: 'Cuerpo',    type: 'bar' },
+    { key: 'dulzor',   label: 'Dulzor',    type: 'bar' },
+    { key: 'notas',    label: 'Notas',     type: 'text' },
+    { key: 'precio',   label: 'Precio (200g)', type: 'text' },
+  ];
+
+  const colWidth = `${Math.floor(80 / loteData.length)}%`;
+
+  let html = `<table class="compare-table" role="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        ${loteData.map(l => `
+          <th scope="col" style="width:${colWidth}">
+            <div class="compare-lote-header ${l.sca === maxSca ? 'compare-winner' : ''}">
+              <span class="compare-lote-header__id">${l.id}</span>
+              <span class="compare-lote-header__name">${l.nombre}</span>
+              <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-tertiary);text-transform:capitalize;">${l.origen}</span>
+              ${l.sca === maxSca ? '<span class="badge badge--success" style="align-self:flex-start;">⭐ Mayor puntaje</span>' : ''}
             </div>
-            
-            <div class="footer-bottom">
-                <div class="footer-copyright">
-                    © 2026 Kaizen en Taza. Hecho con ☕ entre Colombia y Japón.
-                </div>
-                <div class="footer-social">
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+          </th>`).join('')}
+      </tr>
+    </thead>
+    <tbody>`;
 
-    <script>
-        // ============================================
-        // DATOS DE LOTES
-        // ============================================
-        const lotesData = [
-            {
-                id: 1,
-                nombre: "La Esperanza",
-                origen: "Huila",
-                origenValue: "huila",
-                caficultor: "Don Rodrigo López",
-                variedad: "Caturra",
-                proceso: "lavado",
-                procesoLabel: "Lavado",
-                altitud: "1,850m",
-                sca: 86.5,
-                precio: 2400,
-                perfil: "chocolate",
-                notas: "Naranja, caramelo, chocolate",
-                imagen: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=300&fit=crop",
-                destacado: true
-            },
-            {
-                id: 2,
-                nombre: "El Paraíso",
-                origen: "Nariño",
-                origenValue: "nariño",
-                caficultor: "Doña María Gómez",
-                variedad: "Castillo",
-                proceso: "natural",
-                procesoLabel: "Natural",
-                altitud: "1,920m",
-                sca: 87.2,
-                precio: 2600,
-                perfil: "frutal",
-                notas: "Mora, panela, cacao",
-                imagen: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop",
-                destacado: true
-            },
-            {
-                id: 3,
-                nombre: "Monteverde",
-                origen: "Cauca",
-                origenValue: "cauca",
-                caficultor: "Don Carlos Rivera",
-                variedad: "Geisha",
-                proceso: "honey",
-                procesoLabel: "Honey",
-                altitud: "1,780m",
-                sca: 89.0,
-                precio: 3800,
-                perfil: "floral",
-                notas: "Jazmín, melocotón, miel",
-                imagen: "https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?w=400&h=300&fit=crop",
-                destacado: true
-            },
-            {
-                id: 4,
-                nombre: "El Ocaso",
-                origen: "Tolima",
-                origenValue: "tolima",
-                caficultor: "Don José Martínez",
-                variedad: "Colombia",
-                proceso: "lavado",
-                procesoLabel: "Lavado",
-                altitud: "1,650m",
-                sca: 85.0,
-                precio: 2100,
-                perfil: "citrico",
-                notas: "Limón, té verde, almendras",
-                imagen: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
-                destacado: false
-            },
-            {
-                id: 5,
-                nombre: "La Montaña",
-                origen: "Huila",
-                origenValue: "huila",
-                caficultor: "Don Pedro Sánchez",
-                variedad: "Caturra",
-                proceso: "experimental",
-                procesoLabel: "Experimental",
-                altitud: "1,900m",
-                sca: 88.5,
-                precio: 3200,
-                perfil: "frutal",
-                notas: "Maracuyá, durazno, vainilla",
-                imagen: "https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=400&h=300&fit=crop",
-                destacado: false
-            },
-            {
-                id: 6,
-                nombre: "El Refugio",
-                origen: "Nariño",
-                origenValue: "nariño",
-                caficultor: "Doña Elena Ruiz",
-                variedad: "Bourbon",
-                proceso: "natural",
-                procesoLabel: "Natural",
-                altitud: "1,980m",
-                sca: 87.8,
-                precio: 2800,
-                perfil: "chocolate",
-                notas: "Chocolate, cereza, nuez",
-                imagen: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&h=300&fit=crop",
-                destacado: false
-            },
-            {
-                id: 7,
-                nombre: "El Tesoro",
-                origen: "Cauca",
-                origenValue: "cauca",
-                caficultor: "Don Miguel Ángel",
-                variedad: "Castillo",
-                proceso: "lavado",
-                procesoLabel: "Lavado",
-                altitud: "1,750m",
-                sca: 86.0,
-                precio: 2300,
-                perfil: "citrico",
-                notas: "Pomelo, caramelo, té negro",
-                imagen: "https://images.unsplash.com/photo-1487058792210-89d2e1f735a9?w=400&h=300&fit=crop",
-                destacado: false
-            },
-            {
-                id: 8,
-                nombre: "La Cima",
-                origen: "Huila",
-                origenValue: "huila",
-                caficultor: "Don Fernando Díaz",
-                variedad: "Geisha",
-                proceso: "honey",
-                procesoLabel: "Honey",
-                altitud: "1,850m",
-                sca: 90.2,
-                precio: 4200,
-                perfil: "floral",
-                notas: "Rosa, lichi, miel de abeja",
-                imagen: "https://images.unsplash.com/photo-1518057111178-44a106bad0c5?w=400&h=300&fit=crop",
-                destacado: true
-            }
-        ];
+  attrs.forEach(attr => {
+    html += `<tr>
+      <td><span class="compare-attr-label">${attr.label}</span></td>`;
 
-        // Estado de filtros
-        let currentFilters = {
-            origen: "todos",
-            proceso: "todos",
-            perfil: "todos",
-            precio: "todos"
-        };
-        
-        let currentSort = "default";
-        let compareList = [];
-        let currentPage = 1;
-        const itemsPerPage = 6;
+    loteData.forEach(l => {
+      const val = l[attr.key];
+      if (attr.type === 'bar') {
+        html += `<td>
+          <div class="attr-bar">
+            <div class="attr-bar__track"><div class="attr-bar__fill" style="width:${val * 10}%"></div></div>
+            <span class="attr-bar__value">${val}/10</span>
+          </div>
+        </td>`;
+      } else if (attr.type === 'sca') {
+        html += `<td><span class="sca-score"><span class="sca-score__number">${val}</span><span class="sca-score__pts"> pts</span></span></td>`;
+      } else {
+        html += `<td style="font-family:var(--font-mono);font-size:var(--font-size-sm);color:var(--color-text-primary);">${val}${attr.suffix || ''}</td>`;
+      }
+    });
 
-        // ============================================
-        // FUNCIONES DE FILTRADO
-        // ============================================
-        function filterLotes() {
-            return lotesData.filter(lote => {
-                // Filtro por origen
-                if (currentFilters.origen !== "todos" && lote.origenValue !== currentFilters.origen) return false;
-                
-                // Filtro por proceso
-                if (currentFilters.proceso !== "todos" && lote.proceso !== currentFilters.proceso) return false;
-                
-                // Filtro por perfil
-                if (currentFilters.perfil !== "todos" && lote.perfil !== currentFilters.perfil) return false;
-                
-                // Filtro por precio
-                if (currentFilters.precio !== "todos") {
-                    if (currentFilters.precio === "bajo" && (lote.precio < 2000 || lote.precio > 2000)) return false;
-                    if (currentFilters.precio === "medio" && (lote.precio < 2000 || lote.precio > 2500)) return false;
-                    if (currentFilters.precio === "alto" && (lote.precio < 2500 || lote.precio > 3000)) return false;
-                    if (currentFilters.precio === "premium" && lote.precio < 3000) return false;
-                }
-                
-                return true;
-            });
-        }
+    html += '</tr>';
+  });
 
-        function sortLotes(lotes) {
-            const sorted = [...lotes];
-            switch(currentSort) {
-                case "price-asc":
-                    return sorted.sort((a, b) => a.precio - b.precio);
-                case "price-desc":
-                    return sorted.sort((a, b) => b.precio - a.precio);
-                case "name":
-                    return sorted.sort((a, b) => a.nombre.localeCompare(b.nombre));
-                case "sca":
-                    return sorted.sort((a, b) => b.sca - a.sca);
-                default:
-                    return sorted.sort((a, b) => (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0));
-            }
-        }
+  html += '</tbody></table>';
+  modalBody.innerHTML = html;
 
-        // ============================================
-        // RENDERIZADO DE LOTES
-        // ============================================
-        function renderLotes() {
-            const filtered = filterLotes();
-            const sorted = sortLotes(filtered);
-            
-            // Paginación
-            const start = (currentPage - 1) * itemsPerPage;
-            const paginated = sorted.slice(start, start + itemsPerPage);
-            
-            // Actualizar contador
-            document.getElementById("resultsCount").innerHTML = `Mostrando ${paginated.length} de ${filtered.length} lotes`;
-            
-            // Renderizar grid
-            const grid = document.getElementById("lotesGrid");
-            if (paginated.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1/-1;">
-                        <i class="fas fa-search" style="font-size: 3rem; color: var(--color-text-tertiary); margin-bottom: var(--space-4);"></i>
-                        <h3>No encontramos lotes con esos filtros</h3>
-                        <p>Intentá con otros criterios de búsqueda</p>
-                        <button class="btn btn-secondary" onclick="resetFilters()">Limpiar filtros</button>
-                    </div>
-                `;
-                document.getElementById("pagination").innerHTML = "";
-                return;
-            }
-            
-            grid.innerHTML = paginated.map(lote => `
-                <div class="product-card" data-id="${lote.id}">
-                    <div style="position: relative; overflow: hidden;">
-                        <img src="${lote.imagen}" alt="${lote.nombre}" class="product-image">
-                        ${lote.destacado ? '<span style="position: absolute; top: var(--space-4); right: var(--space-4); background: var(--color-accent); color: white; padding: var(--space-1) var(--space-3); border-radius: var(--border-radius-full); font-size: var(--font-size-xs); font-weight: 600;">Destacado</span>' : ''}
-                    </div>
-                    <div class="product-info">
-                        <h4 class="product-title">${lote.nombre}</h4>
-                        <p class="product-origin">${lote.origen} · ${lote.caficultor}</p>
-                        <div class="product-badges">
-                            <span class="badge badge-outline">${lote.variedad}</span>
-                            <span class="badge badge-outline">${lote.procesoLabel}</span>
-                            <span class="badge badge-primary">SCA ${lote.sca}</span>
-                        </div>
-                        <div class="product-price">¥${lote.precio.toLocaleString()} <span style="font-size: var(--font-size-sm); font-weight: normal;">/ 200g</span></div>
-                        <div class="certifications" style="margin: var(--space-2) 0;">
-                            <span class="cert-badge" style="background: transparent; padding-left: 0; cursor: pointer;" onclick="showTrazabilidad(${lote.id})">
-                                <i class="fas fa-map-marked-alt"></i> Trazable
-                            </span>
-                            <span class="cert-badge" style="background: transparent; cursor: pointer;" onclick="showCertModal('fairtrade')">
-                                <i class="fas fa-hand-holding-heart"></i> Comercio justo
-                            </span>
-                        </div>
-                        <div style="display: flex; gap: var(--space-2); margin-top: var(--space-3);">
-                            <a href="lote-detalle.html?id=${lote.id}" class="btn btn-outline btn-small" style="flex: 1;">Ver detalles</a>
-                            <button class="btn btn-outline btn-small" style="padding: var(--space-2) var(--space-3);" onclick="toggleCompare(${lote.id}, '${lote.nombre}')">
-                                <i class="fas fa-chart-simple"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join("");
-            
-            renderPagination(filtered.length);
-        }
+  modalOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
 
-        function renderPagination(totalItems) {
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-            if (totalPages <= 1) {
-                document.getElementById("pagination").innerHTML = "";
-                return;
-            }
-            
-            let paginationHtml = "";
-            for (let i = 1; i <= totalPages; i++) {
-                paginationHtml += `<div class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</div>`;
-            }
-            document.getElementById("pagination").innerHTML = paginationHtml;
-        }
+  // Animar las barras después de insertar
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      modalBody.querySelectorAll('.attr-bar__fill').forEach(bar => {
+        bar.style.width = bar.style.width; // fuerza reflow
+      });
+    });
+  });
+}
 
-        function goToPage(page) {
-            currentPage = page;
-            renderLotes();
-            window.scrollTo({ top: 400, behavior: "smooth" });
-        }
+function closeCompareModal() {
+  modalOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
 
-        // ============================================
-        // FILTROS
-        // ============================================
-        function initFilters() {
-            // Origen
-            document.querySelectorAll("#filterOrigen .filter-chip").forEach(chip => {
-                chip.addEventListener("click", () => {
-                    document.querySelectorAll("#filterOrigen .filter-chip").forEach(c => c.classList.remove("active"));
-                    chip.classList.add("active");
-                    currentFilters.origen = chip.dataset.filter;
-                    currentPage = 1;
-                    renderLotes();
-                });
-            });
-            
-            // Proceso
-            document.querySelectorAll("#filterProceso .filter-chip").forEach(chip => {
-                chip.addEventListener("click", () => {
-                    document.querySelectorAll("#filterProceso .filter-chip").forEach(c => c.classList.remove("active"));
-                    chip.classList.add("active");
-                    currentFilters.proceso = chip.dataset.proceso;
-                    currentPage = 1;
-                    renderLotes();
-                });
-            });
-            
-            // Perfil
-            document.querySelectorAll("#filterPerfil .filter-chip").forEach(chip => {
-                chip.addEventListener("click", () => {
-                    document.querySelectorAll("#filterPerfil .filter-chip").forEach(c => c.classList.remove("active"));
-                    chip.classList.add("active");
-                    currentFilters.perfil = chip.dataset.perfil;
-                    currentPage = 1;
-                    renderLotes();
-                });
-            });
-            
-            // Precio
-            document.querySelectorAll("#filterPrecio .filter-chip").forEach(chip => {
-                chip.addEventListener("click", () => {
-                    document.querySelectorAll("#filterPrecio .filter-chip").forEach(c => c.classList.remove("active"));
-                    chip.classList.add("active");
-                    currentFilters.precio = chip.dataset.precio;
-                    currentPage = 1;
-                    renderLotes();
-                });
-            });
-            
-            // Sort
-            document.getElementById("sortSelect").addEventListener("change", (e) => {
-                currentSort = e.target.value;
-                currentPage = 1;
-                renderLotes();
-            });
-        }
+/* ── Newsletter ── */
+function handleNewsletter(e) {
+  e.preventDefault();
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  e.target.reset();
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
 
-        function resetFilters() {
-            currentFilters = { origen: "todos", proceso: "todos", perfil: "todos", precio: "todos" };
-            currentSort = "default";
-            currentPage = 1;
-            
-            document.querySelectorAll(".filter-chip").forEach(chip => chip.classList.remove("active"));
-            document.querySelectorAll("#filterOrigen .filter-chip:first-child").forEach(c => c.classList.add("active"));
-            document.querySelectorAll("#filterProceso .filter-chip:first-child").forEach(c => c.classList.add("active"));
-            document.querySelectorAll("#filterPerfil .filter-chip:first-child").forEach(c => c.classList.add("active"));
-            document.querySelectorAll("#filterPrecio .filter-chip:first-child").forEach(c => c.classList.add("active"));
-            document.getElementById("sortSelect").value = "default";
-            
-            renderLotes();
-        }
+/* ── Paginación (UI decorativa — implementar con backend) ── */
+document.querySelectorAll('.pagination__btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.disabled || btn.querySelector('i')) return;
+    document.querySelectorAll('.pagination__btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
 
-        // ============================================
-        // COMPARADOR
-        // ============================================
-        function toggleCompare(id, nombre) {
-            const index = compareList.findIndex(item => item.id === id);
-            if (index !== -1) {
-                compareList.splice(index, 1);
-            } else if (compareList.length < 3) {
-                compareList.push({ id, nombre });
-            } else {
-                alert("Solo puedes comparar hasta 3 lotes");
-                return;
-            }
-            updateComparisonBar();
-        }
-
-        function updateComparisonBar() {
-            const bar = document.getElementById("comparisonBar");
-            const container = document.getElementById("comparisonItems");
-            const compareBtn = document.getElementById("compareBtn");
-            
-            if (compareList.length > 0) {
-                bar.classList.add("active");
-                container.innerHTML = compareList.map(item => `
-                    <div class="comparison-item">
-                        ${item.nombre}
-                        <i class="fas fa-times" onclick="toggleCompare(${item.id}, '${item.nombre}')"></i>
-                    </div>
-                `).join("");
-                compareBtn.innerHTML = `Comparar (${compareList.length})`;
-            } else {
-                bar.classList.remove("active");
-            }
-        }
-
-        function compareSelected() {
-            if (compareList.length < 2) {
-                alert("Selecciona al menos 2 lotes para comparar");
-                return;
-            }
-            
-            const lotesToCompare = compareList.map(c => lotesData.find(l => l.id === c.id));
-            
-            const modalBody = document.getElementById("compareModalBody");
-            modalBody.innerHTML = `
-                <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr><th style="padding: var(--space-3); text-align: left; border-bottom: 2px solid var(--color-border);">Característica</th>
-                                ${lotesToCompare.map(l => `<th style="padding: var(--space-3); text-align: left; border-bottom: 2px solid var(--color-border);">${l.nombre}</th>`).join('')}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border); font-weight: 600;">Origen</td>
-                                ${lotesToCompare.map(l => `<td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">${l.origen}</td>`).join('')}</tr>
-                            <tr><td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border); font-weight: 600;">Caficultor</td>
-                                ${lotesToCompare.map(l => `<td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">${l.caficultor}</td>`).join('')}</tr>
-                            <tr><td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border); font-weight: 600;">Variedad</td>
-                                ${lotesToCompare.map(l => `<td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">${l.variedad}</td>`).join('')}</tr>
-                            <tr><td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border); font-weight: 600;">Proceso</td>
-                                ${lotesToCompare.map(l => `<td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">${l.procesoLabel}</td>`).join('')}</tr>
-                            <tr><td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border); font-weight: 600;">Altitud</td>
-                                ${lotesToCompare.map(l => `<td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">${l.altitud}</td>`).join('')}</tr>
-                            <tr><td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border); font-weight: 600;">Puntaje SCA</td>
-                                ${lotesToCompare.map(l => `<td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">${l.sca}</td>`).join('')}</tr>
-                            <tr><td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border); font-weight: 600;">Perfil</td>
-                                ${lotesToCompare.map(l => `<td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">${l.perfil}</td>`).join('')}</tr>
-                            <tr><td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border); font-weight: 600;">Notas de cata</td>
-                                ${lotesToCompare.map(l => `<td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">${l.notas}</td>`).join('')}</tr>
-                            <tr><td style="padding: var(--space-3); font-weight: 600;">Precio (200g)</td>
-                                ${lotesToCompare.map(l => `<td style="padding: var(--space-3);"><strong>¥${l.precio.toLocaleString()}</strong></td>`).join('')}</tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            document.getElementById("compareModal").classList.add("active");
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeCompareModal() {
-            document.getElementById("compareModal").classList.remove("active");
-            document.body.style.overflow = "";
-        }
-
-        // ============================================
-        // TRAZABILIDAD Y MODALES
-        // ============================================
-        function showTrazabilidad(id) {
-            const lote = lotesData.find(l => l.id === id);
-            const modal = document.getElementById("certModal");
-            document.getElementById("modalTitle").innerHTML = `📍 Trazabilidad - ${lote.nombre}`;
-            document.getElementById("modalBody").innerHTML = `
-                <div class="trazabilidad-grid" style="grid-template-columns: 1fr;">
-                    <div class="trazabilidad-item">
-                        <div class="trazabilidad-label">📍 Origen</div>
-                        <div class="trazabilidad-value">${lote.origen} · ${lote.altitud}</div>
-                    </div>
-                    <div class="trazabilidad-item">
-                        <div class="trazabilidad-label">👨‍🌾 Caficultor</div>
-                        <div class="trazabilidad-value">${lote.caficultor} · 18 años cultivando</div>
-                    </div>
-                    <div class="trazabilidad-item">
-                        <div class="trazabilidad-label">🔬 Variedad</div>
-                        <div class="trazabilidad-value">${lote.variedad} · ${lote.procesoLabel}</div>
-                    </div>
-                    <div class="trazabilidad-item">
-                        <div class="trazabilidad-label">💰 Precio pagado</div>
-                        <div class="trazabilidad-value">+35% sobre mercado · ¥${Math.round(lote.precio * 0.56).toLocaleString()}/libra</div>
-                    </div>
-                </div>
-                <div class="alert alert-success" style="margin-top: var(--space-4);">
-                    <i class="fas fa-qrcode"></i> Este lote tiene código QR en el empaque para verificar en cualquier momento
-                </div>
-            `;
-            modal.classList.add("active");
-            document.body.style.overflow = "hidden";
-        }
-
-        function showCertModal(type) {
-            const modal = document.getElementById("certModal");
-            if (type === 'fairtrade') {
-                document.getElementById("modalTitle").innerHTML = '🌱 Comercio justo verificado';
-                document.getElementById("modalBody").innerHTML = `
-                    <div style="margin-bottom: var(--space-4);">
-                        <p><strong>Certificación:</strong> Relación directa verificada</p>
-                        <p><strong>Precio pagado:</strong> +35% sobre precio de mercado</p>
-                        <p><strong>Impacto:</strong> Este pago garantiza una vida digna para el caficultor y su familia</p>
-                    </div>
-                    <div class="alert alert-success">
-                        <i class="fas fa-file-pdf"></i> Documento de pago verificado
-                    </div>
-                `;
-            } else {
-                document.getElementById("modalTitle").innerHTML = '📍 Trazabilidad completa';
-                document.getElementById("modalBody").innerHTML = `
-                    <div style="margin-bottom: var(--space-4);">
-                        <p><strong>Todos nuestros lotes tienen:</strong></p>
-                        <ul style="list-style: disc; padding-left: var(--space-6); margin-top: var(--space-2);">
-                            <li>Origen específico (región y finca)</li>
-                            <li>Nombre y foto del caficultor</li>
-                            <li>Variedad y proceso detallado</li>
-                            <li>Fecha de tueste</li>
-                            <li>Precio pagado al caficultor</li>
-                        </ul>
-                    </div>
-                    <div class="alert alert-info">
-                        <i class="fas fa-qrcode"></i> Escaneá el código QR en el empaque para verificar cada lote
-                    </div>
-                `;
-            }
-            modal.classList.add("active");
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeCertModal() {
-            document.getElementById("certModal").classList.remove("active");
-            document.body.style.overflow = "";
-        }
-
-        // ============================================
-        // HEADER Y MENÚ
-        // ============================================
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileOverlay = document.getElementById('mobileOverlay');
-        const closeMenu = document.getElementById('closeMenu');
-        
-        function openMobileMenu() {
-            mobileMenu.classList.add('active');
-            mobileOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeMobileMenu() {
-            mobileMenu.classList.remove('active');
-            mobileOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        
-        if (menuToggle) menuToggle.addEventListener('click', openMobileMenu);
-        if (closeMenu) closeMenu.addEventListener('click', closeMobileMenu);
-        if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
-        
-        // Header scroll effect
-        const header = document.querySelector('.header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('header-scrolled');
-            } else {
-                header.classList.remove('header-scrolled');
-            }
-        });
-        
-        // ============================================
-        // INICIALIZACIÓN
-        // ============================================
-        initFilters();
-        renderLotes();
-        
-        // Exponer funciones globalmente
-        window.resetFilters = resetFilters;
-        window.toggleCompare = toggleCompare;
-        window.compareSelected = compareSelected;
-        window.closeCompareModal = closeCompareModal;
-        window.showTrazabilidad = showTrazabilidad;
-        window.showCertModal = showCertModal;
-        window.closeCertModal = closeCertModal;
-        window.goToPage = goToPage;
-    </script>
 </body>
 </html>
